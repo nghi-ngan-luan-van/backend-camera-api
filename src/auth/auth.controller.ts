@@ -26,8 +26,7 @@ import {
     @Header("Content-Type", "application/json")
     async register(@Body() body, @Res() res) {
       const user = await this.userService.findOne(body.username);
-      console.log(user);
-      console.log(body)
+     
       if (!user) {
         this.userService.addOne(body);
         res.sendStatus(204);

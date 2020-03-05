@@ -24,7 +24,6 @@ export class AuthGuard implements CanActivate {
       }
       const token = req && req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, "secret");
-      console.log(decoded)
       if (!decoded) {
         throw new HttpException("Invalid Token", 403);
       }
