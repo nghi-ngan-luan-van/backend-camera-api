@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
       if (!decoded) {
         throw new HttpException("Invalid Token", 403);
       }
-      if (!this.userService.findOneByID(decoded.userID)) {
+      if (!this.userService.findUserByID(decoded.userID)) {
         throw new HttpException("Invalid Token", 403);
       }
       req.userID = decoded.userID;

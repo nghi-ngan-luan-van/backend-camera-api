@@ -1,52 +1,46 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
 import * as uuid from "uuid";
-
-export type User = any;
+import { User } from "./user.model";
+import {InjectModel} from'@nestjs/mongoose'
+import {Model} from 'mongoose'
 
 @Injectable()
 export class UserService {
   private readonly users: User[];
 
-  constructor() {
-    this.users = [
-      {
-        _id: uuid.v4(),
-        name: "john wick",
-        username: "john",
-        password: "changeme"
-      },
-      {
-        _id: uuid.v4(),
-        name: "chris evans",
-        username: "chris",
-        password: "secret"
-      },
-      {
-        _id: uuid.v4(),
-        name: "tony stark",
-        username: "tony",
-        password: "guess"
-      }
-    ];
+  constructor(@InjectModel('User') private readonly userModel:Model<User>) { }
+    
+
+
+   async findUserByID(id: string): Promise<User> {
+     const user=await this.userModel.findById(id).exec();
+      return user
+  }
+  async findUserByUsername(username: string): Promise<User> {
+    const user=await this.userModel.findOne({username:username}).exec()
+     return user
+ }
+  async getUsers() {
+    const users = await this.userModel.find().exec();
+    return users.map(user => ({
+      _id: user._id,
+      name: user.name,
+      username: user.name,
+      password: user.password,
+    }));
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
-  }
 
-  async findOneByID(id: string): Promise<User | undefined> {
-    return this.users.find(user => user._id === id);
-  }
-
-  async findAll() {
-    return this.users;
-  }
-
-  async addOne(user: User): Promise<User> {
-    user._id =uuid.v4(),
-    user.password = await this.getHash(user.password);
-    return this.users.push(user);
+  async addOne(username:string,name:string,password:string) {
+    const hashpassword = await this.getHash(password);
+    const newUser= new this.userModel({
+      username,
+      name,
+      password:hashpassword
+    })
+    const result= await newUser.save();
+    return result;
   }
 
   async getHash(password: string | undefined): Promise<string> {

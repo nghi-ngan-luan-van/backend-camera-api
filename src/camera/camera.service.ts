@@ -1,53 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import * as uuid from "uuid";
 import {exec} from "child_process"
-export type Camera = any;
+import {InjectModel} from'@nestjs/mongoose'
+import {Model} from 'mongoose'
+import { Camera } from './camera.model';
+import { UserService } from 'src/user/user.service';
 
 
 @Injectable()
 export class CameraService {
     private readonly cameras: Camera[];
 
-    constructor() {
-      this.cameras = [
-        {
-          _id: uuid.v4(),
-          name: "cam1",
-          user:"nghi.nguyen",
-          url:"rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream"
-        },
-        {
-          _id: uuid.v4(),
-          name: "cam2",
-          user:"tony",
-          url:"rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa"
-        },
-      ];
-    }
-  
-    async findOne(name: string): Promise<Camera | undefined> {
-      return this.cameras.find(camera => camera.name === name);
-    }
-  
-    async findOneByID(id: string): Promise<Camera | undefined> {
-      return this.cameras.find(camera => camera._id === id);
-    }
-    
-    async findOneByURL(url: string): Promise<Camera | undefined> {
-        return this.cameras.find(camera => camera.url === url);
-      }
-      
-    async findCamerasByUser(username:string)  {
-        return this.cameras.filter(camera => camera.user===username)
-    }
-    
-    async findAll() {
-      return this.cameras;
-    }
+    constructor(@InjectModel('Camera') private readonly cameraModel:Model<Camera>,
+    private readonly userService: UserService) { }
 
-    async addOne(camera: Camera): Promise<Camera> {
-      camera._id =uuid.v4()
-      return this.cameras.push(camera);
+  
+    async findCameraByID(id: string): Promise<Camera> {
+      const camera=await this.cameraModel.findById(id).exec();
+       return camera
+   }
+   async findCameraByName(name: string): Promise<Camera> {
+     const camera=await this.cameraModel.findOne({name:name}).exec()
+      return camera
+  }
+   async getCameras() {
+     const cameras = await this.cameraModel.find().exec();
+     return cameras.map(cam => ({
+       _id: cam._id,
+       name: cam.name,
+       ip: cam.ip,
+       port: cam.port,
+       rtspUrl:cam.rtspUrl,
+       user:this.userService.findUserByID(cam.user)
+     }));
+   }
+ 
+
+    async addOne(camera: Camera) {
+      
     }
 
     async recordFullStream(url: string) {
@@ -89,6 +79,25 @@ export class CameraService {
            console.log('error',error)
           return false
         }
+        
+        if (stderr) {
+           console.log('stderr',stderr)
+          return stderr
+        }
+         console.log('stdout',stdout)
+        return stdout
+
+      })
+    }
+
+    async motionDection(url:string) :Promise<any> {
+      const command=`python motion-detect.py --video ${url}`
+      await exec(command,(error,stdout,stderr) =>{
+        if (error) {
+           console.log('error',error)
+          return false
+        }
+        
         if (stderr) {
            console.log('stderr',stderr)
           return stderr

@@ -16,11 +16,11 @@ import {
     constructor(private readonly userService: UserService) {}
     @Get(":username")
     getUser(@Param("username") param) {
-      return this.userService.findOne(param);
+      return this.userService.findUserByUsername(param);
     }
     @Get()
     getAllUser() {
-      return this.userService.findAll();
+      return this.userService.getUsers();
     }
   }
   
