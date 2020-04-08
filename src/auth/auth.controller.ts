@@ -25,9 +25,9 @@ import {
     @HttpCode(204)
     @Header("Content-Type", "application/json")
     async register(@Body() body, @Res() res) {
-      const user = await this.userService.findUserByUsername(body.username);
+      const user = await this.userService.findUserByEmail(body.email);
       if (!user) {
-        const result= await this.userService.addOne(body.username,body.name,body.password);
+        const result= await this.userService.addOne(body.email,body.name,body.password);
         res.sendStatus(204);
       } else {
         throw new HttpException("Username Exist", 409);
@@ -36,13 +36,13 @@ import {
   
     @Post("login")
     async login(@Res() res, @Body() body) {
-      if (!(body && body.username && body.password)) {
+      if (!(body && body.email && body.password)) {
         return res
           .status(HttpStatus.FORBIDDEN)
           .json({ message: "Username and password are required!" });
       }
   
-      const user = await this.userService.findUserByUsername(body.username);
+      const user = await this.userService.findUserByEmail(body.email);
   
       if (user) {
         if (await this.userService.compareHash(body.password, user.password)) {
