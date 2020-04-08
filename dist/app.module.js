@@ -18,7 +18,7 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     common_1.Module({
         imports: [user_module_1.UserModule, auth_module_1.AuthModule, camera_module_1.CameraModule,
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://phuongnghi:iqFKSYmeh4tgmnC4@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority')],
+            mongoose_1.MongooseModule.forRoot('mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority')],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
