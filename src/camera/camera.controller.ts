@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, Req, Res, Post, Body } from '@nestjs/common';
-import { AuthGuard } from 'src/auth.guard';
-import { UserService } from 'src/user/user.service';
+import { AuthGuard } from '../auth.guard';
+import { UserService } from '../user/user.service';
 import { CameraService } from './camera.service';
 
 

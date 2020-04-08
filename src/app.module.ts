@@ -5,7 +5,6 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { CameraModule } from './camera/camera.module';
 import {MongooseModule} from '@nestjs/mongoose'
-
 @Module({
   imports: [UserModule, AuthModule, CameraModule,
     MongooseModule.forRoot('mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority')],
