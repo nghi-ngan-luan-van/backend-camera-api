@@ -23,6 +23,17 @@ export class CameraController {
     return `private content of ${userID}`;
   }
 
+  // @Post('add')
+  // addCamera(@Body() body, @Res() res) {
+  //   const { camera } = body
+  //   if (this.cameraService.addOne(camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)) {
+  //     res.send('ok')
+  //   }
+  //   else {
+  //     res.send('fail')
+  //   }
+  // }
+
   @Get("listcam")
   @UseGuards(AuthGuard)
   async getListByUser(@Req() req, @Res() res) {

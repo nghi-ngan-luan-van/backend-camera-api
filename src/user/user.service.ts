@@ -17,8 +17,8 @@ export class UserService {
      const user=await this.userModel.findById(id).exec();
       return user
   }
-  async findUserByUsername(username: string): Promise<User> {
-    const user=await this.userModel.findOne({username:username}).exec()
+  async findUserByEmail(email: string): Promise<User> {
+    const user=await this.userModel.findOne({email:email}).exec()
      return user
  }
   async getUsers() {
@@ -26,22 +26,32 @@ export class UserService {
     return users.map(user => ({
       _id: user._id,
       name: user.name,
-      username: user.name,
+      email: user.email,
       password: user.password,
     }));
   }
 
 
-  async addOne(username:string,name:string,password:string) {
+  async addOne(email:string,name:string,password:string) {
     const hashpassword = await this.getHash(password);
     const newUser= new this.userModel({
-      username,
+      email,
       name,
       password:hashpassword
     })
     const result= await newUser.save();
     return result;
   }
+
+  async updateOne(id:string, newName:string) {
+    const user= await this.userModel.updateOne({_id:id},{name:newName})
+    return user
+  }   
+
+  async deleteOne(id:string) {
+      const result= await this.userModel.deleteOne({_id:id})
+      return result
+  }  
 
   async getHash(password: string | undefined): Promise<string> {
     return bcrypt.hash(password, 10);

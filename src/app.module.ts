@@ -7,7 +7,7 @@ import { CameraModule } from './camera/camera.module';
 import {MongooseModule} from '@nestjs/mongoose'
 @Module({
   imports: [UserModule, AuthModule, CameraModule,
-    MongooseModule.forRoot(process.env.MONGOLAB_URI ||'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority')],
+    MongooseModule.forRoot(process.env.MONGODB_URI || process.env.MONGOHQ_URL || process.env.MONGOLAB_URI ||'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority')],
   controllers: [AppController],
   providers: [AppService],
 })

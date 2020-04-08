@@ -4,7 +4,7 @@ import {exec} from "child_process"
 import {InjectModel} from'@nestjs/mongoose'
 import {Model} from 'mongoose'
 import { Camera } from './camera.model';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '..//user/user.service';
 
 
 @Injectable()
@@ -31,14 +31,36 @@ export class CameraService {
        ip: cam.ip,
        port: cam.port,
        rtspUrl:cam.rtspUrl,
+       username:cam.username,
+       password:cam.password,
        user:this.userService.findUserByID(cam.user)
      }));
    }
  
-
-    async addOne(camera: Camera) {
-      
+    async addOne(username:string,name:string,password:string,ip:string,port:number,rtspUrl:string) {
+      const user=this.userService.findUserByEmail('nghinguyen.170498@gmail.com')
+      const newCamera= new this.cameraModel({
+        username,
+        name,
+        password,
+        ip,
+        port,
+        rtspUrl,
+        user: (await user)._id
+      })
+      const result= await newCamera.save();
+      return result;
     }
+
+    async updateOne(id:string, username:string,name:string,password:string,ip:string,port:number,rtspUrl:string) {
+      const user= await this.cameraModel.updateOne({_id:id},{name,username,password,ip,port,rtspUrl})
+      return user
+    }   
+  
+    async deleteOne(id:string) { 
+        const result= await this.cameraModel.deleteOne({_id:id})
+        return result
+    }  
 
     async recordFullStream(url: string) {
       const command=`ffmpeg -i ${url} -acodec copy -vcodec copy D:/test.mp4`

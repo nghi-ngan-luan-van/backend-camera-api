@@ -5,6 +5,8 @@ export const CameraSchema = new mongoose.Schema({
     ip:String,
     port:String,
     rtspUrl:String,
+    username:String,
+    password:String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -16,5 +18,7 @@ export interface Camera  extends mongoose.Document  {
     ip:string;
     port:string;
     rtspUrl:string;
+    username:string;
+    password:string;
     user:string;
 }
