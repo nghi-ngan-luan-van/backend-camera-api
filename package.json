@@ -29,6 +29,7 @@
     "child_process": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
     "latest-version": "^5.1.0",
+    "mongodb": "^3.5.5",
     "mongoose": "^5.9.4",
     "nest-cli": "0.0.5",
     "reflect-metadata": "^0.1.13",

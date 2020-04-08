@@ -1166,15 +1166,15 @@
         "signature": "482b8f0d35a3d453500a15b6c6057c1e4c40baa4329b39da9e1026d8e1de4329"
       },
       "../src/auth/auth.service.ts": {
-        "version": "2970c30af13cc4ebad8c4a01d7d3740ff1b5cf164aea4621b4d2cef7a27fbc18",
-        "signature": "5ac4dedf86cc4927b94c486b767647c00f503121a252ca9c2b4f00aa5205b061"
+        "version": "6a5afd9a8b59642a940a062bb8bbe718bbe3be9c238b014894f385707776f8e3",
+        "signature": "46663a029dba70169869a696c444027383098dc3dd0fe5343405bca9f59184ab"
       },
       "../src/auth/auth.controller.ts": {
-        "version": "34c19566685420a7c880bd94d7684a050a52962d3d22a7a65a9c8600608800d6",
-        "signature": "8bf98f6fddba29b974fee2845c7408e573e94c6e6f7312fef45e429f9f7e2699"
+        "version": "88da3a91c95d16e00f05cf9254b42564e10db0bb757aa180e947a307d66e09d5",
+        "signature": "86419a5084358d3aed3ceed4c84542a65ca46317287de910806d5456888a382b"
       },
       "../src/auth/auth.module.ts": {
-        "version": "40bc32ad2946281dd77e5f9112d72a5fbbc508f2c2739222e920f448c9aed273",
+        "version": "9a09eb8887e03721008fc802c7643cfd4b43d3d5b0d6272f0ed57b0b695329d7",
         "signature": "a28b5c0c372fb375910b3fe3c3ce4331509bc18ccef7cc39c9ee9d8daf8225d1"
       },
       "../src/auth.guard.ts": {
@@ -1190,15 +1190,15 @@
         "signature": "fb38c2335e7dcd61d491706c57f041964e1ac88c9ff15b93c7d4009909296859"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "e97d001ac1ba6e57324fef8b8e9dc01421ff90bcd0af67e33a1a3d6b7c8481ac",
-        "signature": "6288612e8caa026144282d583a5f861b15753a7f7e016de26465c0b90f2060d9"
+        "version": "996ecb20f6696e3db6842c11ab5aeba38a470c21165a523d5421fb597a10a45c",
+        "signature": "979d00d069920a8cb603faec39ed92646c38835a80acf77a1be74f38bfe37fc7"
       },
       "../src/camera/camera.module.ts": {
         "version": "c39286671f49b7670f2b623271ee674e100770ad791a816fdaccbd1c304c1807",
         "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb"
       },
       "../src/app.module.ts": {
-        "version": "5a37c6b6ed54daf98831af11e84372c16aa5646bec76dcd3224258d987f73a08",
+        "version": "554e05d75545a08bc163df34ad5eee02a63479e0eedb29fe0895a79f77775e5e",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": {

@@ -1,4 +1,4 @@
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { CameraService } from './camera.service';
 export declare class CameraController {
     private readonly userService;
