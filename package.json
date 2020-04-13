@@ -32,6 +32,8 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.4",
     "nest-cli": "0.0.5",
+    "node-onvif": "^0.1.7",
+    "node-rtsp-stream": "0.0.9",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",

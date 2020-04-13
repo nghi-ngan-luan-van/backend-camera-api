@@ -17,8 +17,8 @@ export class AuthService {
   }
 
   async validateUser(signedUser): Promise<boolean> {
-    if (signedUser && signedUser.username) {
-      return Boolean(this.userService.findUserByUsername(signedUser.username));
+    if (signedUser && signedUser.email) {
+      return Boolean(this.userService.findUserByEmail(signedUser.email));
     }
     return false;
   }

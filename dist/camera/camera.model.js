@@ -6,6 +6,8 @@ exports.CameraSchema = new mongoose.Schema({
     ip: String,
     port: String,
     rtspUrl: String,
+    username: String,
+    password: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

@@ -19,19 +19,66 @@ let UserController = class UserController {
         this.userService = userService;
     }
     getUser(param) {
-        return this.userService.findUserByUsername(param);
+        return this.userService.findUserByID(param);
+    }
+    addUser(body, res) {
+        const { user } = body;
+        if (this.userService.addOne(user.name, user.password, user.email)) {
+            res.send('ok');
+        }
+        else {
+            res.send('fail');
+        }
+    }
+    updateUser(param, body, res) {
+        const { user } = body;
+        if (this.userService.updateOne(param, user.name)) {
+            res.send('ok');
+        }
+        else {
+            res.send('fail');
+        }
+    }
+    deleteUser(param, res) {
+        if (this.userService.deleteOne(param)) {
+            res.send('ok');
+        }
+        else {
+            res.send('fail');
+        }
     }
     getAllUser() {
         return this.userService.getUsers();
     }
 };
 __decorate([
-    common_1.Get(":username"),
-    __param(0, common_1.Param("username")),
+    common_1.Get(":id"),
+    __param(0, common_1.Param("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUser", null);
+__decorate([
+    common_1.Post('add'),
+    __param(0, common_1.Body()), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "addUser", null);
+__decorate([
+    common_1.Post('update:id'),
+    __param(0, common_1.Param('id')), __param(1, common_1.Body()), __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "updateUser", null);
+__decorate([
+    common_1.Post('delete:id'),
+    __param(0, common_1.Param('id')), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "deleteUser", null);
 __decorate([
     common_1.Get(),
     __metadata("design:type", Function),

@@ -21,9 +21,9 @@ let AuthController = class AuthController {
         this.userService = userService;
     }
     async register(body, res) {
-        const user = await this.userService.findUserByUsername(body.username);
+        const user = await this.userService.findUserByEmail(body.email);
         if (!user) {
-            const result = await this.userService.addOne(body.username, body.name, body.password);
+            const result = await this.userService.addOne(body.email, body.name, body.password);
             res.sendStatus(204);
         }
         else {
@@ -31,12 +31,12 @@ let AuthController = class AuthController {
         }
     }
     async login(res, body) {
-        if (!(body && body.username && body.password)) {
+        if (!(body && body.email && body.password)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Username and password are required!" });
         }
-        const user = await this.userService.findUserByUsername(body.username);
+        const user = await this.userService.findUserByEmail(body.email);
         if (user) {
             if (await this.userService.compareHash(body.password, user.password)) {
                 return res

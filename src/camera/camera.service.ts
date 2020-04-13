@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as uuid from "uuid";
-import {exec} from "child_process"
+import {exec,spawn} from "child_process"
 import {InjectModel} from'@nestjs/mongoose'
 import {Model} from 'mongoose'
 import { Camera } from './camera.model';
@@ -95,7 +95,8 @@ export class CameraService {
     }
 
     async turnMotionDetect(url:string) :Promise<any> {
-      const command=`ffmpeg -rtsp_transport tcp -i ${url} -vf select='gte(scene\,0.005)',metadata=print -an -f null -`
+      const command=`ffmpeg -rtsp_transport tcp -i "${url}" -vf select='gte(scene\\,0.05)',metadata=print -an -f null -`
+      console.log("cmd", command)
       await exec(command,(error,stdout,stderr) =>{
         if (error) {
            console.log('error',error)
@@ -110,24 +111,115 @@ export class CameraService {
         return stdout
 
       })
+
+      //  const child = exec(command);
+      // let data = [];
+      //     for await (const chunk of child.stdout) {
+      //     console.log('stdout chunk: '+chunk);
+      //     data.push(Date.parse(chunk))
+      //     }
+      //     console.log("data",data)
     }
 
     async motionDection(url:string) :Promise<any> {
-      const command=`python motion-detect.py --video ${url}`
-      await exec(command,(error,stdout,stderr) =>{
-        if (error) {
-           console.log('error',error)
-          return false
-        }
+    //     const spawn = require("child_process").spawn;
+    //     const pythonProcess = spawn('python',["../../motion-detect.py"]);
         
-        if (stderr) {
-           console.log('stderr',stderr)
-          return stderr
-        }
-         console.log('stdout',stdout)
-        return stdout
 
-      })
+    //     pythonProcess.stdout.on('data', (data) => {
+    //       // Do something with the data returned from python script
+    //     console.log('data', data)
+    //   });
+
+    //   pythonProcess.stderr.on('err', (data) => {
+    //     // Do something with the data returned from python script
+    //   console.log('err', data)
+    // });
+
+    const command=`python motion-detect.py --video ${url}`
+    const child = exec(command);
+    let data = [];
+          for await (const chunk of child.stdout) {
+          console.log('stdout chunk: '+chunk);
+          data.push(Date.parse(chunk))
+          }
+    console.log("data",data)
+      // await exec(command,(error,stdout,stderr)  =>  {
+      //   if (error) {
+      //      console.log('error',error)
+      //     return false
+      //   }
+        
+      //   if (stderr) {
+      //      console.log('stderr',stderr)
+      //     return stderr
+      //   }
+     
+      //    console.log('stdout',stdout)
+      //    console.log("date.parse ",Date.parse(stdout), 'date,now',Date.now() )
+      //   return stdout
+
+      // })
+
     }
+
+    async scanNetwork() :Promise<any> {
+
+      const onvif = require('node-onvif')
+      const Stream = require('node-rtsp-stream');
+
+      let camera = [];
+      let devices = []
+      let streams =[]
+      onvif.startProbe().then((device_info_list) => {
+        console.log(device_info_list.length + ' devices were found.');
+        // Show the device name and the URL of the end point.
+
+        const arr = [];  
+        device_info_list.forEach((info,x) => {
+          if(x <= 5){
+
+                //console.log('- ' + info.urn);
+          //console.log('  - ' + info.name);
+          //console.log('  - ' + info.xaddrs[0]);
+          arr.push(info.xaddrs[0])
+        
+          }
+        
+
+        });
+        //console.log(arr)
+          camera = arr;
+          arr.forEach((onCam,i)=>{
+            
+                  let device = new onvif.OnvifDevice({
+                      xaddr: onCam,
+                      user : 'admin',
+                      pass : 'admin'
+                  }); 
+                  devices.push(device)
+                  // Initialize the OnvifDevice object
+                  device.init().then(() => {
+                      // Get the UDP stream URL
+                      let url = device.getUdpStreamUrl();
+          
+                      const stream = new Stream({
+                          name: 'name',
+                          streamUrl: url,
+                          wsPort: 9000 + i
+                      })
+                      streams.push(stream)
+                      console.log("URL :"+url);
+                  }).catch((error) => {
+                      console.error(error);
+                  });
+          })             
+      }).catch((error) => {
+        console.error(error);
+      });
+      console.log('cam', camera , 'streams' , streams , 'devs', devices)
+        return { camera, streams , devices }
+
+      }
 
 }

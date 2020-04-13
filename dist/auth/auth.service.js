@@ -24,8 +24,8 @@ let AuthService = class AuthService {
         return { expires_in: expiresIn, token };
     }
     async validateUser(signedUser) {
-        if (signedUser && signedUser.username) {
-            return Boolean(this.userService.findUserByUsername(signedUser.username));
+        if (signedUser && signedUser.email) {
+            return Boolean(this.userService.findUserByEmail(signedUser.email));
         }
         return false;
     }

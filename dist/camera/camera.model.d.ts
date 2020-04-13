@@ -6,5 +6,7 @@ export interface Camera extends mongoose.Document {
     ip: string;
     port: string;
     rtspUrl: string;
+    username: string;
+    password: string;
     user: string;
 }

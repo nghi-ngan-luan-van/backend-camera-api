@@ -81,4 +81,17 @@ export class CameraController {
       res.send('fail')
     }
   }
+
+  @Get("scannetwork")
+  // @UseGuards(AuthGuard)
+  async scannetworkk(@Req() req, @Body() body, @Res() res) {
+    const data= await this.cameraService.scanNetwork()
+    if(data)
+    {
+     return data
+    }
+    else {
+      return null
+    }
+  }
 }

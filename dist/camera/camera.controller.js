@@ -59,6 +59,15 @@ let CameraController = class CameraController {
             res.send('fail');
         }
     }
+    async scannetworkk(req, body, res) {
+        const data = await this.cameraService.scanNetwork();
+        if (data) {
+            return data;
+        }
+        else {
+            return null;
+        }
+    }
 };
 __decorate([
     common_1.Get("public"),
@@ -103,6 +112,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "turnDetect", null);
+__decorate([
+    common_1.Get("scannetwork"),
+    __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "scannetworkk", null);
 CameraController = __decorate([
     common_1.Controller('camera'),
     __metadata("design:paramtypes", [user_service_1.UserService,

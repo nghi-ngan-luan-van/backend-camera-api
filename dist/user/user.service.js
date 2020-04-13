@@ -25,8 +25,8 @@ let UserService = class UserService {
         const user = await this.userModel.findById(id).exec();
         return user;
     }
-    async findUserByUsername(username) {
-        const user = await this.userModel.findOne({ username: username }).exec();
+    async findUserByEmail(email) {
+        const user = await this.userModel.findOne({ email: email }).exec();
         return user;
     }
     async getUsers() {
@@ -34,18 +34,26 @@ let UserService = class UserService {
         return users.map(user => ({
             _id: user._id,
             name: user.name,
-            username: user.name,
+            email: user.email,
             password: user.password,
         }));
     }
-    async addOne(username, name, password) {
+    async addOne(email, name, password) {
         const hashpassword = await this.getHash(password);
         const newUser = new this.userModel({
-            username,
+            email,
             name,
             password: hashpassword
         });
         const result = await newUser.save();
+        return result;
+    }
+    async updateOne(id, newName) {
+        const user = await this.userModel.updateOne({ _id: id }, { name: newName });
+        return user;
+    }
+    async deleteOne(id) {
+        const result = await this.userModel.deleteOne({ _id: id });
         return result;
     }
     async getHash(password) {

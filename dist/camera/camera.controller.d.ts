@@ -10,4 +10,5 @@ export declare class CameraController {
     recordFullStream(req: any, body: any, res: any): Promise<void>;
     recordPerTime(req: any, body: any, res: any): Promise<void>;
     turnDetect(req: any, body: any, res: any): Promise<void>;
+    scannetworkk(req: any, body: any, res: any): Promise<any>;
 }
