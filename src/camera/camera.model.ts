@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose'
 export const CameraSchema = new mongoose.Schema({
     name:String,
     ip:String,
-    port:String,
+    port:Number,
     rtspUrl:String,
     username:String,
     password:String,
@@ -16,7 +16,7 @@ export interface Camera  extends mongoose.Document  {
     _id:string;
     name:string,
     ip:string;
-    port:string;
+    port:number;
     rtspUrl:string;
     username:string;
     password:string;
