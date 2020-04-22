@@ -11,24 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const child_process_1 = require("child_process");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-const user_service_1 = require("..//user/user.service");
+const user_service_1 = require("../user/user.service");
+const task_service_1 = require("../task/task.service");
 let CameraService = class CameraService {
-    constructor(cameraModel, userService) {
+    constructor(cameraModel, userService, taskService) {
         this.cameraModel = cameraModel;
         this.userService = userService;
+        this.taskService = taskService;
     }
     async findCameraByID(id) {
         const camera = await this.cameraModel.findById(id).exec();
@@ -120,25 +115,15 @@ let CameraService = class CameraService {
         });
     }
     async motionDection(url) {
-        var e_1, _a;
-        const command = `python motion-detect.py --video ${url}`;
-        const child = child_process_1.exec(command);
-        let data = [];
-        try {
-            for (var _b = __asyncValues(child.stdout), _c; _c = await _b.next(), !_c.done;) {
-                const chunk = _c.value;
-                console.log('stdout chunk: ' + chunk);
-                data.push(Date.parse(chunk));
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) await _a.call(_b);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-        console.log("data", data);
+        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url]);
+        console.log('pid', child.pid);
+        this.taskService.addTask(child);
+        console.log(this.taskService.getTasks());
+        let dataToSend = [];
+        child.stdout.on('data', (data) => {
+            console.log('stdout', data.toString());
+            dataToSend.push(Date.parse(data.toString()));
+        });
     }
     async scanNetwork() {
         const onvif = require('node-onvif');
@@ -148,9 +133,13 @@ let CameraService = class CameraService {
         let streams = [];
         onvif.startProbe().then((device_info_list) => {
             console.log(device_info_list.length + ' devices were found.');
+            console.log(device_info_list);
             const arr = [];
             device_info_list.forEach((info, x) => {
                 if (x <= 5) {
+                    console.log('- ' + info.urn);
+                    console.log('  - ' + info.name);
+                    console.log('  - ' + info.xaddrs[0]);
                     arr.push(info.xaddrs[0]);
                 }
             });
@@ -185,7 +174,9 @@ let CameraService = class CameraService {
 CameraService = __decorate([
     common_1.Injectable(),
     __param(0, mongoose_1.InjectModel('Camera')),
-    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, user_service_1.UserService])
+    __param(1, common_1.Inject(common_1.forwardRef(() => task_service_1.TaskService))),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, user_service_1.UserService,
+        task_service_1.TaskService])
 ], CameraService);
 exports.CameraService = CameraService;
 //# sourceMappingURL=camera.service.js.map

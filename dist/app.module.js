@@ -13,12 +13,16 @@ const user_module_1 = require("./user/user.module");
 const auth_module_1 = require("./auth/auth.module");
 const camera_module_1 = require("./camera/camera.module");
 const mongoose_1 = require("@nestjs/mongoose");
+const task_module_1 = require("./task/task.module");
+const camera_motion_module_1 = require("./camera-motion/camera-motion.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
         imports: [user_module_1.UserModule, auth_module_1.AuthModule, camera_module_1.CameraModule,
-            mongoose_1.MongooseModule.forRoot(process.env.MONGOLAB_URI || 'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })],
+            mongoose_1.MongooseModule.forRoot(process.env.MONGOLAB_URI || 'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }),
+            task_module_1.TaskModule,
+            camera_motion_module_1.CameraMotionModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

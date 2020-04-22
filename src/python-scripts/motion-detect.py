@@ -6,28 +6,25 @@ import imutils
 import time
 import cv2
 import sys
+
 # construct the argument parser and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--video", help="path to the video file")
-ap.add_argument("-a", "--min-area", type=int, default=700, help="minimum area size")
-args = vars(ap.parse_args())
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-v", "--video", type=str, default=sys.argv[1], help="path to the video file")
+# ap.add_argument("-a", "--min-area", type=int, default=700, help="minimum area size")
+# args = vars(ap.parse_args())
 # if the video argument is None, then we are reading from webcam
-if args.get("video", None) is None:
-	vs = VideoStream(src=0).start()
-	time.sleep(2.0)
-# otherwise, we are reading from a video file
-else:
-	vs = cv2.VideoCapture(args["video"])
+vs = cv2.VideoCapture(sys.argv[1])
 # initialize the first frame in the video stream
 firstFrame = None
 count = 0
 temp = count
 # loop over the frames of the video
+
 while True:
 	# grab the current frame and initialize the occupied/unoccupied
 	# text
 	frame = vs.read()
-	frame = frame if args.get("video", None) is None else frame[1]
+	frame = frame if sys.argv[1] is None else frame[1]
 	text = "Unoccupied"
 	# if the frame could not be grabbed, then we have reached the end
 	# of the video
@@ -43,6 +40,7 @@ while True:
 		continue
     	# compute the absolute difference between the current frame and
 	# first frame
+	
 	frameDelta = cv2.absdiff(firstFrame, gray)
 	thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 	# dilate the thresholded image to fill in holes, then find contours
@@ -54,7 +52,7 @@ while True:
 	# loop over the contours
 	for c in cnts:
 		# if the contour is too small, ignore it
-		if cv2.contourArea(c) < args["min_area"]:
+		if cv2.contourArea(c) < 700:
 			continue
 		# compute the bounding box for the contour, draw it on the frame,
 		# and update the text
@@ -86,5 +84,5 @@ while True:
 		break
 
 # cleanup the camera and close any open windows
-vs.stop() if args.get("video", None) is None else vs.release()
+vs.stop() if sys.argv[1] is None else vs.release()
 cv2.destroyAllWindows()

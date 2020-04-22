@@ -1,18 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import * as uuid from "uuid";
 import {exec,spawn} from "child_process"
 import {InjectModel} from'@nestjs/mongoose'
 import {Model} from 'mongoose'
 import { Camera } from './camera.model';
-import { UserService } from '..//user/user.service';
+import { UserService } from '../user/user.service';
+import { TaskService } from '../task/task.service';
+import {PythonShell} from 'python-shell';
 
 
 @Injectable()
 export class CameraService {
     private readonly cameras: Camera[];
 
-    constructor(@InjectModel('Camera') private readonly cameraModel:Model<Camera>,
-    private readonly userService: UserService) { }
+    constructor(@InjectModel('Camera') private readonly cameraModel:Model<Camera>, 
+    @Inject(forwardRef(() => TaskService))
+    private readonly userService: UserService,
+    private readonly taskService: TaskService
+    ) { }
 
   
     async findCameraByID(id: string): Promise<Camera> {
@@ -120,47 +125,48 @@ export class CameraService {
       //     }
       //     console.log("data",data)
     }
-
+  
     async motionDection(url:string) :Promise<any> {
-    //     const spawn = require("child_process").spawn;
-    //     const pythonProcess = spawn('python',["../../motion-detect.py"]);
-        
 
-    //     pythonProcess.stdout.on('data', (data) => {
-    //       // Do something with the data returned from python script
-    //     console.log('data', data)
-    //   });
-
-    //   pythonProcess.stderr.on('err', (data) => {
-    //     // Do something with the data returned from python script
-    //   console.log('err', data)
+    const child = spawn('python',["src/python-scripts/motion-detect.py",url]);
+    // let options = {
+    //   pythonPath: '/usr/bin/python',
+    //   pythonOptions: ['-u'], // get print results in real-time
+    //   scriptPath: 'src/python-scripts',
+    //   args: [url]
+    // };
+    
+    // PythonShell.run('motion-detect.py', options, function (err, results) {
+    //   if (err) throw err;
+    //   // results is an array consisting of messages collected during execution
+    //    for  (const chunk of results) {
+    //     console.log('stdout chunk: '+chunk)
+    //     }
+    //   console.log('results: ', results);
     // });
-
-    const command=`python motion-detect.py --video ${url}`
-    const child = exec(command);
-    let data = [];
-          for await (const chunk of child.stdout) {
-          console.log('stdout chunk: '+chunk);
-          data.push(Date.parse(chunk))
-          }
-    console.log("data",data)
-      // await exec(command,(error,stdout,stderr)  =>  {
-      //   if (error) {
-      //      console.log('error',error)
-      //     return false
-      //   }
-        
-      //   if (stderr) {
-      //      console.log('stderr',stderr)
-      //     return stderr
-      //   }
-     
-      //    console.log('stdout',stdout)
-      //    console.log("date.parse ",Date.parse(stdout), 'date,now',Date.now() )
-      //   return stdout
-
-      // })
-
+    // const command=`python motion-detect.py --video ${url}`
+    // const child = exec(command);
+    console.log('pid',child.pid)
+    this.taskService.addTask(child);
+    console.log(this.taskService.getTasks())
+    //       // for await (const chunk of child.stdout) {
+    //       // console.log('stdout chunk: '+chunk);
+    //       // data.push(Date.parse(chunk))
+    //       //   if(!this.taskService.findTask(child.pid)) {
+    //       //     process.kill(-child.pid)
+    //       //   }
+    //       // }
+      let dataToSend=[]
+    
+     child.stdout.on('data', (data) => {
+    //   const pIDFound=this.taskService.findTask(child)
+    //   if(!pIDFound) {
+    //       child.kill()
+    // }
+            console.log('stdout', data.toString());
+            dataToSend.push(Date.parse(data.toString()))
+      });
+      
     }
 
     async scanNetwork() :Promise<any> {
@@ -174,14 +180,14 @@ export class CameraService {
       onvif.startProbe().then((device_info_list) => {
         console.log(device_info_list.length + ' devices were found.');
         // Show the device name and the URL of the end point.
-
+        console.log(device_info_list);
         const arr = [];  
         device_info_list.forEach((info,x) => {
           if(x <= 5){
 
-                //console.log('- ' + info.urn);
-          //console.log('  - ' + info.name);
-          //console.log('  - ' + info.xaddrs[0]);
+                console.log('- ' + info.urn);
+          console.log('  - ' + info.name);
+          console.log('  - ' + info.xaddrs[0]);
           arr.push(info.xaddrs[0])
         
           }
@@ -198,7 +204,7 @@ export class CameraService {
                       pass : 'admin'
                   }); 
                   devices.push(device)
-                  // Initialize the OnvifDevice object
+
                   device.init().then(() => {
                       // Get the UDP stream URL
                       let url = device.getUdpStreamUrl();
@@ -213,6 +219,7 @@ export class CameraService {
                   }).catch((error) => {
                       console.error(error);
                   });
+                  
           })             
       }).catch((error) => {
         console.error(error);

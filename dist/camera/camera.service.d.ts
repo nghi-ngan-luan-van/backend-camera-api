@@ -1,11 +1,13 @@
 import { Model } from 'mongoose';
 import { Camera } from './camera.model';
-import { UserService } from '..//user/user.service';
+import { UserService } from '../user/user.service';
+import { TaskService } from '../task/task.service';
 export declare class CameraService {
     private readonly cameraModel;
     private readonly userService;
+    private readonly taskService;
     private readonly cameras;
-    constructor(cameraModel: Model<Camera>, userService: UserService);
+    constructor(cameraModel: Model<Camera>, userService: UserService, taskService: TaskService);
     findCameraByID(id: string): Promise<Camera>;
     findCameraByName(name: string): Promise<Camera>;
     getCameras(): Promise<any>;

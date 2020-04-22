@@ -1185,20 +1185,48 @@
         "version": "4183f55d3140d1926d2f74ba554f27a3877fccec75c517b27c84ad54b6f68ca9",
         "signature": "5ce8b043c49e03f0b0c91bd0f788d56b067cda6b8b64fd126390135d02f619d6"
       },
+      "../src/task/task.service.ts": {
+        "version": "423377732517bfc908b057436fb8245d225858eebcd22d0b894b89cb54dfb422",
+        "signature": "473d94bd9f52c4621dd6d8b68f6d951265acad480404e3eafec22d8afae9669d"
+      },
+      "../node_modules/python-shell/index.d.ts": {
+        "version": "f754198da5fd15d496fe5d51f3c9e39b87a7a6f037612bf47ccc10a1b84d6269",
+        "signature": "f754198da5fd15d496fe5d51f3c9e39b87a7a6f037612bf47ccc10a1b84d6269"
+      },
       "../src/camera/camera.service.ts": {
-        "version": "3bda9e6953670c353968a6478945bed89838eb0e69677bf49cff7d5ae68b7b10",
-        "signature": "4454966e841fc0016adefc31136b214436406a5980a968904a727b10b1e0d290"
+        "version": "1e51ad8a9af9bd4e627defc92c5bff3e378ceffebe5acb5ff407673cdb054b81",
+        "signature": "2fbc7d5f047e7042fefc5ddc98da87b4957c14ea690f5809a97380fbd09a134f"
       },
       "../src/camera/camera.controller.ts": {
         "version": "450cb5c4996198999ac910262023df5b9316c2f1669e679909c6177847dabdc2",
         "signature": "6643982d63ef20bff82272b08c1f4699e0a2d9a9ddef1119385152615bb66f71"
       },
+      "../src/task/task.controller.ts": {
+        "version": "ddfb8f5a2b68e23bbc450aaa63792b6c761fe25e6cfb8b8c272f03b1d5c37d59",
+        "signature": "b48688898f249c7ad904d662c579f5efb09b0a8da1bac265cd34ced1e93ee6dc"
+      },
+      "../src/task/task.module.ts": {
+        "version": "45a5d81e6696b7794ae060299bf42132cb6ae176d213a23be936fa92525c5bb0",
+        "signature": "e8f1bca3cc46ab477ded80ab60d1f1a79e912f0d6338b1af6b2635b5a0b4bff9"
+      },
       "../src/camera/camera.module.ts": {
-        "version": "c39286671f49b7670f2b623271ee674e100770ad791a816fdaccbd1c304c1807",
+        "version": "682bd15a276653f4fac3425f87ffc0c2b039845a9787176583c6f535e822175b",
         "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb"
       },
+      "../src/camera-motion/camera-motion.controller.ts": {
+        "version": "93b5e1d9dad8bcecfc0d970a10bb52d45c65a9f91dc99b81734f5e96529c3f25",
+        "signature": "02c140b986a7a2fb76242c5bfec4ad033e46b2c7f2fdf7d4b6973b6f2aff59b3"
+      },
+      "../src/camera-motion/camera-motion.service.ts": {
+        "version": "3759935645253396d19f525fa56caab37de9205957d96eb2f62f1d34bea2fc29",
+        "signature": "a58cbb325d2b6f0d1ff72edcedc787b2050193ed6007a0862cc274805bd13bfa"
+      },
+      "../src/camera-motion/camera-motion.module.ts": {
+        "version": "7d97ec7dc65e669f761b1c691b0dd1ccd9e48d0e00ee4b3bdaea9184c3926926",
+        "signature": "8f6a83c5096d80247a28635b357c197a1896140381f0d86ff2d5622a60d6c665"
+      },
       "../src/app.module.ts": {
-        "version": "ad07798ffe65920917f03a9891d4505436204d2b221e62f4fa82e947efc0bfa8",
+        "version": "6f6166997133d6593532c538aa7d808e7b1bf834ab7e0324ae50f7e8e35640c7",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": {
@@ -3882,12 +3910,32 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/task/task.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/camera/camera.service.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/python-shell/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/child_process.d.ts",
+        "../node_modules/@types/node/stream.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/camera/camera.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@types/node/child_process.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
         "../src/camera/camera.model.ts",
         "../src/user/user.service.ts",
+        "../src/task/task.service.ts",
+        "../node_modules/python-shell/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -3903,6 +3951,24 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/task/task.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/task/task.service.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/task/task.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/task/task.controller.ts",
+        "../src/task/task.service.ts",
+        "../src/camera/camera.module.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/camera/camera.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/camera/camera.controller.ts",
@@ -3910,6 +3976,32 @@
         "../src/camera/camera.service.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
         "../src/camera/camera.model.ts",
+        "../src/task/task.module.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/camera-motion/camera-motion.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/camera-motion/camera-motion.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/camera/camera.service.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/camera-motion/camera-motion.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/camera-motion/camera-motion.controller.ts",
+        "../src/camera-motion/camera-motion.service.ts",
+        "../src/camera/camera.module.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -3923,6 +4015,8 @@
         "../src/auth/auth.module.ts",
         "../src/camera/camera.module.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/task/task.module.ts",
+        "../src/camera-motion/camera-motion.module.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -6845,12 +6939,32 @@
         "../node_modules/rxjs/index.d.ts",
         "../src/user/user.service.ts"
       ],
+      "../src/task/task.service.ts": [
+        "../src/camera/camera.service.ts"
+      ],
+      "../node_modules/python-shell/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/child_process.d.ts",
+        "../node_modules/@types/node/stream.d.ts",
+        "../node_modules/@types/node/ts3.2/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/camera/camera.service.ts": [
         "../src/camera/camera.model.ts",
-        "../src/user/user.service.ts"
+        "../src/user/user.service.ts",
+        "../src/task/task.service.ts"
       ],
       "../src/camera/camera.controller.ts": [
         "../src/user/user.service.ts",
+        "../src/camera/camera.service.ts"
+      ],
+      "../src/task/task.controller.ts": [
+        "../src/task/task.service.ts"
+      ],
+      "../src/camera-motion/camera-motion.service.ts": [
         "../src/camera/camera.service.ts"
       ],
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": [

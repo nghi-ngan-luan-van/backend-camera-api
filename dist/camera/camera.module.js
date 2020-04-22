@@ -12,13 +12,15 @@ const user_module_1 = require("../user/user.module");
 const camera_service_1 = require("./camera.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const camera_model_1 = require("./camera.model");
+const task_module_1 = require("../task/task.module");
 let CameraModule = class CameraModule {
 };
 CameraModule = __decorate([
     common_1.Module({
-        imports: [user_module_1.UserModule, mongoose_1.MongooseModule.forFeature([{ name: 'Camera', schema: camera_model_1.CameraSchema }])],
+        imports: [common_1.forwardRef(() => task_module_1.TaskModule), user_module_1.UserModule, mongoose_1.MongooseModule.forFeature([{ name: 'Camera', schema: camera_model_1.CameraSchema }])],
         controllers: [camera_controller_1.CameraController],
         providers: [camera_service_1.CameraService],
+        exports: [camera_service_1.CameraService]
     })
 ], CameraModule);
 exports.CameraModule = CameraModule;
