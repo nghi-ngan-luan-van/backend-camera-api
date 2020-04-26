@@ -41,6 +41,20 @@ export class CameraService {
        user:this.userService.findUserByID(cam.user)
      }));
    }
+
+   async getCamerasByUser(userID:string) {
+    const cameras = await this.cameraModel.find({user:userID}).exec();
+    return cameras.map(cam => ({
+      _id: cam._id,
+      name: cam.name,
+      ip: cam.ip,
+      port: cam.port,
+      rtspUrl:cam.rtspUrl,
+      username:cam.username,
+      password:cam.password,
+      user:userID
+    }));
+  }
  
     async addOne(userID: string,username:string,name:string,password:string,ip:string,port:number,rtspUrl:string) {
       console.log(userID)

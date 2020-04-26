@@ -25,7 +25,7 @@ export class CameraController {
 
   @Post('add')
   @UseGuards(AuthGuard)
-  addCamera(@Body() body, @Res() res,@Req() req) {
+  async addCamera(@Body() body, @Res() res,@Req() req) {
     const { camera } = body
     if (!(body && body.camera)) {
       return res
@@ -33,10 +33,11 @@ export class CameraController {
         .json({ message: "Camera are required!" });
     }
     const userID = req.userID;
-    if (this.cameraService.addOne(userID,camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)) {
+    const result= await this.cameraService.addOne(userID,camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)
+    if (result) {
       return res
       .status(HttpStatus.OK)
-      .json({ message: "Camera added " });
+      .json(result);
     }
     else {
       res
@@ -48,7 +49,18 @@ export class CameraController {
   @Get("listcam")
   @UseGuards(AuthGuard)
   async getListByUser(@Req() req, @Res() res) {
-   
+    const userID = req.userID;
+    const result= await this.cameraService.getCamerasByUser(userID)
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot return camera" });
+    }
   }
 
   @Post("recordfull")

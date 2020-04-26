@@ -11,6 +11,7 @@ export declare class CameraService {
     findCameraByID(id: string): Promise<Camera>;
     findCameraByName(name: string): Promise<Camera>;
     getCameras(): Promise<any>;
+    getCamerasByUser(userID: string): Promise<any>;
     addOne(userID: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string): Promise<any>;
     updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string): Promise<any>;
     deleteOne(id: string): Promise<any>;

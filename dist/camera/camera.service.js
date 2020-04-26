@@ -46,6 +46,19 @@ let CameraService = class CameraService {
             user: this.userService.findUserByID(cam.user)
         }));
     }
+    async getCamerasByUser(userID) {
+        const cameras = await this.cameraModel.find({ user: userID }).exec();
+        return cameras.map(cam => ({
+            _id: cam._id,
+            name: cam.name,
+            ip: cam.ip,
+            port: cam.port,
+            rtspUrl: cam.rtspUrl,
+            username: cam.username,
+            password: cam.password,
+            user: userID
+        }));
+    }
     async addOne(userID, username, name, password, ip, port, rtspUrl) {
         console.log(userID);
         const newCamera = new this.cameraModel({

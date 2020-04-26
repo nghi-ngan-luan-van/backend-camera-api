@@ -28,7 +28,7 @@ let CameraController = class CameraController {
         const userID = req.userID;
         return `private content of ${userID}`;
     }
-    addCamera(body, res, req) {
+    async addCamera(body, res, req) {
         const { camera } = body;
         if (!(body && body.camera)) {
             return res
@@ -36,10 +36,11 @@ let CameraController = class CameraController {
                 .json({ message: "Camera are required!" });
         }
         const userID = req.userID;
-        if (this.cameraService.addOne(userID, camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)) {
+        const result = await this.cameraService.addOne(userID, camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl);
+        if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
-                .json({ message: "Camera added " });
+                .json(result);
         }
         else {
             res
@@ -48,6 +49,18 @@ let CameraController = class CameraController {
         }
     }
     async getListByUser(req, res) {
+        const userID = req.userID;
+        const result = await this.cameraService.getCamerasByUser(userID);
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot return camera" });
+        }
     }
     async recordFullStream(req, body, res) {
         const { url } = body;
@@ -126,7 +139,7 @@ __decorate([
     __param(0, common_1.Body()), __param(1, common_1.Res()), __param(2, common_1.Req()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CameraController.prototype, "addCamera", null);
 __decorate([
     common_1.Get("listcam"),
