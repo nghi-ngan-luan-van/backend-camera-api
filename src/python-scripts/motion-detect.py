@@ -6,6 +6,8 @@ import imutils
 import time
 import cv2
 import sys
+import subprocess
+
 
 # construct the argument parser and parse the arguments
 # ap = argparse.ArgumentParser()
@@ -60,11 +62,14 @@ while True:
 		cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 		text = "Occupied"
 		if text == "Occupied" and count== temp:
+			cmd = 'ffmpeg -i'+ sys.argv[1] +'-acodec copy -vcodec copy' + count + '.mp4'
+			p = subprocess.Popen("exec " + cmd, stdout=subprocess.PIPE, shell=True)
 			count = count +1
 			print(datetime.datetime.now())
 			sys.stdout.flush()
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':
+		p.kill()
 		print(datetime.datetime.now())
 		sys.stdout.flush()
 		temp = count

@@ -28,15 +28,43 @@ let CameraController = class CameraController {
         const userID = req.userID;
         return `private content of ${userID}`;
     }
+    addCamera(body, res, req) {
+        const { camera } = body;
+        if (!(body && body.camera)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Camera are required!" });
+        }
+        const userID = req.userID;
+        if (this.cameraService.addOne(userID, camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json({ message: "Camera added " });
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot add camera" });
+        }
+    }
     async getListByUser(req, res) {
     }
     async recordFullStream(req, body, res) {
         const { url } = body;
+        if (!(body && body.url)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Rtsp url is required!" });
+        }
         if (this.cameraService.recordFullStream(url)) {
-            res.send('ok');
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json({ message: "Successful" });
         }
         else {
-            res.send('fail');
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Fail " });
         }
     }
     async recordPerTime(req, body, res) {
@@ -50,13 +78,22 @@ let CameraController = class CameraController {
     }
     async turnDetect(req, body, res) {
         const { url } = body;
+        if (!(body && body.url)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Rtsp url is required!" });
+        }
         const data = await this.cameraService.motionDection(url);
         console.log(data);
         if (data) {
-            res.send(data);
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json({ message: "Successful" });
         }
         else {
-            res.send('fail');
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Fail " });
         }
     }
     async scannetworkk(req, body, res) {
@@ -84,6 +121,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CameraController.prototype, "getProtected", null);
 __decorate([
+    common_1.Post('add'),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
+    __param(0, common_1.Body()), __param(1, common_1.Res()), __param(2, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], CameraController.prototype, "addCamera", null);
+__decorate([
     common_1.Get("listcam"),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Res()),
@@ -93,6 +138,7 @@ __decorate([
 ], CameraController.prototype, "getListByUser", null);
 __decorate([
     common_1.Post("recordfull"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
@@ -100,6 +146,7 @@ __decorate([
 ], CameraController.prototype, "recordFullStream", null);
 __decorate([
     common_1.Post("recordpertime"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
@@ -114,6 +161,7 @@ __decorate([
 ], CameraController.prototype, "turnDetect", null);
 __decorate([
     common_1.Get("scannetwork"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),

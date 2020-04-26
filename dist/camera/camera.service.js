@@ -46,8 +46,8 @@ let CameraService = class CameraService {
             user: this.userService.findUserByID(cam.user)
         }));
     }
-    async addOne(username, name, password, ip, port, rtspUrl) {
-        const user = this.userService.findUserByEmail('nghinguyen.170498@gmail.com');
+    async addOne(userID, username, name, password, ip, port, rtspUrl) {
+        console.log(userID);
         const newCamera = new this.cameraModel({
             username,
             name,
@@ -55,7 +55,7 @@ let CameraService = class CameraService {
             ip,
             port,
             rtspUrl,
-            user: (await user)._id
+            user: userID
         });
         const result = await newCamera.save();
         return result;
@@ -69,7 +69,7 @@ let CameraService = class CameraService {
         return result;
     }
     async recordFullStream(url) {
-        const command = `ffmpeg -i ${url} -acodec copy -vcodec copy D:/test.mp4`;
+        const command = `ffmpeg -i ${url} -acodec copy -vcodec copy test.mp4`;
         child_process_1.exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.log('error', error);

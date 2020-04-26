@@ -6,9 +6,10 @@ export declare class CameraController {
     constructor(userService: UserService, cameraService: CameraService);
     getPublic(): string;
     getProtected(req: any): string;
+    addCamera(body: any, res: any, req: any): any;
     getListByUser(req: any, res: any): Promise<void>;
-    recordFullStream(req: any, body: any, res: any): Promise<void>;
+    recordFullStream(req: any, body: any, res: any): Promise<any>;
     recordPerTime(req: any, body: any, res: any): Promise<void>;
-    turnDetect(req: any, body: any, res: any): Promise<void>;
+    turnDetect(req: any, body: any, res: any): Promise<any>;
     scannetworkk(req: any, body: any, res: any): Promise<any>;
 }

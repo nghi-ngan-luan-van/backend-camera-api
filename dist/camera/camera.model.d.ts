@@ -4,9 +4,10 @@ export interface Camera extends mongoose.Document {
     _id: string;
     name: string;
     ip: string;
-    port: string;
+    port: number;
     rtspUrl: string;
     username: string;
     password: string;
+    backupMode: boolean;
     user: string;
 }

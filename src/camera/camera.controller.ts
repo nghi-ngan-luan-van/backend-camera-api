@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Req, Res, Post, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Res, Post, Body, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from '../auth.guard';
 import { UserService } from '../user/user.service';
 import { CameraService } from './camera.service';
@@ -23,16 +23,27 @@ export class CameraController {
     return `private content of ${userID}`;
   }
 
-  // @Post('add')
-  // addCamera(@Body() body, @Res() res) {
-  //   const { camera } = body
-  //   if (this.cameraService.addOne(camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)) {
-  //     res.send('ok')
-  //   }
-  //   else {
-  //     res.send('fail')
-  //   }
-  // }
+  @Post('add')
+  @UseGuards(AuthGuard)
+  addCamera(@Body() body, @Res() res,@Req() req) {
+    const { camera } = body
+    if (!(body && body.camera)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Camera are required!" });
+    }
+    const userID = req.userID;
+    if (this.cameraService.addOne(userID,camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl)) {
+      return res
+      .status(HttpStatus.OK)
+      .json({ message: "Camera added " });
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot add camera" });
+    }
+  }
 
   @Get("listcam")
   @UseGuards(AuthGuard)
@@ -41,21 +52,31 @@ export class CameraController {
   }
 
   @Post("recordfull")
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   async recordFullStream(@Req() req, @Body() body, @Res() res) {
     const {url}=body
+    if (!(body && body.url)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Rtsp url is required!" });
+    }
+
     if(this.cameraService.recordFullStream(url))
     {
-      res.send('ok')
+      return res
+      .status(HttpStatus.OK)
+      .json({ message: "Successful" });
     }
     else {
-      res.send('fail')
+      return res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "Fail " });
     }
   }
   
 
   @Post("recordpertime")
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   async recordPerTime(@Req() req, @Body() body, @Res() res) {
     const {url,time}=body
     if(this.cameraService.recordStreamPerTime(url,time))
@@ -71,19 +92,28 @@ export class CameraController {
   // @UseGuards(AuthGuard)
   async turnDetect(@Req() req, @Body() body, @Res() res) {
     const {url}=body
+    if (!(body && body.url)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Rtsp url is required!" });
+    }
     const data= await this.cameraService.motionDection(url)
      console.log(data)
     if(data)
     {
-      res.send(data)
+      return res
+      .status(HttpStatus.OK)
+      .json({ message: "Successful" });
     }
     else {
-      res.send('fail')
+      res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "Fail " });
     }
   }
 
   @Get("scannetwork")
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   async scannetworkk(@Req() req, @Body() body, @Res() res) {
     const data= await this.cameraService.scanNetwork()
     if(data)

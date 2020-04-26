@@ -1182,8 +1182,8 @@
         "signature": "b0065e905bdc4af1e33a7f3b4fcf56befecd27af21af949f9a5563ad6864399f"
       },
       "../src/camera/camera.model.ts": {
-        "version": "4183f55d3140d1926d2f74ba554f27a3877fccec75c517b27c84ad54b6f68ca9",
-        "signature": "5ce8b043c49e03f0b0c91bd0f788d56b067cda6b8b64fd126390135d02f619d6"
+        "version": "be1af343891d56a3969df37023694d5cc5ba0705548f9daccaeea130a455dd22",
+        "signature": "2f8abff582c31f13a43c3239176d0db7d5441bbdfa1f246e516c4b60f9be1633"
       },
       "../src/task/task.service.ts": {
         "version": "423377732517bfc908b057436fb8245d225858eebcd22d0b894b89cb54dfb422",
@@ -1194,12 +1194,12 @@
         "signature": "f754198da5fd15d496fe5d51f3c9e39b87a7a6f037612bf47ccc10a1b84d6269"
       },
       "../src/camera/camera.service.ts": {
-        "version": "1e51ad8a9af9bd4e627defc92c5bff3e378ceffebe5acb5ff407673cdb054b81",
-        "signature": "2fbc7d5f047e7042fefc5ddc98da87b4957c14ea690f5809a97380fbd09a134f"
+        "version": "adf08662bfc3c9caaef998294350a9efc8c1bb86efb77bd5ae488922019a0e64",
+        "signature": "a107582817090599fc17a246a83ca07243d30a55015ee95fb2478f0a223d9249"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "450cb5c4996198999ac910262023df5b9316c2f1669e679909c6177847dabdc2",
-        "signature": "6643982d63ef20bff82272b08c1f4699e0a2d9a9ddef1119385152615bb66f71"
+        "version": "5c2b979bccb7f608e22aebaa054122cd90fe7936d00d5b59ccc1b8d7e6bb743f",
+        "signature": "e1fdb11ab48f7751b9f385e579711c0604c9ba8b8afd8f6af1fa1ca2666311c8"
       },
       "../src/task/task.controller.ts": {
         "version": "ddfb8f5a2b68e23bbc450aaa63792b6c761fe25e6cfb8b8c272f03b1d5c37d59",

@@ -42,8 +42,8 @@ export class CameraService {
      }));
    }
  
-    async addOne(username:string,name:string,password:string,ip:string,port:number,rtspUrl:string) {
-      const user=this.userService.findUserByEmail('nghinguyen.170498@gmail.com')
+    async addOne(userID: string,username:string,name:string,password:string,ip:string,port:number,rtspUrl:string) {
+      console.log(userID)
       const newCamera= new this.cameraModel({
         username,
         name,
@@ -51,7 +51,7 @@ export class CameraService {
         ip,
         port,
         rtspUrl,
-        user: (await user)._id
+        user:userID
       })
       const result= await newCamera.save();
       return result;
@@ -68,7 +68,7 @@ export class CameraService {
     }  
 
     async recordFullStream(url: string) {
-      const command=`ffmpeg -i ${url} -acodec copy -vcodec copy D:/test.mp4`
+      const command=`ffmpeg -i ${url} -acodec copy -vcodec copy test.mp4`
       exec(command,(error,stdout,stderr) =>{
         if (error) {
           console.log('error',error)
@@ -129,40 +129,15 @@ export class CameraService {
     async motionDection(url:string) :Promise<any> {
 
     const child = spawn('python',["src/python-scripts/motion-detect.py",url]);
-    // let options = {
-    //   pythonPath: '/usr/bin/python',
-    //   pythonOptions: ['-u'], // get print results in real-time
-    //   scriptPath: 'src/python-scripts',
-    //   args: [url]
-    // };
-    
-    // PythonShell.run('motion-detect.py', options, function (err, results) {
-    //   if (err) throw err;
-    //   // results is an array consisting of messages collected during execution
-    //    for  (const chunk of results) {
-    //     console.log('stdout chunk: '+chunk)
-    //     }
-    //   console.log('results: ', results);
-    // });
-    // const command=`python motion-detect.py --video ${url}`
-    // const child = exec(command);
+
     console.log('pid',child.pid)
     this.taskService.addTask(child);
     console.log(this.taskService.getTasks())
-    //       // for await (const chunk of child.stdout) {
-    //       // console.log('stdout chunk: '+chunk);
-    //       // data.push(Date.parse(chunk))
-    //       //   if(!this.taskService.findTask(child.pid)) {
-    //       //     process.kill(-child.pid)
-    //       //   }
-    //       // }
+  
       let dataToSend=[]
     
      child.stdout.on('data', (data) => {
-    //   const pIDFound=this.taskService.findTask(child)
-    //   if(!pIDFound) {
-    //       child.kill()
-    // }
+    
             console.log('stdout', data.toString());
             dataToSend.push(Date.parse(data.toString()))
       });
