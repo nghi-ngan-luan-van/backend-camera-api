@@ -7,8 +7,6 @@ import { Camera } from './camera.model';
 import { UserService } from '../user/user.service';
 import { TaskService } from '../task/task.service';
 import { CameraMotionService } from '../camera-motion/camera-motion.service';
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 import {s3} from '../.aws/auth'
 import * as fs from 'fs'
 
