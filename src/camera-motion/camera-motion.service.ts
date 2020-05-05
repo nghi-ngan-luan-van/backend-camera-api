@@ -12,7 +12,7 @@ export class CameraMotionService {
 
        async addOne(userID: string,cameraUrl:string,filePath:string, timeStart:string, timeEnd:string) {
         console.log(userID)
-        const newCameraMotion= await this.cameraMotionModel({
+        const newCameraMotion= new this.cameraMotionModel({
           cameraUrl,
           filePath,
           timeStart,
