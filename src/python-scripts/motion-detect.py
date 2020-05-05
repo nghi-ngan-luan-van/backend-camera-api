@@ -6,6 +6,8 @@ import imutils
 import time
 import cv2
 import sys
+import os
+import signal
 import subprocess
 
 
@@ -62,15 +64,17 @@ while True:
 		cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 		text = "Occupied"
 		if text == "Occupied" and count== temp:
-			cmd = 'ffmpeg -i'+ sys.argv[1] +'-acodec copy -vcodec copy' + count + '.mp4'
-			p = subprocess.Popen("exec " + cmd, stdout=subprocess.PIPE, shell=True)
 			count = count +1
-			print(datetime.datetime.now())
+			cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy '+ str(count) + '.mp4'
+			print(str(count) + '.mp4')
+			sys.stdout.flush()
+			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
+			print(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
 			sys.stdout.flush()
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':
-		p.kill()
-		print(datetime.datetime.now())
+		os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
+		print(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
 		sys.stdout.flush()
 		temp = count
 	cv2.putText(frame, "Room Status: {}".format(text), (10, 20),

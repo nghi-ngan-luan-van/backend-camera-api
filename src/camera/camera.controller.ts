@@ -54,7 +54,7 @@ export class CameraController {
     if (result) {
       return res
       .status(HttpStatus.OK)
-      .json(result);
+      .json({result});
     }
     else {
       res
@@ -101,15 +101,16 @@ export class CameraController {
   }
 
   @Post("turndetect")
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   async turnDetect(@Req() req, @Body() body, @Res() res) {
     const {url}=body
+    const userID = req.userID;
     if (!(body && body.url)) {
       return res
         .status(HttpStatus.FORBIDDEN)
         .json({ message: "Rtsp url is required!" });
     }
-    const data= await this.cameraService.motionDection(url)
+    const data= await this.cameraService.motionDection(url,userID)
      console.log(data)
     if(data)
     {
@@ -136,4 +137,36 @@ export class CameraController {
       return null
     }
   }
+
+  @Post("testput")
+  // @UseGuards(AuthGuard)
+  async testput(@Req() req, @Body() body, @Res() res) {
+    const data=  this.cameraService.testput()
+    if(data)
+    {
+     return data
+    }
+    else {
+      return null
+    }
+  }
+
+  @Get("savedvideo")
+  @UseGuards(AuthGuard)
+  async listVideoByUser(@Req() req, @Body() body, @Res() res) {
+    const userID = req.userID;
+    const result =await this.cameraService.listVideoByUSer(userID)
+    if (this.userService.findUserByID(userID))
+    {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "Fail " });
+    }
+  }
+
 }

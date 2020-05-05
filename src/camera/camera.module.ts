@@ -5,9 +5,10 @@ import { CameraService } from './camera.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CameraSchema } from './camera.model';
 import { TaskModule } from 'src/task/task.module';
+import { CameraMotionModule } from 'src/camera-motion/camera-motion.module';
 
 @Module({
-  imports:[forwardRef(() =>TaskModule),UserModule,MongooseModule.forFeature([{name:'Camera',schema:CameraSchema}])],
+  imports:[forwardRef(() =>TaskModule),UserModule,forwardRef(() =>CameraMotionModule),MongooseModule.forFeature([{name:'Camera',schema:CameraSchema}])],
   controllers: [CameraController],
   providers: [CameraService],
   exports:[CameraService]

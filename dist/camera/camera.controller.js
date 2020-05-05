@@ -54,7 +54,7 @@ let CameraController = class CameraController {
         if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
-                .json(result);
+                .json({ result });
         }
         else {
             res
@@ -91,12 +91,13 @@ let CameraController = class CameraController {
     }
     async turnDetect(req, body, res) {
         const { url } = body;
+        const userID = req.userID;
         if (!(body && body.url)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Rtsp url is required!" });
         }
-        const data = await this.cameraService.motionDection(url);
+        const data = await this.cameraService.motionDection(url, userID);
         console.log(data);
         if (data) {
             return res
@@ -116,6 +117,29 @@ let CameraController = class CameraController {
         }
         else {
             return null;
+        }
+    }
+    async testput(req, body, res) {
+        const data = this.cameraService.testput();
+        if (data) {
+            return data;
+        }
+        else {
+            return null;
+        }
+    }
+    async listVideoByUser(req, body, res) {
+        const userID = req.userID;
+        const result = await this.cameraService.listVideoByUSer(userID);
+        if (this.userService.findUserByID(userID)) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Fail " });
         }
     }
 };
@@ -167,6 +191,7 @@ __decorate([
 ], CameraController.prototype, "recordPerTime", null);
 __decorate([
     common_1.Post("turndetect"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
@@ -180,6 +205,21 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "scannetworkk", null);
+__decorate([
+    common_1.Post("testput"),
+    __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "testput", null);
+__decorate([
+    common_1.Get("savedvideo"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
+    __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "listVideoByUser", null);
 CameraController = __decorate([
     common_1.Controller('camera'),
     __metadata("design:paramtypes", [user_service_1.UserService,

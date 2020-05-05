@@ -14,16 +14,23 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
+const uuid_1 = require("uuid");
 const child_process_1 = require("child_process");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const user_service_1 = require("../user/user.service");
 const task_service_1 = require("../task/task.service");
+const camera_motion_service_1 = require("../camera-motion/camera-motion.service");
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const auth_1 = require("../.aws/auth");
+const fs = require("fs");
 let CameraService = class CameraService {
-    constructor(cameraModel, userService, taskService) {
+    constructor(cameraModel, userService, taskService, camMotionService) {
         this.cameraModel = cameraModel;
         this.userService = userService;
         this.taskService = taskService;
+        this.camMotionService = camMotionService;
     }
     async findCameraByID(id) {
         const camera = await this.cameraModel.findById(id).exec();
@@ -43,7 +50,7 @@ let CameraService = class CameraService {
             rtspUrl: cam.rtspUrl,
             username: cam.username,
             password: cam.password,
-            user: this.userService.findUserByID(cam.user)
+            user: cam.user
         }));
     }
     async getCamerasByUser(userID) {
@@ -127,15 +134,36 @@ let CameraService = class CameraService {
             return stdout;
         });
     }
-    async motionDection(url) {
-        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url]);
+    async motionDection(url, userID) {
+        const randomText = uuid_1.v4();
+        console.log('....', randomText);
+        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, randomText]);
         console.log('pid', child.pid);
         this.taskService.addTask(child);
         console.log(this.taskService.getTasks());
         let dataToSend = [];
+        let filePath = '', timeStart = '', timeEnd = '';
         child.stdout.on('data', (data) => {
-            console.log('stdout', data.toString());
-            dataToSend.push(Date.parse(data.toString()));
+            const output = data.toString().trim();
+            console.log('stdout', output);
+            console.log("data.toString().split('.').pop()", output.split('.').pop());
+            if (output.split('.').pop() === `mp4`) {
+                console.log("files: ", output);
+                filePath = output;
+            }
+            else {
+                dataToSend.push(output);
+                console.log("data to send: ", dataToSend);
+            }
+            if (dataToSend.length === 2) {
+                timeStart = dataToSend[0];
+                timeEnd = dataToSend[1];
+                dataToSend = [];
+            }
+            console.log('cam motion:', filePath, timeStart, timeEnd);
+            if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
+                filePath = '', timeStart = '', timeEnd = '';
+            }
         });
     }
     async scanNetwork() {
@@ -183,13 +211,73 @@ let CameraService = class CameraService {
         console.log('cam', camera, 'streams', streams, 'devs', devices);
         return { camera, streams, devices };
     }
+    testput() {
+        fs.readFile('src/video/test.mp4', function (err, data) {
+            if (err) {
+                console.log('fs error', err);
+            }
+            else {
+                var params = {
+                    Bucket: 'clientapp',
+                    Key: 'nghi/test.mp4',
+                    Body: data,
+                    ContentType: 'video/mp4',
+                    ACL: 'public-read'
+                };
+                auth_1.s3.putObject(params, function (err, data) {
+                    if (err) {
+                        console.log('Error putting object on S3: ', err);
+                    }
+                    else {
+                        console.log('Placed object on S3: ', data);
+                    }
+                });
+            }
+        });
+        var params = {
+            Bucket: "clientapp",
+            Prefix: 'nghi/'
+        };
+        auth_1.s3.listObjects(params, function (err, data) {
+            if (err)
+                console.log(err, err.stack);
+            else {
+                data['Contents'].forEach(function (obj) {
+                    console.log(obj['Key']);
+                });
+            }
+            ;
+        });
+        return true;
+    }
+    async listVideoByUSer(userID) {
+        var params = {
+            Bucket: "clientapp",
+            Prefix: `${userID}`
+        };
+        let result = [];
+        const s3Response = await auth_1.s3.listObjects(params).promise();
+        s3Response['Contents'].forEach(function (obj) {
+            if (obj['Key'].split('.').pop() === 'mp4') {
+                console.log(obj['Key']);
+                const item = {
+                    index: result.length + 1,
+                    name: 'https://clientapp.sgp1.digitaloceanspaces.com/' + obj['Key']
+                };
+                result.push(item);
+            }
+            console.log("res", result);
+        });
+        return result;
+    }
 };
 CameraService = __decorate([
     common_1.Injectable(),
     __param(0, mongoose_1.InjectModel('Camera')),
     __param(1, common_1.Inject(common_1.forwardRef(() => task_service_1.TaskService))),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, user_service_1.UserService,
-        task_service_1.TaskService])
+        task_service_1.TaskService,
+        camera_motion_service_1.CameraMotionService])
 ], CameraService);
 exports.CameraService = CameraService;
 //# sourceMappingURL=camera.service.js.map

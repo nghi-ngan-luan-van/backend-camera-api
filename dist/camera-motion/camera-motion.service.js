@@ -11,19 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
-const camera_service_1 = require("../camera/camera.service");
+const mongoose_1 = require("mongoose");
+const mongoose_2 = require("@nestjs/mongoose");
 let CameraMotionService = class CameraMotionService {
-    constructor(cameraService) {
-        this.cameraService = cameraService;
+    constructor(cameraMotionModel) {
+        this.cameraMotionModel = cameraMotionModel;
         this.camMotions = [];
+    }
+    async addOne(userID, cameraUrl, filePath, timeStart, timeEnd) {
+        console.log(userID);
+        const newCameraMotion = await this.cameraMotionModel({
+            cameraUrl,
+            filePath,
+            timeStart,
+            timeEnd,
+            user: userID
+        });
+        const result = await newCameraMotion.save();
+        return result;
     }
 };
 CameraMotionService = __decorate([
     common_1.Injectable(),
-    __param(0, common_1.Inject(common_1.forwardRef(() => camera_service_1.CameraService))),
-    __metadata("design:paramtypes", [camera_service_1.CameraService])
+    __param(0, mongoose_2.InjectModel('CameraMotion')),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_1.Model !== "undefined" && mongoose_1.Model) === "function" ? _a : Object])
 ], CameraMotionService);
 exports.CameraMotionService = CameraMotionService;
 //# sourceMappingURL=camera-motion.service.js.map

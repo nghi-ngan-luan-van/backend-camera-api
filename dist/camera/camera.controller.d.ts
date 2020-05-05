@@ -12,4 +12,6 @@ export declare class CameraController {
     recordPerTime(req: any, body: any, res: any): Promise<void>;
     turnDetect(req: any, body: any, res: any): Promise<any>;
     scannetworkk(req: any, body: any, res: any): Promise<any>;
+    testput(req: any, body: any, res: any): Promise<true>;
+    listVideoByUser(req: any, body: any, res: any): Promise<any>;
 }
