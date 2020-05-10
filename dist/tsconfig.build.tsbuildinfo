@@ -1206,7 +1206,7 @@
         "signature": "367f488fa0153e40c2d9858d52df7bd81b0951ba6df1a8ee2f8079c4af5bac20"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "27602a7747672cc45cac6d1cc73a660d13ff91443e144e68bf4a5cf6fa8aee04",
+        "version": "1d858dbb9c817bcd9ba408e43662e036a1626d06b0d1ac226e030039a5bdc12e",
         "signature": "99e70fca78f2944515acfd0cbc04b8372260ed244b96a71884662fdaa8582f94"
       },
       "../src/task/task.controller.ts": {

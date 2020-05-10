@@ -29,14 +29,14 @@ let CameraController = class CameraController {
         return `private content of ${userID}`;
     }
     async addCamera(body, res, req) {
-        const { camera } = body;
-        if (!(body && body.camera)) {
+        const { name = '', rtspUrl = '', ip = '', port = '', username = '', password = '' } = body;
+        if (!(body)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Camera are required!" });
         }
         const userID = req.userID;
-        const result = await this.cameraService.addOne(userID, camera.name, camera.password, camera.username, camera.ip, camera.port, camera.rtspUrl);
+        const result = await this.cameraService.addOne(userID, name, password, username, ip, port, rtspUrl);
         if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
