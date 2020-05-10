@@ -23,7 +23,7 @@ let CameraMotionService = class CameraMotionService {
     }
     async addOne(userID, cameraUrl, filePath, timeStart, timeEnd) {
         console.log(userID);
-        const newCameraMotion = await this.cameraMotionModel({
+        const newCameraMotion = new this.cameraMotionModel({
             cameraUrl,
             filePath,
             timeStart,

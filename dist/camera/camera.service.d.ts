@@ -23,5 +23,5 @@ export declare class CameraService {
     motionDection(url: string, userID: string): Promise<any>;
     scanNetwork(): Promise<any>;
     testput(): boolean;
-    listVideoByUSer(userID: string): Promise<any>;
+    listVideoByUSer(userID: string, _id: string): Promise<any>;
 }

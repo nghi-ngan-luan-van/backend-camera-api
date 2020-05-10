@@ -21,8 +21,6 @@ const mongoose_2 = require("mongoose");
 const user_service_1 = require("../user/user.service");
 const task_service_1 = require("../task/task.service");
 const camera_motion_service_1 = require("../camera-motion/camera-motion.service");
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 const auth_1 = require("../.aws/auth");
 const fs = require("fs");
 let CameraService = class CameraService {
@@ -89,7 +87,7 @@ let CameraService = class CameraService {
         return result;
     }
     async recordFullStream(url) {
-        const command = `ffmpeg -i ${url} -acodec copy -vcodec copy test.mp4`;
+        const command = `ffmpeg -i ${url} -acodec copy -vcodec copy-c:a aac -vcodec copy src/video/test.mp4`;
         child_process_1.exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.log('error', error);
@@ -212,14 +210,14 @@ let CameraService = class CameraService {
         return { camera, streams, devices };
     }
     testput() {
-        fs.readFile('src/video/test.mp4', function (err, data) {
+        fs.readFile('src/video/4.mp4', function (err, data) {
             if (err) {
                 console.log('fs error', err);
             }
             else {
                 var params = {
                     Bucket: 'clientapp',
-                    Key: 'nghi/test.mp4',
+                    Key: 'nghi/4.mp4',
                     Body: data,
                     ContentType: 'video/mp4',
                     ACL: 'public-read'
@@ -250,10 +248,10 @@ let CameraService = class CameraService {
         });
         return true;
     }
-    async listVideoByUSer(userID) {
+    async listVideoByUSer(userID, _id) {
         var params = {
             Bucket: "clientapp",
-            Prefix: `${userID}`
+            Prefix: `${userID}/${_id}`
         };
         let result = [];
         const s3Response = await auth_1.s3.listObjects(params).promise();

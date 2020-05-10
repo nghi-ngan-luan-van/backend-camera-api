@@ -130,7 +130,13 @@ let CameraController = class CameraController {
     }
     async listVideoByUser(req, body, res) {
         const userID = req.userID;
-        const result = await this.cameraService.listVideoByUSer(userID);
+        const { _id } = body;
+        if (!(body && body._id)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Rtsp url is required!" });
+        }
+        const result = await this.cameraService.listVideoByUSer(userID, _id);
         if (this.userService.findUserByID(userID)) {
             return res
                 .status(common_1.HttpStatus.OK)

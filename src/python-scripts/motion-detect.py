@@ -65,7 +65,7 @@ while True:
 		text = "Occupied"
 		if text == "Occupied" and count== temp:
 			count = count +1
-			cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy '+ str(count) + '.mp4'
+			cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy src/video/'+ str(count) + '.mp4'
 			print(str(count) + '.mp4')
 			sys.stdout.flush()
 			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 

@@ -1194,7 +1194,7 @@
         "signature": "0f5cc002d526eb771390692e8ddf6dad1bddfc0b9bc1095551a3f501803f0f17"
       },
       "../src/camera-motion/camera-motion.service.ts": {
-        "version": "011e2579c733acd7b65d38ce3b631fb1bce67450407b577038066ba9f29db38c",
+        "version": "2a61fa17721900f407a60ea9f3ce27967940719eb18a2a826820ce5729315c99",
         "signature": "5d7831e9b22c610d4a6ff3f41ea7b45f2250ad1bf7c600934776da6286e9638b"
       },
       "../src/.aws/auth.ts": {
@@ -1202,11 +1202,11 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "cf8684d79df529a0bcaef3647bd5b329dd793fc19844e8394c1f8a6455226617",
-        "signature": "5cc0dea97e937310942125aad0bb71efc36b8a3712205a778ba4b17a970db14e"
+        "version": "218fe5dcf6704572b147497ea20848656a6c24fbfeef067de5ba9d1a2735fbf0",
+        "signature": "367f488fa0153e40c2d9858d52df7bd81b0951ba6df1a8ee2f8079c4af5bac20"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "f5398c9363fe332d1d15c76b2a37648c7448de730bd9d7200c08e02d82b3f07b",
+        "version": "27602a7747672cc45cac6d1cc73a660d13ff91443e144e68bf4a5cf6fa8aee04",
         "signature": "99e70fca78f2944515acfd0cbc04b8372260ed244b96a71884662fdaa8582f94"
       },
       "../src/task/task.controller.ts": {

@@ -155,7 +155,14 @@ export class CameraController {
   @UseGuards(AuthGuard)
   async listVideoByUser(@Req() req, @Body() body, @Res() res) {
     const userID = req.userID;
-    const result =await this.cameraService.listVideoByUSer(userID)
+    const {_id}=body
+    if (!(body && body._id)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Rtsp url is required!" });
+    }
+
+    const result =await this.cameraService.listVideoByUSer(userID,_id)
     if (this.userService.findUserByID(userID))
     {
       return res

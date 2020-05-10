@@ -84,7 +84,7 @@ export class CameraService {
   }
 
   async recordFullStream(url: string) {
-    const command = `ffmpeg -i ${url} -acodec copy -vcodec copy test.mp4`
+    const command = `ffmpeg -i ${url} -acodec copy -vcodec copy-c:a aac -vcodec copy src/video/test.mp4`
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.log('error', error)
@@ -169,7 +169,7 @@ export class CameraService {
       console.log('cam motion:', filePath, timeStart, timeEnd)
       if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
         // this.camMotionService.addOne(userID,url,filePath,timeStart,timeEnd)
-        // fs.readFile(`src/video/${filePath}`, function (err, data) {
+        // fs.readFile(`src/video/${userID}/${_id}/${filePath}`, function (err, data) {
         //   if (err) { 
         //       console.log('fs error', err);
         //   } else {
@@ -256,13 +256,13 @@ export class CameraService {
 
   }
  testput() {
-  fs.readFile('src/video/test.mp4', function (err, data) {
+  fs.readFile('src/video/4.mp4', function (err, data) {
     if (err) { 
         console.log('fs error', err);
     } else {
         var params = {
             Bucket: 'clientapp',
-            Key: 'nghi/test.mp4', 
+            Key: 'nghi/4.mp4', 
             Body: data,
             ContentType: 'video/mp4',
             ACL:'public-read'
@@ -294,10 +294,10 @@ export class CameraService {
   return true
   }
 
-  async listVideoByUSer(userID:string): Promise<any> {
+  async listVideoByUSer(userID:string,_id:string): Promise<any> {
     var params = {
       Bucket: "clientapp",
-      Prefix: `${userID}`
+      Prefix: `${userID}/${_id}`
   };
   //  s3.listObjects(params, function(err, data) {
   //     if (err) console.log(err, err.stack);
