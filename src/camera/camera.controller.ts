@@ -151,7 +151,7 @@ export class CameraController {
     }
   }
 
-  @Get("savedvideo")
+  @Post("savedvideo")
   @UseGuards(AuthGuard)
   async listVideoByUser(@Req() req, @Body() body, @Res() res) {
     const userID = req.userID;
