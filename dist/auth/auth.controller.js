@@ -48,6 +48,22 @@ let AuthController = class AuthController {
             .status(common_1.HttpStatus.FORBIDDEN)
             .json({ message: "Username or password wrong!" });
     }
+    async verifytoken(res, body) {
+        if (!(body && body.token)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Token required!" });
+        }
+        const result = await this.authService.verifyToken(body.token);
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        return res
+            .status(common_1.HttpStatus.FORBIDDEN)
+            .json({ message: "Token wrong!" });
+    }
 };
 __decorate([
     common_1.Post("register"),
@@ -65,6 +81,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    common_1.Post("verifytoken"),
+    __param(0, common_1.Res()), __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "verifytoken", null);
 AuthController = __decorate([
     common_1.Controller("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService,

@@ -1166,12 +1166,12 @@
         "signature": "482b8f0d35a3d453500a15b6c6057c1e4c40baa4329b39da9e1026d8e1de4329"
       },
       "../src/auth/auth.service.ts": {
-        "version": "bc74108ec63c568f9c05e3accd2f0cd85419bf089ff6b9116b5dbbda9917257a",
-        "signature": "46663a029dba70169869a696c444027383098dc3dd0fe5343405bca9f59184ab"
+        "version": "c3cda8cb087915d8743af4aefc9320d19a5898a3dcef96fec110b5090743e16b",
+        "signature": "42812105cfa5b17fdb32d77ecedd95fa2ceebc6575ec782e69899dbe85b4da6c"
       },
       "../src/auth/auth.controller.ts": {
-        "version": "55e3edea2f797029cb2591b6ef64afa7b0a9bebee11bb1eb693d05aa0da9e34e",
-        "signature": "86419a5084358d3aed3ceed4c84542a65ca46317287de910806d5456888a382b"
+        "version": "204a8235d18fc5bd124ab28ecd3e46d5edaccaf30637714b03ad75d7f4501cf1",
+        "signature": "8b20e4c3277e46c676f5518e4d269a57ac178e4c8fc1fd6c189031412d10e939"
       },
       "../src/auth/auth.module.ts": {
         "version": "9a09eb8887e03721008fc802c7643cfd4b43d3d5b0d6272f0ed57b0b695329d7",
@@ -1202,7 +1202,7 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "218fe5dcf6704572b147497ea20848656a6c24fbfeef067de5ba9d1a2735fbf0",
+        "version": "bd6b0c499dda233e069393f02a5a490a82c846c9016b2c3233d32073f8bf2919",
         "signature": "367f488fa0153e40c2d9858d52df7bd81b0951ba6df1a8ee2f8079c4af5bac20"
       },
       "../src/camera/camera.controller.ts": {
@@ -6943,8 +6943,8 @@
         "../src/user/user.service.ts"
       ],
       "../src/auth/auth.controller.ts": [
-        "../src/user/user.service.ts",
-        "../src/auth/auth.service.ts"
+        "../src/auth/auth.service.ts",
+        "../src/user/user.service.ts"
       ],
       "../src/auth.guard.ts": [
         "../node_modules/@nestjs/common/index.d.ts",

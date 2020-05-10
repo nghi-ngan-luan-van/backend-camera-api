@@ -29,6 +29,16 @@ let AuthService = class AuthService {
         }
         return false;
     }
+    async verifyToken(token) {
+        const decoded = jwt.verify(token, "secret");
+        if (!decoded.userID) {
+            throw new common_1.HttpException("Invalid Token", 403);
+        }
+        if (!this.userService.findUserByID(decoded.userID)) {
+            throw new common_1.HttpException("Invalid Token", 403);
+        }
+        return decoded.userID;
+    }
 };
 AuthService = __decorate([
     common_1.Injectable(),

@@ -56,5 +56,27 @@ import {
         .status(HttpStatus.FORBIDDEN)
         .json({ message: "Username or password wrong!" });
     }
+
+    @Post("verifytoken")
+    async verifytoken(@Res() res, @Body() body) {
+      if (!(body && body.token)) {
+        return res
+          .status(HttpStatus.FORBIDDEN)
+          .json({ message: "Token required!" });
+      }
+  
+      const result = await this.authService.verifyToken(body.token);
+  
+      if (result) {
+        return res
+        .status(HttpStatus.OK)
+        .json(result);
+
+      }
+  
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Token wrong!" });
+    }
   }
   

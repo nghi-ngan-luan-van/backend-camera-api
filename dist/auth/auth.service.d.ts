@@ -7,4 +7,5 @@ export declare class AuthService {
         token: any;
     }>;
     validateUser(signedUser: any): Promise<boolean>;
+    verifyToken(token: any): Promise<any>;
 }
