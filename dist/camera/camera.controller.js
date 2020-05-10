@@ -219,7 +219,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "testput", null);
 __decorate([
-    common_1.Get("savedvideo"),
+    common_1.Post("savedvideo"),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
