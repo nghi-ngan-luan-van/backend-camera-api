@@ -7,5 +7,5 @@ export declare class AuthService {
         token: any;
     }>;
     validateUser(signedUser: any): Promise<boolean>;
-    verifyToken(token: any): Promise<any>;
+    verifyToken(token: any): Promise<import("../user/user.model").User>;
 }

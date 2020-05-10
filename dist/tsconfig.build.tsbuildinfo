@@ -1166,8 +1166,8 @@
         "signature": "482b8f0d35a3d453500a15b6c6057c1e4c40baa4329b39da9e1026d8e1de4329"
       },
       "../src/auth/auth.service.ts": {
-        "version": "c3cda8cb087915d8743af4aefc9320d19a5898a3dcef96fec110b5090743e16b",
-        "signature": "42812105cfa5b17fdb32d77ecedd95fa2ceebc6575ec782e69899dbe85b4da6c"
+        "version": "d241f52f3691d2f024c42df0413ddf6abf020203f1038ce51d2fe48808962be6",
+        "signature": "c34602fd5dd60d5c189d4b5635dbcb284a40deb307792af1413b338ab224ccda"
       },
       "../src/auth/auth.controller.ts": {
         "version": "204a8235d18fc5bd124ab28ecd3e46d5edaccaf30637714b03ad75d7f4501cf1",
@@ -6940,6 +6940,7 @@
         "../src/user/user.model.ts"
       ],
       "../src/auth/auth.service.ts": [
+        "../src/user/user.model.ts",
         "../src/user/user.service.ts"
       ],
       "../src/auth/auth.controller.ts": [

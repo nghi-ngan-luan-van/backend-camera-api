@@ -28,9 +28,10 @@ export class AuthService {
     if (!decoded.userID) {
       throw new HttpException("Invalid Token", 403);
     }
-    if (!this.userService.findUserByID(decoded.userID)) {
+    const user = await this.userService.findUserByID(decoded.userID)
+    if (!user) {
       throw new HttpException("Invalid Token", 403);
     }
-    return decoded.userID;
+    return user;
   }
 }

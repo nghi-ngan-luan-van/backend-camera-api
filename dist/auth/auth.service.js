@@ -34,10 +34,11 @@ let AuthService = class AuthService {
         if (!decoded.userID) {
             throw new common_1.HttpException("Invalid Token", 403);
         }
-        if (!this.userService.findUserByID(decoded.userID)) {
+        const user = await this.userService.findUserByID(decoded.userID);
+        if (!user) {
             throw new common_1.HttpException("Invalid Token", 403);
         }
-        return decoded.userID;
+        return user;
     }
 };
 AuthService = __decorate([
