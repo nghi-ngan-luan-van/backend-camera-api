@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/camelcase */
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { v4 as uuidv4 } from "uuid";
 import { exec, spawn } from "child_process"
@@ -202,8 +204,8 @@ export class CameraService {
     const Stream = require('node-rtsp-stream');
 
     let camera = [];
-    let devices = []
-    let streams = []
+    const devices = []
+    const streams = []
     onvif.startProbe().then((device_info_list) => {
       console.log(device_info_list.length + ' devices were found.');
       // Show the device name and the URL of the end point.
@@ -225,7 +227,7 @@ export class CameraService {
       camera = arr;
       arr.forEach((onCam, i) => {
 
-        let device = new onvif.OnvifDevice({
+        const device = new onvif.OnvifDevice({
           xaddr: onCam,
           user: 'admin',
           pass: 'admin'
@@ -234,7 +236,7 @@ export class CameraService {
 
         device.init().then(() => {
           // Get the UDP stream URL
-          let url = device.getUdpStreamUrl();
+          const url = device.getUdpStreamUrl();
 
           const stream = new Stream({
             name: 'name',
@@ -260,7 +262,7 @@ export class CameraService {
     if (err) { 
         console.log('fs error', err);
     } else {
-        var params = {
+        const params = {
             Bucket: 'clientapp',
             Key: 'nghi/4.mp4', 
             Body: data,
@@ -278,7 +280,7 @@ export class CameraService {
 
     }
   })
-      var params = {
+      const params = {
         Bucket: "clientapp",
         Prefix: 'nghi/'
     };
@@ -295,7 +297,7 @@ export class CameraService {
   }
 
   async listVideoByUSer(userID:string,_id:string): Promise<any> {
-    var params = {
+    const params = {
       Bucket: "clientapp",
       Prefix: `${userID}/${_id}`
   };
@@ -321,7 +323,7 @@ export class CameraService {
       
 
   // });
-  let result=[]
+  const result=[]
   const s3Response = await s3.listObjects(params).promise();
   s3Response['Contents'].forEach(function(obj) {
               if(obj['Key'].split('.').pop()==='mp4') {
