@@ -29,14 +29,14 @@ let CameraController = class CameraController {
         return `private content of ${userID}`;
     }
     async addCamera(body, res, req) {
-        const { name = '', rtspUrl = '', ip = '', port = '', username = '', password = '' } = body;
-        if (!(body)) {
+        const { name, rtspUrl, ip, port, username, password } = body;
+        if (!body) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Camera are required!" });
         }
         const userID = req.userID;
-        const result = await this.cameraService.addOne(userID, name, password, username, ip, port, rtspUrl);
+        const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl);
         if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
@@ -131,7 +131,7 @@ let CameraController = class CameraController {
     async listVideoByUser(req, body, res) {
         const userID = req.userID;
         const { _id } = body;
-        if (!(body && !body._id)) {
+        if (!(body && body._id)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Rtsp url is required!" });

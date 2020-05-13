@@ -168,8 +168,8 @@ let CameraService = class CameraService {
         const onvif = require('node-onvif');
         const Stream = require('node-rtsp-stream');
         let camera = [];
-        let devices = [];
-        let streams = [];
+        const devices = [];
+        const streams = [];
         onvif.startProbe().then((device_info_list) => {
             console.log(device_info_list.length + ' devices were found.');
             console.log(device_info_list);
@@ -184,14 +184,14 @@ let CameraService = class CameraService {
             });
             camera = arr;
             arr.forEach((onCam, i) => {
-                let device = new onvif.OnvifDevice({
+                const device = new onvif.OnvifDevice({
                     xaddr: onCam,
                     user: 'admin',
                     pass: 'admin'
                 });
                 devices.push(device);
                 device.init().then(() => {
-                    let url = device.getUdpStreamUrl();
+                    const url = device.getUdpStreamUrl();
                     const stream = new Stream({
                         name: 'name',
                         streamUrl: url,
@@ -215,7 +215,7 @@ let CameraService = class CameraService {
                 console.log('fs error', err);
             }
             else {
-                var params = {
+                const params = {
                     Bucket: 'clientapp',
                     Key: 'nghi/4.mp4',
                     Body: data,
@@ -232,7 +232,7 @@ let CameraService = class CameraService {
                 });
             }
         });
-        var params = {
+        const params = {
             Bucket: "clientapp",
             Prefix: 'nghi/'
         };
@@ -249,11 +249,11 @@ let CameraService = class CameraService {
         return true;
     }
     async listVideoByUSer(userID, _id) {
-        var params = {
+        const params = {
             Bucket: "clientapp",
             Prefix: `${userID}/${_id}`
         };
-        let result = [];
+        const result = [];
         const s3Response = await auth_1.s3.listObjects(params).promise();
         s3Response['Contents'].forEach(function (obj) {
             if (obj['Key'].split('.').pop() === 'mp4') {
