@@ -29,14 +29,14 @@ let CameraController = class CameraController {
         return `private content of ${userID}`;
     }
     async addCamera(body, res, req) {
-        const { name = '', rtspUrl = '', ip = '', port = '', username = '', password = '' } = body;
-        if (!(body)) {
+        const { name, rtspUrl, ip, port, username, password } = body;
+        if (!body) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Camera are required!" });
         }
         const userID = req.userID;
-        const result = await this.cameraService.addOne(userID, name, password, username, ip, port, rtspUrl);
+        const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl);
         if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
@@ -219,7 +219,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "testput", null);
 __decorate([
-    common_1.Get("savedvideo"),
+    common_1.Post("savedvideo"),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
