@@ -132,10 +132,10 @@ let CameraService = class CameraService {
             return stdout;
         });
     }
-    async motionDection(url, userID) {
+    async motionDection(_id, url, userID) {
         const randomText = uuid_1.v4();
         console.log('....', randomText);
-        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, randomText]);
+        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, userID, _id]);
         console.log('pid', child.pid);
         this.taskService.addTask(child);
         console.log(this.taskService.getTasks());
@@ -160,6 +160,30 @@ let CameraService = class CameraService {
             }
             console.log('cam motion:', filePath, timeStart, timeEnd);
             if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
+                setTimeout(() => {
+                    fs.readFile(`src/video/${filePath}`, function (err, data) {
+                        if (err) {
+                            console.log('fs error', err);
+                        }
+                        else {
+                            var params = {
+                                Bucket: 'clientapp',
+                                Key: `${userID}/${_id}/` + filePath,
+                                Body: data,
+                                ContentType: 'video/mp4',
+                                ACL: 'public-read'
+                            };
+                            auth_1.s3.putObject(params, function (err, data) {
+                                if (err) {
+                                    console.log('Error putting object on S3: ', err);
+                                }
+                                else {
+                                    console.log('Placed object on S3: ', data);
+                                }
+                            });
+                        }
+                    });
+                }, 5000);
                 filePath = '', timeStart = '', timeEnd = '';
             }
         });

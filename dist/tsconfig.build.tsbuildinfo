@@ -1202,11 +1202,11 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "bd6b0c499dda233e069393f02a5a490a82c846c9016b2c3233d32073f8bf2919",
-        "signature": "367f488fa0153e40c2d9858d52df7bd81b0951ba6df1a8ee2f8079c4af5bac20"
+        "version": "c7b40db65c9089576e3a17266fea08979166a12644ad2a07fc6484dc1d20012a",
+        "signature": "2f8917266f1b183dab8143139e44576b0f29d45c8526c11662c775b7c36f62a5"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "1d858dbb9c817bcd9ba408e43662e036a1626d06b0d1ac226e030039a5bdc12e",
+        "version": "65395dbdcd8266fb13a0576e65a2b4958a2de553a0f7bd4868611e1cea6b9a6a",
         "signature": "99e70fca78f2944515acfd0cbc04b8372260ed244b96a71884662fdaa8582f94"
       },
       "../src/task/task.controller.ts": {

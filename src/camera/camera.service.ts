@@ -135,10 +135,10 @@ export class CameraService {
   }
  
 
-  async motionDection(url: string, userID: string): Promise<any> {
+  async motionDection(_id:string,url: string, userID: string): Promise<any> {
     const randomText = uuidv4()
     console.log('....', randomText)
-    const child = spawn('python', ["src/python-scripts/motion-detect.py", url, randomText]);
+    const child = spawn('python', ["src/python-scripts/motion-detect.py", url, userID,_id]);
     console.log('pid', child.pid)
     this.taskService.addTask(child);
     console.log(this.taskService.getTasks())
@@ -169,27 +169,29 @@ export class CameraService {
       console.log('cam motion:', filePath, timeStart, timeEnd)
       if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
         // this.camMotionService.addOne(userID,url,filePath,timeStart,timeEnd)
-        // fs.readFile(`src/video/${userID}/${_id}/${filePath}`, function (err, data) {
-        //   if (err) { 
-        //       console.log('fs error', err);
-        //   } else {
-        //       var params = {
-        //           Bucket: 'clientapp', 
-        //           Key: filePath, 
-        //           Body: data,
-        //           ContentType: 'video/mp4',
-        //       };
-      
-        //       s3.putObject(params, function(err, data) {
-        //           if (err) { 
-        //               console.log('Error putting object on S3: ', err); 
-        //           } else { 
-        //               console.log('Placed object on S3: ', data); 
-        //           }  
-        //       });
-        //   }
-        // });
-
+        setTimeout(() => {
+          fs.readFile(`src/video/${filePath}`, function (err, data) {
+            if (err) { 
+                console.log('fs error', err);
+            } else {
+                var params = {
+                    Bucket: 'clientapp', 
+                    Key:`${userID}/${_id}/`+filePath, 
+                    Body: data,
+                    ContentType: 'video/mp4',
+                    ACL:'public-read'
+                };
+        
+                s3.putObject(params, function(err, data) {
+                    if (err) { 
+                        console.log('Error putting object on S3: ', err); 
+                    } else { 
+                        console.log('Placed object on S3: ', data); 
+                    }  
+                });
+            }
+          });
+        }, 5000);
         filePath = '', timeStart = '', timeEnd = ''
       }
     });

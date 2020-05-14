@@ -65,11 +65,11 @@ while True:
 		text = "Occupied"
 		if text == "Occupied" and count== temp:
 			count = count +1
-			cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy src/video/'+ str(count) + '.mp4'
-			print(str(count) + '.mp4')
+			cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy src/video/'+ str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) + '.mp4'
+			print(str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) + '.mp4')
 			sys.stdout.flush()
 			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
-			print(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+			print(datetime.datetime.now().strftime("%m/%d/%Y,%H:%M:%S"))
 			sys.stdout.flush()
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':

@@ -103,14 +103,14 @@ export class CameraController {
   @Post("turndetect")
   @UseGuards(AuthGuard)
   async turnDetect(@Req() req, @Body() body, @Res() res) {
-    const {url}=body
+    const {url,_id}=body
     const userID = req.userID;
-    if (!(body && body.url)) {
+    if (!(body && body.url && body._id)) {
       return res
         .status(HttpStatus.FORBIDDEN)
-        .json({ message: "Rtsp url is required!" });
+        .json({ message: "Rtsp url and _id are required!" });
     }
-    const data= await this.cameraService.motionDection(url,userID)
+    const data= await this.cameraService.motionDection(_id,url,userID)
      console.log(data)
     if(data)
     {
