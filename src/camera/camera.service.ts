@@ -11,6 +11,7 @@ import { TaskService } from '../task/task.service';
 import { CameraMotionService } from '../camera-motion/camera-motion.service';
 import {s3} from '../.aws/auth'
 import * as fs from 'fs'
+require('dotenv').config()
 
 @Injectable()
 export class CameraService {
@@ -138,9 +139,8 @@ export class CameraService {
  
 
   async motionDection(_id:string,url: string, userID: string): Promise<any> {
-    const randomText = uuidv4()
-    console.log('....', randomText)
-    const child = spawn('python', ["src/python-scripts/motion-detect.py", url, userID,_id]);
+    console.log('....', process.env.ASSETS_PATH)
+    const child = spawn('python', ["src/python-scripts/motion-detect.py", url,process.env.ASSETS_PATH],);
     console.log('pid', child.pid)
     this.taskService.addTask(child);
     console.log(this.taskService.getTasks())
@@ -154,8 +154,9 @@ export class CameraService {
       console.log("data.toString().split('.').pop()", output.split('.').pop())
 
       if (output.split('.').pop() === `mp4`) {
-        console.log("files: ", output)
         filePath = output
+        console.log("files: ", filePath)
+
       }
       else {
         dataToSend.push(output)
@@ -166,13 +167,14 @@ export class CameraService {
         timeStart = dataToSend[0]
         timeEnd = dataToSend[1]
         dataToSend = []
-      }
+        console.log("time: ", timeStart,timeEnd)
 
+      }
       console.log('cam motion:', filePath, timeStart, timeEnd)
+
       if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
-        // this.camMotionService.addOne(userID,url,filePath,timeStart,timeEnd)
-        setTimeout(() => {
-          fs.readFile(`src/video/${filePath}`, function (err, data) {
+         this.camMotionService.addOne(userID,url,filePath,timeStart,timeEnd)
+           fs.readFile(`${process.env.ASSETS_PATH}/${filePath}`, function (err, data) {
             if (err) { 
                 console.log('fs error', err);
             } else {
@@ -193,10 +195,10 @@ export class CameraService {
                 });
             }
           });
-        }, 5000);
-        filePath = '', timeStart = '', timeEnd = ''
-      }
-    });
+        }
+    }
+    );
+      filePath = '', timeStart = '', timeEnd = ''
 
   }
 
@@ -260,13 +262,13 @@ export class CameraService {
 
   }
  testput() {
-  fs.readFile('src/video/4.mp4', function (err, data) {
+  fs.readFile(`${process.env.ASSETS_PATH}/2020_05_17_12_13_13_PM.mp4`, function (err, data) {
     if (err) { 
         console.log('fs error', err);
     } else {
         const params = {
             Bucket: 'clientapp',
-            Key: 'nghi/4.mp4', 
+            Key: 'nghi/axax.mp4', 
             Body: data,
             ContentType: 'video/mp4',
             ACL:'public-read'

@@ -11,10 +11,11 @@ import signal
 import subprocess
 
 
+
 # construct the argument parser and parse the arguments
 # ap = argparse.ArgumentParser()
-# ap.add_argument("-v", "--video", type=str, default=sys.argv[1], help="path to the video file")
-# ap.add_argument("-a", "--min-area", type=int, default=700, help="minimum area size")
+# ap.add_argument("-v", "--video", help="path to the video file")
+# # ap.add_argument("-a", "--min-area", type=int, default=700, help="minimum area size")
 # args = vars(ap.parse_args())
 # if the video argument is None, then we are reading from webcam
 vs = cv2.VideoCapture(sys.argv[1])
@@ -27,6 +28,7 @@ temp = count
 while True:
 	# grab the current frame and initialize the occupied/unoccupied
 	# text
+	# p = None
 	frame = vs.read()
 	frame = frame if sys.argv[1] is None else frame[1]
 	text = "Unoccupied"
@@ -63,18 +65,20 @@ while True:
 		(x, y, w, h) = cv2.boundingRect(c)
 		cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 		text = "Occupied"
-		if text == "Occupied" and count== temp:
+		if text == "Occupied" and count == temp:
 			count = count +1
-			cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy src/video/'+ str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) + '.mp4'
-			print(str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")) + '.mp4')
+			unixtime = int(time.mktime(datetime.datetime.utcnow().timetuple()))*1000
+			cmd = 'ffmpeg -i '+ sys.argv[1]+ ' -c:a aac -vcodec copy ' + str(sys.argv[2])+'/'+str(unixtime) + '.mp4'
+			print(str(unixtime) +'.mp4')
 			sys.stdout.flush()
-			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
-			print(datetime.datetime.now().strftime("%m/%d/%Y,%H:%M:%S"))
+			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+			print(unixtime)
 			sys.stdout.flush()
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':
 		os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
-		print(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+		timestamp1 = int(time.mktime(datetime.datetime.utcnow().timetuple()))*1000
+		print(timestamp1)
 		sys.stdout.flush()
 		temp = count
 	cv2.putText(frame, "Room Status: {}".format(text), (10, 20),
