@@ -48,6 +48,26 @@ let CameraController = class CameraController {
                 .json({ message: "Cannot add camera" });
         }
     }
+    async editCamera(body, res, req) {
+        const { _id, name, rtspUrl, ip, port, username, password, backupMode } = body;
+        if (!body || !body._id) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Camera id are required!" });
+        }
+        const userID = req.userID;
+        const result = await this.cameraService.updateOne(_id, username, name, password, ip, port, rtspUrl, backupMode);
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot edit camera" });
+        }
+    }
     async getListByUser(req, res) {
         const userID = req.userID;
         const result = await this.cameraService.getCamerasByUser(userID);
@@ -171,6 +191,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "addCamera", null);
+__decorate([
+    common_1.Post('edit'),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
+    __param(0, common_1.Body()), __param(1, common_1.Res()), __param(2, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "editCamera", null);
 __decorate([
     common_1.Get("listcam"),
     common_1.UseGuards(auth_guard_1.AuthGuard),

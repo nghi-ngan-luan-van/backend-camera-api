@@ -11,7 +11,8 @@ import { CameraMotionModule } from './camera-motion/camera-motion.module';
   imports: [UserModule, AuthModule, CameraModule,
     MongooseModule.forRoot(process.env.MONGOLAB_URI ||'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true}),
     TaskModule,
-    CameraMotionModule],
+    CameraMotionModule,
+    ],
   controllers: [AppController],
   providers: [AppService],
 })

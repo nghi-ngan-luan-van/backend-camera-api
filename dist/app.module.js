@@ -22,7 +22,8 @@ AppModule = __decorate([
         imports: [user_module_1.UserModule, auth_module_1.AuthModule, camera_module_1.CameraModule,
             mongoose_1.MongooseModule.forRoot(process.env.MONGOLAB_URI || 'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }),
             task_module_1.TaskModule,
-            camera_motion_module_1.CameraMotionModule],
+            camera_motion_module_1.CameraMotionModule,
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

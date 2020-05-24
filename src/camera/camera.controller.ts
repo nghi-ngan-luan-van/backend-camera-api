@@ -46,6 +46,29 @@ export class CameraController {
     }
   }
 
+  @Post('edit')
+  @UseGuards(AuthGuard)
+  async editCamera(@Body() body, @Res() res,@Req() req) {
+    const { _id,name,rtspUrl,ip,port,username,password,backupMode} = body
+    if (!body ||!body._id) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Camera id are required!" });
+    }
+    const userID = req.userID;
+    const result= await this.cameraService.updateOne(_id,username,name,password,ip,port,rtspUrl,backupMode)
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot edit camera" });
+    }
+  }
+
   @Get("listcam")
   @UseGuards(AuthGuard)
   async getListByUser(@Req() req, @Res() res) {

@@ -43,6 +43,7 @@ export class CameraService {
       rtspUrl: cam.rtspUrl,
       username: cam.username,
       password: cam.password,
+      backupMode:cam.backupMode,
       user: cam.user
     }));
   }
@@ -57,6 +58,7 @@ export class CameraService {
       rtspUrl: cam.rtspUrl,
       username: cam.username,
       password: cam.password,
+      backupMode:cam.backupMode,
       user: userID
     }));
   }
@@ -76,9 +78,9 @@ export class CameraService {
     return result;
   }
 
-  async updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string) {
-    const user = await this.cameraModel.updateOne({ _id: id }, { name, username, password, ip, port, rtspUrl })
-    return user
+  async updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, backupMode: boolean) {
+    const result = await this.cameraModel.updateOne({ _id: id }, { name, username, password, ip, port, rtspUrl,backupMode })
+    return result.nModified
   }
 
   async deleteOne(id: string) {
@@ -87,7 +89,7 @@ export class CameraService {
   }
 
   async recordFullStream(url: string) {
-    const command = `ffmpeg -i ${url} -acodec copy -vcodec copy-c:a aac -vcodec copy src/video/test.mp4`
+    const command = `ffmpeg -i ${url} -c:a aac -vcodec copy src/video/test.mp4`
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.log('error', error)
@@ -142,8 +144,7 @@ export class CameraService {
     console.log('....', process.env.ASSETS_PATH)
     const child = spawn('python', ["src/python-scripts/motion-detect.py", url,process.env.ASSETS_PATH],);
     console.log('pid', child.pid)
-    this.taskService.addTask(child);
-    console.log(this.taskService.getTasks())
+    // this.taskService.addTask(child);
 
     let dataToSend = []
     let filePath = '', timeStart = '', timeEnd = ''

@@ -1202,12 +1202,12 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "0e91971c8bab69e6108dcbd1bec812f97f7d13087671830b4b7a2d22ae578214",
-        "signature": "2f8917266f1b183dab8143139e44576b0f29d45c8526c11662c775b7c36f62a5"
+        "version": "fe819091fc8d8f6b610a04a5523779a204b45b22d64360051457ed9b26390088",
+        "signature": "450d78572bac3ba3a46bfdd019f108b2b21c3f676695b7a2fa39a598cefb4670"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "02320f07d8e69dac95ab717b0ffb42efb6f88080af2392f50d1823f50d53a343",
-        "signature": "99e70fca78f2944515acfd0cbc04b8372260ed244b96a71884662fdaa8582f94"
+        "version": "14b988d71c40618e528de86866f052657328117b887e929b0bb895b5431b1007",
+        "signature": "8a10f889709119116d3cd8622b1cc3f456644f425b1bd5febd9cc563cbfd8714"
       },
       "../src/task/task.controller.ts": {
         "version": "ddfb8f5a2b68e23bbc450aaa63792b6c761fe25e6cfb8b8c272f03b1d5c37d59",
@@ -1230,7 +1230,7 @@
         "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb"
       },
       "../src/app.module.ts": {
-        "version": "6f6166997133d6593532c538aa7d808e7b1bf834ab7e0324ae50f7e8e35640c7",
+        "version": "50a6e2efa18a9224ef6f109043cc3bd2639727c5545f5ce6af7236ee0d7cc486",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": {
