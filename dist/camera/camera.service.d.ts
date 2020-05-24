@@ -15,7 +15,7 @@ export declare class CameraService {
     getCameras(): Promise<any>;
     getCamerasByUser(userID: string): Promise<any>;
     addOne(userID: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string): Promise<any>;
-    updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, backupMode: boolean): Promise<any>;
+    updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, backupMode: boolean): Promise<boolean>;
     deleteOne(id: string): Promise<any>;
     recordFullStream(url: string): Promise<void>;
     recordStreamPerTime(url: string, time: number): Promise<void>;

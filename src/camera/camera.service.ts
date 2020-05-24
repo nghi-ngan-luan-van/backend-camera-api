@@ -79,8 +79,12 @@ export class CameraService {
   }
 
   async updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, backupMode: boolean) {
-    const result = await this.cameraModel.updateOne({ _id: id }, { name, username, password, ip, port, rtspUrl,backupMode })
-    return result.nModified
+    try {
+      const result = await this.cameraModel.updateOne({ _id: id }, { name, username, password, ip, port, rtspUrl,backupMode })
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   async deleteOne(id: string) {
