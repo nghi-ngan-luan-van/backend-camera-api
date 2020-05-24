@@ -183,7 +183,7 @@ export class CameraService {
             if (err) { 
                 console.log('fs error', err);
             } else {
-                var params = {
+                const params = {
                     Bucket: 'clientapp', 
                     Key:`${userID}/${_id}/`+filePath, 
                     Body: data,
