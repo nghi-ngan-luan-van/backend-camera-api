@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Body, Res, Req, HttpStatus } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body, Res, Req, HttpStatus, Get } from '@nestjs/common';
 import { HardwareCameraService } from './hardware-camera.service';
 import { AuthGuard } from '../auth.guard';
 

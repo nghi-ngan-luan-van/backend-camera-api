@@ -87,9 +87,13 @@ export class CameraService {
     }
   }
 
-  async deleteOne(id: string) {
-    const result = await this.cameraModel.deleteOne({ _id: id })
-    return result
+  async deleteOne(_id: string) {
+    try {
+      const result = await this.cameraModel.deleteOne({ _id: _id })
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   async recordFullStream(url: string) {

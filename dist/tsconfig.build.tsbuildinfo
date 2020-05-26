@@ -1202,12 +1202,12 @@
         "signature": "da2c0c42a6556d77889618f9c88155026baa1ed7b510ba7a95f188e90c0d53c9"
       },
       "../src/camera/camera.service.ts": {
-        "version": "ca8f58dd73add3a5241a2ae212debc572cfc8e4e960309a2d5c0b604f8ed0e4a",
-        "signature": "2feaef692d6fb4882a8990d0437f073d51b419ce43f8d996fe70d7994a851e65"
+        "version": "fe19299d819112db16842492dd0ce1c5607be837e649c37937d0e1d2d80cf1e9",
+        "signature": "ac26fcec9e56295a68736199804e2d355e9c26d83d9f76f63a31653d3d339559"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "2723d9dd4407c68e880ba23c34c6a358c56d4bd640c6fb368bf7f9af00473e69",
-        "signature": "6bbe03b50ba3b83730703e7c1fd7721ac6367b95d2abcda4d66cd2330aff692b"
+        "version": "7a75a402bfdd37998ca73b37393e6807df004c3877b0f0a0ebd2629f13d66fd6",
+        "signature": "7fa33c31cd2fe698aae94a940a79f71358da2f9d686c4f710a8525a9fe90ef5f"
       },
       "../src/task/task.controller.ts": {
         "version": "a49e8e14b6a556b76025eb7ec03d22d0154b76101bb02e9d332353803816b44e",
@@ -1238,7 +1238,7 @@
         "signature": "14f0f5021ead9d12c840d677a4a0b6a86d3c5a2ab1dae33f12f2f9126a85210c"
       },
       "../src/hardware-camera/hardware-camera.controller.ts": {
-        "version": "25ff811985d2c9d3744f56680f3e354e3edc8f813a0f8d3d57c9309b2976af5e",
+        "version": "c24ec8f7cc67b183c9107de369421d3f0c39f235f2fe15a453361be38ef68c18",
         "signature": "167337af92657dac531afd490a4b5b83a9f1bcc74bfeb7faeaa2a0b274296a17"
       },
       "../src/hardware-camera/hardware-camera.module.ts": {

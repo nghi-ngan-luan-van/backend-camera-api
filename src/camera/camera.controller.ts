@@ -69,6 +69,28 @@ export class CameraController {
     }
   }
 
+  @Post('delete')
+  @UseGuards(AuthGuard)
+  async deleteCamera(@Body() body, @Res() res,@Req() req) {
+    const { _id} = body
+    if (!body ||!body._id) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Camera id are required!" });
+    }
+    const userID = req.userID;
+    const result= await this.cameraService.deleteOne(_id)
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot delete camera" });
+    }
+  }
   @Get("listcam")
   @UseGuards(AuthGuard)
   async getListByUser(@Req() req, @Res() res) {

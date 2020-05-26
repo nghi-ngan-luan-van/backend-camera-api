@@ -68,6 +68,26 @@ let CameraController = class CameraController {
                 .json({ message: "Cannot edit camera" });
         }
     }
+    async deleteCamera(body, res, req) {
+        const { _id } = body;
+        if (!body || !body._id) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Camera id are required!" });
+        }
+        const userID = req.userID;
+        const result = await this.cameraService.deleteOne(_id);
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot delete camera" });
+        }
+    }
     async getListByUser(req, res) {
         const userID = req.userID;
         const result = await this.cameraService.getCamerasByUser(userID);
@@ -199,6 +219,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "editCamera", null);
+__decorate([
+    common_1.Post('delete'),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
+    __param(0, common_1.Body()), __param(1, common_1.Res()), __param(2, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "deleteCamera", null);
 __decorate([
     common_1.Get("listcam"),
     common_1.UseGuards(auth_guard_1.AuthGuard),
