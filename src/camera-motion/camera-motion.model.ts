@@ -5,6 +5,7 @@ export const CameraMotionSchema = new mongoose.Schema({
     filePath:String,
     timeStart:String,
     timeEnd:String,
+    cdnUrl:String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -16,5 +17,6 @@ export interface CameraMotion  extends mongoose.Document  {
     filePath:string,
     timeStart:string,
     timeEnd:string,
+    cdnUrl:string,
     user:string;
 }

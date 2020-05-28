@@ -134,59 +134,64 @@ let CameraService = class CameraService {
     }
     async motionDection(_id, url, userID) {
         console.log('....', process.env.ASSETS_PATH);
-        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH]);
-        console.log('pid', child.pid);
-        this.taskService.addTask(child);
-        console.log(this.taskService.getTasks());
-        let dataToSend = [];
-        let filePath = '', timeStart = '', timeEnd = '';
-        child.stdout.on('data', (data) => {
-            const output = data.toString().trim();
-            console.log('stdout', output);
-            console.log("data.toString().split('.').pop()", output.split('.').pop());
-            if (output.split('.').pop() === `mp4`) {
-                filePath = output;
-                console.log("files: ", filePath);
-            }
-            else {
-                dataToSend.push(output);
-                console.log("data to send: ", dataToSend);
-            }
-            if (dataToSend.length === 2) {
-                timeStart = dataToSend[0];
-                timeEnd = dataToSend[1];
-                dataToSend = [];
-                console.log("time: ", timeStart, timeEnd);
-            }
-            console.log('cam motion:', filePath, timeStart, timeEnd);
-            if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
+        try {
+            const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH]);
+            console.log('pid', child.pid);
+            console.log(this.taskService.getTasks());
+            let dataToSend = [];
+            let filePath = '', timeStart = '', timeEnd = '';
+            child.stdout.on('data', (data) => {
+                const output = data.toString().trim();
+                console.log('stdout', output);
+                console.log("data.toString().split('.').pop()", output.split('.').pop());
+                if (output.split('.').pop() === `mp4`) {
+                    filePath = output;
+                    console.log("files: ", filePath);
+                }
+                else {
+                    dataToSend.push(output);
+                    console.log("data to send: ", dataToSend);
+                }
+                if (dataToSend.length === 2) {
+                    timeStart = dataToSend[0];
+                    timeEnd = dataToSend[1];
+                    dataToSend = [];
+                    console.log("time: ", timeStart, timeEnd);
+                }
                 console.log('cam motion:', filePath, timeStart, timeEnd);
-                this.camMotionService.addOne(userID, url, filePath, timeStart, timeEnd);
-                fs.readFile(`${process.env.ASSETS_PATH}/${filePath}`, function (err, data) {
-                    if (err) {
-                        console.log('fs error', err);
-                    }
-                    else {
-                        var params = {
-                            Bucket: 'clientapp',
-                            Key: `${userID}/${_id}/` + filePath,
-                            Body: data,
-                            ContentType: 'video/mp4',
-                            ACL: 'public-read'
-                        };
-                        auth_1.s3.putObject(params, function (err, data) {
-                            if (err) {
-                                console.log('Error putting object on S3: ', err);
-                            }
-                            else {
-                                console.log('Placed object on S3: ', data);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-        filePath = '', timeStart = '', timeEnd = '';
+                if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
+                    const cdnUrl = 'https://clientapp.sgp1.digitaloceanspaces.com/' + filePath;
+                    this.camMotionService.addOne(userID, url, filePath, timeStart, timeEnd, cdnUrl);
+                    fs.readFile(`${process.env.ASSETS_PATH}/${filePath}`, function (err, data) {
+                        if (err) {
+                            console.log('fs error', err);
+                        }
+                        else {
+                            var params = {
+                                Bucket: 'clientapp',
+                                Key: `${userID}/${_id}/` + filePath,
+                                Body: data,
+                                ContentType: 'video/mp4',
+                                ACL: 'public-read'
+                            };
+                            auth_1.s3.putObject(params, function (err, data) {
+                                if (err) {
+                                    console.log('Error putting object on S3: ', err);
+                                }
+                                else {
+                                    console.log('Placed object on S3: ', data);
+                                }
+                            });
+                        }
+                    });
+                    filePath = '', timeStart = '', timeEnd = '';
+                }
+            });
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     }
     async scanNetwork() {
         const onvif = require('node-onvif');

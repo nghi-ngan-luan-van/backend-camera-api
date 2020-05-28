@@ -1190,19 +1190,19 @@
         "signature": "473d94bd9f52c4621dd6d8b68f6d951265acad480404e3eafec22d8afae9669d"
       },
       "../src/camera-motion/camera-motion.model.ts": {
-        "version": "0025ee41c878d7938e6c6a2ce864d1cd010b12dcc1279688d44f6c10c61be637",
-        "signature": "0f5cc002d526eb771390692e8ddf6dad1bddfc0b9bc1095551a3f501803f0f17"
+        "version": "5853a92f64207245b088919388a79bc9862c3bfdc3f22ba1cd946d7df33c08a5",
+        "signature": "38181367e0c66b49bd15a84db5ead8cd9f04335b4c7e3047e9a2184ba76454f9"
       },
       "../src/camera-motion/camera-motion.service.ts": {
-        "version": "2a61fa17721900f407a60ea9f3ce27967940719eb18a2a826820ce5729315c99",
-        "signature": "5d7831e9b22c610d4a6ff3f41ea7b45f2250ad1bf7c600934776da6286e9638b"
+        "version": "3f12aeceee7e8b89f742e914c1795ed7fd279ffe555ec29a050fb567639671c1",
+        "signature": "493fb7a3c386be6d885f9a82ca89a4b2513a08e812804689afe92a22ca3e9568"
       },
       "../src/.aws/auth.ts": {
         "version": "9cbdd44aede47fd9bfa523c8a337290d98b22db263a5d75e20016ffaa7fc7dd8",
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "0e91971c8bab69e6108dcbd1bec812f97f7d13087671830b4b7a2d22ae578214",
+        "version": "d20293c1853017f6fd0624883724e7db220ddc04f3b34bd2dffcc94e334cdeda",
         "signature": "2f8917266f1b183dab8143139e44576b0f29d45c8526c11662c775b7c36f62a5"
       },
       "../src/camera/camera.controller.ts": {

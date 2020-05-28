@@ -6,5 +6,6 @@ export interface CameraMotion extends mongoose.Document {
     filePath: string;
     timeStart: string;
     timeEnd: string;
+    cdnUrl: string;
     user: string;
 }

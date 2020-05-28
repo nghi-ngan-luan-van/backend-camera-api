@@ -21,13 +21,14 @@ let CameraMotionService = class CameraMotionService {
         this.cameraMotionModel = cameraMotionModel;
         this.camMotions = [];
     }
-    async addOne(userID, cameraUrl, filePath, timeStart, timeEnd) {
+    async addOne(userID, cameraUrl, filePath, timeStart, timeEnd, cdnUrl) {
         console.log(userID);
         const newCameraMotion = new this.cameraMotionModel({
             cameraUrl,
             filePath,
             timeStart,
             timeEnd,
+            cdnUrl,
             user: userID
         });
         const result = await newCameraMotion.save();

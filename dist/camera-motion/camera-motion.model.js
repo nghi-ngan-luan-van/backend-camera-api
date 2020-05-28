@@ -6,6 +6,7 @@ exports.CameraMotionSchema = new mongoose.Schema({
     filePath: String,
     timeStart: String,
     timeEnd: String,
+    cdnUrl: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
