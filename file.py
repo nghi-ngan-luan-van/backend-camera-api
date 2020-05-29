@@ -28,9 +28,7 @@ while True:
 	# grab the current frame and initialize the occupied/unoccupied
 	# text
 	frame = vs.read()
-	print(vs)
 	frame = frame if args.get("video", None) is None else frame[1]
-	print(frame)
 	text = "Unoccupied"
 	# if the frame could not be grabbed, then we have reached the end
 	# of the video
@@ -67,15 +65,17 @@ while True:
 		text = "Occupied"
 		if text == "Occupied" and count == temp:
 			count = count +1
-			unixtime = time.mktime(datetime.datetime.now().timetuple())
-			cmd = 'ffmpeg -i '+ str(args["video"]) + ' -c:a aac -vcodec copy 3123_nghi_'+str(unixtime) + '.mp4'
-			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+			unixtime = round(datetime.datetime.timestamp(datetime.datetime.now())*1000)
 			print(unixtime)
 			sys.stdout.flush()
+			cmd = 'ffmpeg -i '+ str(args["video"]) + ' -c:a aac -vcodec copy 3123_nghi_'+str(unixtime) + '.mp4'
+			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+			poll = pro.poll()
+			print(pro.pid)
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':
 		os.killpg(os.getpgid(pro.pid), signal.SIGINT)
-		timestamp1 = time.mktime(datetime.datetime.now().timetuple())
+		timestamp1 = round(datetime.datetime.timestamp(datetime.datetime.now())*1000)
 		print(timestamp1)
 		sys.stdout.flush()
 		temp = count
@@ -85,14 +85,15 @@ while True:
 		(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
 	# show the frame and record if the user presses a key
-	cv2.imshow("Security Feed", frame)
-	cv2.imshow("Thresh", thresh)
-	cv2.imshow("Frame Delta", frameDelta)
+	# cv2.imshow("Security Feed", frame)
+	# cv2.imshow("Thresh", thresh)
+	# cv2.imshow("Frame Delta", frameDelta)
 	key = cv2.waitKey(1) & 0xFF
 	# if the `q` key is pressed, break from the lop
 	if key == ord("q"):
 		break
-
+if pro == None:
+	os.killpg(os.getpgid(pro.pid), signal.SIGINT)
 # cleanup the camera and close any open windows
 vs.stop() if args.get("video", None) is None else vs.release()
 cv2.destroyAllWindows()

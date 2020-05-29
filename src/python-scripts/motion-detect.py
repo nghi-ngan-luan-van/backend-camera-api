@@ -72,11 +72,12 @@ while True:
 			print(str(unixtime) +'.mp4')
 			sys.stdout.flush()
 			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+			poll = pro.poll()
 			print(unixtime)
 			sys.stdout.flush()
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':
-		os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
+		os.killpg(os.getpgid(pro.pid), signal.SIGINT)
 		timestamp1 = int(time.mktime(datetime.datetime.utcnow().timetuple()))*1000
 		print(timestamp1)
 		sys.stdout.flush()
@@ -97,5 +98,7 @@ while True:
 		break
 
 # cleanup the camera and close any open windows
+if poll == None:
+	os.killpg(os.getpgid(pro.pid), signal.SIGINT)
 vs.stop() if sys.argv[1] is None else vs.release()
 cv2.destroyAllWindows()
