@@ -127,7 +127,7 @@ export class CameraService {
       return true
     })
   }
-
+ 
   async turnMotionDetect(url: string): Promise<any> {
     const command = `ffmpeg -rtsp_transport tcp -i "${url}" -vf select='gte(scene\\,0.05)',metadata=print -an -f null -`
     console.log("cmd", command)
@@ -147,10 +147,42 @@ export class CameraService {
     })
   }
  
+  async recordDetection(_id:string,url: string, userID: string): Promise<any> {
+    console.log('....', process.env.ASSETS_PATH)
+    const child = spawn('python', ["src/python-scripts/motion-detect.py", url,process.env.ASSETS_PATH,"0"],);
+    console.log('pid', child.pid)
+    // this.taskService.addTask(child);
+
+    let dataToSend = []
+    let  timeStart = '', timeEnd = ''
+
+    child.stdout.on('data', (data) => {
+      const output = data.toString().trim()
+    
+      dataToSend.push(output)
+
+      if (dataToSend.length === 2) {
+        timeStart = dataToSend[0]
+        timeEnd = dataToSend[1]
+        dataToSend = []
+        console.log("time: ", timeStart,timeEnd)
+
+      }
+      console.log('cam motion:', timeStart, timeEnd)
+
+      if (timeStart !== '' && timeEnd !== '') {
+        this.camMotionService.addOne(userID,url,null,timeStart,timeEnd)
+            }
+            timeStart = '', timeEnd = ''
+
+        })
+  
+
+  }
 
   async motionDection(_id:string,url: string, userID: string): Promise<any> {
     console.log('....', process.env.ASSETS_PATH)
-    const child = spawn('python', ["src/python-scripts/motion-detect.py", url,process.env.ASSETS_PATH],);
+    const child = spawn('python', ["src/python-scripts/motion-detect.py", url,process.env.ASSETS_PATH,"1"],);
     console.log('pid', child.pid)
     // this.taskService.addTask(child);
 
@@ -210,7 +242,7 @@ export class CameraService {
       filePath = '', timeStart = '', timeEnd = ''
 
   }
-
+ 
   async scanNetwork(): Promise<any> {
 
     const onvif = require('node-onvif')
