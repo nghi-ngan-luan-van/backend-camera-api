@@ -144,9 +144,31 @@ let CameraService = class CameraService {
             return stdout;
         });
     }
+    async recordDetection(_id, url, userID) {
+        console.log('....', process.env.ASSETS_PATH);
+        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH, "0"]);
+        console.log('pid', child.pid);
+        let dataToSend = [];
+        let timeStart = '', timeEnd = '';
+        child.stdout.on('data', (data) => {
+            const output = data.toString().trim();
+            dataToSend.push(output);
+            if (dataToSend.length === 2) {
+                timeStart = dataToSend[0];
+                timeEnd = dataToSend[1];
+                dataToSend = [];
+                console.log("time: ", timeStart, timeEnd);
+            }
+            console.log('cam motion:', timeStart, timeEnd);
+            if (timeStart !== '' && timeEnd !== '') {
+                this.camMotionService.addOne(userID, url, null, timeStart, timeEnd);
+            }
+            timeStart = '', timeEnd = '';
+        });
+    }
     async motionDection(_id, url, userID) {
         console.log('....', process.env.ASSETS_PATH);
-        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH]);
+        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH, "1"]);
         console.log('pid', child.pid);
         let dataToSend = [];
         let filePath = '', timeStart = '', timeEnd = '';
