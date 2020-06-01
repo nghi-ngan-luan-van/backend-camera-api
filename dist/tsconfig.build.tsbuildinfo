@@ -1206,8 +1206,13 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
+<<<<<<< HEAD
         "version": "5628c37a244125f3e901c1404b832a8abe5f68393e378d22b5e6d74482b4329c",
         "signature": "29307e59db50b5d9d6f4b67b42790f6cf943a020a5afdd920aac612d322b135d"
+=======
+        "version": "822d13cc0c31928b0387802a2db405c8aa752a12f0ad7efdf5fd35541119225f",
+        "signature": "dc871dd9efe2168b57040ca357fa90f2769d5535084494f2f256e14c9c571136"
+>>>>>>> 93c11ce4072b6c9d874a17abc01116bb5215cd79
       },
       "../src/camera/camera.controller.ts": {
         "version": "b96f168d684cea983e8d841c48ba1e36a5d77b3caa3835cfabec4740595f5d44",

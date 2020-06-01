@@ -145,7 +145,7 @@ export class CameraService {
       return true
     })
   }
-
+ 
   async turnMotionDetect(url: string): Promise<any> {
     const command = `ffmpeg -rtsp_transport tcp -i "${url}" -vf select='gte(scene\\,0.05)',metadata=print -an -f null -`
     console.log("cmd", command)
