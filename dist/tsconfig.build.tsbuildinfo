@@ -1154,8 +1154,8 @@
         "signature": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f"
       },
       "../src/user/user.service.ts": {
-        "version": "2bd2770c2e26c44ff328b47b76f5c7ac5821c54a9b8ced7015ebc810a90c0b49",
-        "signature": "17f7ee8c79c01c255fdf05723d105582fa84de4a7c7065e7d0bc8174c2cd39fb"
+        "version": "0c62f4c3b00ad20777ffab04af869cfcb4ad58d4f335664fea9c6dad6c01df93",
+        "signature": "0cd927e29af8d7397c5cdbd9b80028ba91344c840d4b5ddb5f58c03ffa6c622a"
       },
       "../src/user/user.controller.ts": {
         "version": "2088a9ef2ab22872cb84f6123226405dddda0eff024703211373fba36ae63a1f",
@@ -1182,12 +1182,16 @@
         "signature": "b0065e905bdc4af1e33a7f3b4fcf56befecd27af21af949f9a5563ad6864399f"
       },
       "../src/camera/camera.model.ts": {
-        "version": "be1af343891d56a3969df37023694d5cc5ba0705548f9daccaeea130a455dd22",
+        "version": "31106c6f7537721626b0eea5da2082155fe0f5564b3835cb90a827cc2e301ad4",
         "signature": "2f8abff582c31f13a43c3239176d0db7d5441bbdfa1f246e516c4b60f9be1633"
       },
+      "../src/task/task.model.ts": {
+        "version": "5831cf7104dc10719a2b0c18593b97ac17c019208cdb6aea601f3628f09e6ae5",
+        "signature": "f68a9922992400752aa68d23a65e1bee1203c0a34678033bed94d26369de96fd"
+      },
       "../src/task/task.service.ts": {
-        "version": "423377732517bfc908b057436fb8245d225858eebcd22d0b894b89cb54dfb422",
-        "signature": "473d94bd9f52c4621dd6d8b68f6d951265acad480404e3eafec22d8afae9669d"
+        "version": "6bd4d7127d6bec23b3741ffd88e15cf4d29dd5018ee9317ed06cd51e17632dd6",
+        "signature": "d018610345277bb7e32e6788f961bb7d96f10620caf03eebba13fe841ee067a3"
       },
       "../src/camera-motion/camera-motion.model.ts": {
         "version": "5853a92f64207245b088919388a79bc9862c3bfdc3f22ba1cd946d7df33c08a5",
@@ -1202,12 +1206,12 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "d20293c1853017f6fd0624883724e7db220ddc04f3b34bd2dffcc94e334cdeda",
-        "signature": "2f8917266f1b183dab8143139e44576b0f29d45c8526c11662c775b7c36f62a5"
+        "version": "5628c37a244125f3e901c1404b832a8abe5f68393e378d22b5e6d74482b4329c",
+        "signature": "29307e59db50b5d9d6f4b67b42790f6cf943a020a5afdd920aac612d322b135d"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "02320f07d8e69dac95ab717b0ffb42efb6f88080af2392f50d1823f50d53a343",
-        "signature": "99e70fca78f2944515acfd0cbc04b8372260ed244b96a71884662fdaa8582f94"
+        "version": "b96f168d684cea983e8d841c48ba1e36a5d77b3caa3835cfabec4740595f5d44",
+        "signature": "9c1f0a89d4e1c5696315e8cf8cab3e8a2e9dcec7cf8f80e5e41ff3e6aa0d5928"
       },
       "../src/task/task.controller.ts": {
         "version": "ddfb8f5a2b68e23bbc450aaa63792b6c761fe25e6cfb8b8c272f03b1d5c37d59",
@@ -1222,15 +1226,31 @@
         "signature": "8f6a83c5096d80247a28635b357c197a1896140381f0d86ff2d5622a60d6c665"
       },
       "../src/task/task.module.ts": {
-        "version": "a99e14858c706ceb84d94db9703c7a274c0a1501068bdc579a1a79c6267d1c5f",
+        "version": "ff0d679732205da439e92fadaf9f08dee10875f3b129de08e2d7b7beacb48ca5",
         "signature": "e8f1bca3cc46ab477ded80ab60d1f1a79e912f0d6338b1af6b2635b5a0b4bff9"
       },
       "../src/camera/camera.module.ts": {
         "version": "5c14b66005edc34a9f6585298edce594598398b7dbd7d46f18686de42c09ca09",
         "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb"
       },
+      "../src/hardware-camera/hardware-camera.model.ts": {
+        "version": "94ebf6b65b99fbb7bb4f093457718a1df832a4a1089c6d5d61ac55adca10f359",
+        "signature": "d0b3b4a7c341081d63fda124e6d16d3eddfd4f01c6955a9c8d93351f91e1a299"
+      },
+      "../src/hardware-camera/hardware-camera.service.ts": {
+        "version": "30c1994fc9bbcfe810cc6876c1a38556872d1a3dd6c36dca5a8c1729305bff6d",
+        "signature": "dfc8adc2e848b3866c5cdd7dd1b7cb62c8a0815ff3ed9a3ee4171600d027793c"
+      },
+      "../src/hardware-camera/hardware-camera.controller.ts": {
+        "version": "c24ec8f7cc67b183c9107de369421d3f0c39f235f2fe15a453361be38ef68c18",
+        "signature": "c5443e02e9b15dc838062cfd172fc73ca62a2ed4e01895f9d1bf1d3e91895e57"
+      },
+      "../src/hardware-camera/hardware-camera.module.ts": {
+        "version": "7c177faf49c676397eaaba1c51d636de445128c8773b78a8dbdbdef1653d59ad",
+        "signature": "989cd62b51ee822a89482b29ea0875bd13798c1c93b4f5b4b9023e810ffb698b"
+      },
       "../src/app.module.ts": {
-        "version": "6f6166997133d6593532c538aa7d808e7b1bf834ab7e0324ae50f7e8e35640c7",
+        "version": "dea184bd66b9da23ebb8080e61e88d29af0709fa8a7b93a6775da42d481ea9ed",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": {
@@ -3914,9 +3934,17 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/task/task.model.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/task/task.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/camera/camera.service.ts",
+        "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/task/task.model.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -4000,6 +4028,8 @@
         "../src/task/task.service.ts",
         "../src/camera/camera.module.ts",
         "../src/camera-motion/camera-motion.module.ts",
+        "../src/task/task.model.ts",
+        "../node_modules/@nestjs/mongoose/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -4019,6 +4049,42 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/hardware-camera/hardware-camera.model.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/hardware-camera/hardware-camera.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/hardware-camera/hardware-camera.model.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/hardware-camera/hardware-camera.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/hardware-camera/hardware-camera.service.ts",
+        "../src/auth.guard.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/hardware-camera/hardware-camera.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/hardware-camera/hardware-camera.controller.ts",
+        "../src/hardware-camera/hardware-camera.service.ts",
+        "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/hardware-camera/hardware-camera.model.ts",
+        "../src/user/user.module.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/app.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/app.controller.ts",
@@ -4029,6 +4095,7 @@
         "../node_modules/@nestjs/mongoose/index.d.ts",
         "../src/task/task.module.ts",
         "../src/camera-motion/camera-motion.module.ts",
+        "../src/hardware-camera/hardware-camera.module.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -6953,6 +7020,7 @@
         "../src/user/user.service.ts"
       ],
       "../src/task/task.service.ts": [
+        "../src/task/task.model.ts",
         "../src/camera/camera.service.ts"
       ],
       "../src/camera-motion/camera-motion.service.ts": [
@@ -6970,6 +7038,12 @@
       ],
       "../src/task/task.controller.ts": [
         "../src/task/task.service.ts"
+      ],
+      "../src/hardware-camera/hardware-camera.service.ts": [
+        "../src/hardware-camera/hardware-camera.model.ts"
+      ],
+      "../src/hardware-camera/hardware-camera.controller.ts": [
+        "../src/hardware-camera/hardware-camera.service.ts"
       ],
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": [
         "../node_modules/@nestjs/common/index.d.ts",

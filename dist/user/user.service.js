@@ -38,7 +38,7 @@ let UserService = class UserService {
             password: user.password,
         }));
     }
-    async addOne(email, name, password) {
+    async addOne(name, password, email) {
         const hashpassword = await this.getHash(password);
         const newUser = new this.userModel({
             email,

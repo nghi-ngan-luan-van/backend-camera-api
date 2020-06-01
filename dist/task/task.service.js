@@ -11,30 +11,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const camera_service_1 = require("../camera/camera.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
 let TaskService = class TaskService {
-    constructor(cameraService) {
+    constructor(taskModel, cameraService) {
+        this.taskModel = taskModel;
         this.cameraService = cameraService;
         this.tasks = [];
-        this.findTask = (id) => {
-            const task = this.tasks.find(item => item === id);
-            return task;
-        };
     }
-    getTasks() {
-        return this.tasks;
+    async addTask(idCamera, pID, cameraUrl, taskType, active) {
+        try {
+            const newTask = new this.taskModel({
+                idCamera,
+                pID,
+                cameraUrl,
+                taskType,
+                active
+            });
+            const result = await newTask.save();
+            return result;
+        }
+        catch (error) {
+            return null;
+        }
     }
-    async addTask(id) {
-        this.tasks.push(id);
-        return true;
-    }
-    async killTask(url) {
-        this.tasks = this.tasks.filter(item => item.spawnargs.includes(url));
-        const task = this.tasks.find(item => item.spawnargs.includes(url));
+    async killTask(pid) {
+        const task = await this.taskModel.find({ pID: pid });
         if (task) {
-            task.kill();
+            process.kill(pid);
+            await this.taskModel.deleteOne({ pID: pid });
             return true;
         }
         else
@@ -43,8 +52,9 @@ let TaskService = class TaskService {
 };
 TaskService = __decorate([
     common_1.Injectable(),
-    __param(0, common_1.Inject(common_1.forwardRef(() => camera_service_1.CameraService))),
-    __metadata("design:paramtypes", [camera_service_1.CameraService])
+    __param(0, mongoose_1.InjectModel('Task')),
+    __param(1, common_1.Inject(common_1.forwardRef(() => camera_service_1.CameraService))),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, camera_service_1.CameraService])
 ], TaskService);
 exports.TaskService = TaskService;
 //# sourceMappingURL=task.service.js.map

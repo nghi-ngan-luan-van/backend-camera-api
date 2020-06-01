@@ -7,11 +7,15 @@ export declare class CameraController {
     getPublic(): string;
     getProtected(req: any): string;
     addCamera(body: any, res: any, req: any): Promise<any>;
+    editCamera(body: any, res: any, req: any): Promise<any>;
+    deleteCamera(body: any, res: any, req: any): Promise<any>;
     getListByUser(req: any, res: any): Promise<any>;
     recordFullStream(req: any, body: any, res: any): Promise<any>;
     recordPerTime(req: any, body: any, res: any): Promise<void>;
     turnDetect(req: any, body: any, res: any): Promise<any>;
+    recordDetection(req: any, body: any, res: any): Promise<any>;
     scannetworkk(req: any, body: any, res: any): Promise<any>;
     testput(req: any, body: any, res: any): Promise<true>;
+    testhandletask(req: any, body: any, res: any): Promise<boolean>;
     listVideoByUser(req: any, body: any, res: any): Promise<any>;
 }

@@ -48,6 +48,7 @@ let CameraService = class CameraService {
             rtspUrl: cam.rtspUrl,
             username: cam.username,
             password: cam.password,
+            backupMode: cam.backupMode,
             user: cam.user
         }));
     }
@@ -61,6 +62,7 @@ let CameraService = class CameraService {
             rtspUrl: cam.rtspUrl,
             username: cam.username,
             password: cam.password,
+            backupMode: cam.backupMode,
             user: userID
         }));
     }
@@ -76,18 +78,46 @@ let CameraService = class CameraService {
             user: userID
         });
         const result = await newCamera.save();
+        try {
+            const params1 = {
+                Bucket: 'clientapp',
+                Key: `${userID}/${result._id}/`,
+                ACL: 'public-read'
+            };
+            auth_1.s3.putObject(params1, function (err, data) {
+                if (err) {
+                    console.log('Error putting object on S3: ', err);
+                }
+                else {
+                    console.log('Placed object on S3: ', data);
+                }
+            });
+        }
+        catch (error) {
+            return false;
+        }
         return result;
     }
-    async updateOne(id, username, name, password, ip, port, rtspUrl) {
-        const user = await this.cameraModel.updateOne({ _id: id }, { name, username, password, ip, port, rtspUrl });
-        return user;
+    async updateOne(id, username, name, password, ip, port, rtspUrl, backupMode) {
+        try {
+            const result = await this.cameraModel.updateOne({ _id: id }, { name, username, password, ip, port, rtspUrl, backupMode });
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     }
-    async deleteOne(id) {
-        const result = await this.cameraModel.deleteOne({ _id: id });
-        return result;
+    async deleteOne(_id) {
+        try {
+            const result = await this.cameraModel.deleteOne({ _id: _id });
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     }
     async recordFullStream(url) {
-        const command = `ffmpeg -i ${url} -acodec copy -vcodec copy-c:a aac -vcodec copy src/video/test.mp4`;
+        const command = `ffmpeg -i ${url} -c:a aac -vcodec copy src/video/test.mp4`;
         child_process_1.exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.log('error', error);
@@ -132,12 +162,36 @@ let CameraService = class CameraService {
             return stdout;
         });
     }
-    async motionDection(_id, url, userID) {
+    async recordDetection(_id, url, userID) {
+        console.log('....', process.env.ASSETS_PATH);
+        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH, "0"]);
+        console.log('pid', child.pid);
+        let dataToSend = [];
+        let timeStart = '', timeEnd = '';
+        child.stdout.on('data', (data) => {
+            const output = data.toString().trim();
+            console.log('stdout', output);
+            dataToSend.push(output);
+            if (dataToSend.length === 2) {
+                timeStart = dataToSend[0];
+                timeEnd = dataToSend[1];
+                dataToSend = [];
+                console.log("time: ", timeStart, timeEnd);
+            }
+            console.log('cam motion:', timeStart, timeEnd);
+            if (timeStart !== '' && timeEnd !== '') {
+                this.camMotionService.addOne(userID, url, null, timeStart, timeEnd, null);
+                timeStart = '', timeEnd = '';
+            }
+        });
+    }
+    async motionDection(_id, userID) {
         console.log('....', process.env.ASSETS_PATH);
         try {
-            const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH]);
+            const { rtspUrl } = await this.cameraModel.findById({ _id });
+            console.log(rtspUrl, _id);
+            const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "1"]);
             console.log('pid', child.pid);
-            console.log(this.taskService.getTasks());
             let dataToSend = [];
             let filePath = '', timeStart = '', timeEnd = '';
             child.stdout.on('data', (data) => {
@@ -160,16 +214,16 @@ let CameraService = class CameraService {
                 }
                 console.log('cam motion:', filePath, timeStart, timeEnd);
                 if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
-                    const cdnUrl = 'https://clientapp.sgp1.digitaloceanspaces.com/' + filePath;
-                    this.camMotionService.addOne(userID, url, filePath, timeStart, timeEnd, cdnUrl);
+                    const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${userID}/${_id}/${filePath}`;
+                    console.log(userID, _id, cdnUrl);
                     fs.readFile(`${process.env.ASSETS_PATH}/${filePath}`, function (err, data) {
                         if (err) {
                             console.log('fs error', err);
                         }
                         else {
-                            var params = {
+                            const params = {
                                 Bucket: 'clientapp',
-                                Key: `${userID}/${_id}/` + filePath,
+                                Key: `${userID}/${_id}/${filePath}`,
                                 Body: data,
                                 ContentType: 'video/mp4',
                                 ACL: 'public-read'
@@ -190,7 +244,7 @@ let CameraService = class CameraService {
             return true;
         }
         catch (error) {
-            return false;
+            false;
         }
     }
     async scanNetwork() {
@@ -239,14 +293,14 @@ let CameraService = class CameraService {
         return { camera, streams, devices };
     }
     testput() {
-        fs.readFile(`${process.env.ASSETS_PATH}/2020_05_17_12_13_13_PM.mp4`, function (err, data) {
+        fs.readFile(`${process.env.ASSETS_PATH}/1590913964000.mp4`, function (err, data) {
             if (err) {
                 console.log('fs error', err);
             }
             else {
                 const params = {
                     Bucket: 'clientapp',
-                    Key: 'nghi/axax.mp4',
+                    Key: `5e9471d6cbeb62504f03bc0b/5ed3e22848d6943ed70ec47f/1590913964000.mp4`,
                     Body: data,
                     ContentType: 'video/mp4',
                     ACL: 'public-read'
@@ -296,6 +350,20 @@ let CameraService = class CameraService {
             console.log("res", result);
         });
         return result;
+    }
+    async testHandleTask() {
+        try {
+            const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", "rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream", process.env.ASSETS_PATH, "0"]);
+            console.log(await this.taskService.addTask('5ed471308a7ad50c437e9768', child.pid, 'rtsp:123', '0', true));
+            child.stdout.on('data', (data) => {
+                console.log(data);
+                this.taskService.killTask(child.pid);
+            });
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     }
 };
 CameraService = __decorate([

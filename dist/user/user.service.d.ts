@@ -7,7 +7,7 @@ export declare class UserService {
     findUserByID(id: string): Promise<User>;
     findUserByEmail(email: string): Promise<User>;
     getUsers(): Promise<any>;
-    addOne(email: string, name: string, password: string): Promise<any>;
+    addOne(name: string, password: string, email: string): Promise<any>;
     updateOne(id: string, newName: string): Promise<any>;
     deleteOne(id: string): Promise<any>;
     getHash(password: string | undefined): Promise<string>;

@@ -32,7 +32,7 @@ export class UserService {
   }
 
 
-  async addOne(email:string,name:string,password:string) {
+  async addOne(name:string,password:string,email:string,) {
     const hashpassword = await this.getHash(password);
     const newUser= new this.userModel({
       email,

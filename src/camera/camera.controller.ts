@@ -46,6 +46,51 @@ export class CameraController {
     }
   }
 
+  @Post('edit')
+  @UseGuards(AuthGuard)
+  async editCamera(@Body() body, @Res() res,@Req() req) {
+    const { _id,name,rtspUrl,ip,port,username,password,backupMode} = body
+    if (!body ||!body._id) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Camera id are required!" });
+    }
+    const userID = req.userID;
+    const result= await this.cameraService.updateOne(_id,username,name,password,ip,port,rtspUrl,backupMode)
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot edit camera" });
+    }
+  }
+
+  @Post('delete')
+  @UseGuards(AuthGuard)
+  async deleteCamera(@Body() body, @Res() res,@Req() req) {
+    const { _id} = body
+    if (!body ||!body._id) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Camera id are required!" });
+    }
+    const userID = req.userID;
+    const result= await this.cameraService.deleteOne(_id)
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot delete camera" });
+    }
+  }
   @Get("listcam")
   @UseGuards(AuthGuard)
   async getListByUser(@Req() req, @Res() res) {
@@ -103,6 +148,31 @@ export class CameraController {
   @Post("turndetect")
   @UseGuards(AuthGuard)
   async turnDetect(@Req() req, @Body() body, @Res() res) {
+    const {_id}=body
+    const userID = req.userID;
+    if (!(body && body._id)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: " _id are required!" });
+    }
+    const data= await this.cameraService.motionDection(_id,userID)
+     console.log(data)
+    if(data)
+    {
+      return res
+      .status(HttpStatus.OK)
+      .json({ message: "Successful" });
+    }
+    else {
+      res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "Fail " });
+    }
+  }
+
+  @Post("recorddetect")
+  @UseGuards(AuthGuard)
+  async recordDetection(@Req() req, @Body() body, @Res() res) {
     const {url,_id}=body
     const userID = req.userID;
     if (!(body && body.url && body._id)) {
@@ -110,7 +180,7 @@ export class CameraController {
         .status(HttpStatus.FORBIDDEN)
         .json({ message: "Rtsp url and _id are required!" });
     }
-    const data= await this.cameraService.motionDection(_id,url,userID)
+    const data= await this.cameraService.recordDetection(_id,url,userID)
      console.log(data)
     if(data)
     {
@@ -151,6 +221,18 @@ export class CameraController {
     }
   }
 
+  @Post("testhandletask")
+  // @UseGuards(AuthGuard)
+  async testhandletask(@Req() req, @Body() body, @Res() res) {
+    const data=  this.cameraService.testHandleTask()
+    if(data)
+    {
+     return data
+    }
+    else {
+      return null
+    }
+  }
   @Post("savedvideo")
   @UseGuards(AuthGuard)
   async listVideoByUser(@Req() req, @Body() body, @Res() res) {
