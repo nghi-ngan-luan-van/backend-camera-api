@@ -34,6 +34,17 @@ let CameraMotionService = class CameraMotionService {
         const result = await newCameraMotion.save();
         return result;
     }
+    async getMotionByUser(userID, cameraUrl) {
+        console.log(userID, cameraUrl);
+        try {
+            const data = await this.cameraMotionModel.find({ user: userID, cameraUrl });
+            console.log(data);
+            return data;
+        }
+        catch (error) {
+            return false;
+        }
+    }
 };
 CameraMotionService = __decorate([
     common_1.Injectable(),

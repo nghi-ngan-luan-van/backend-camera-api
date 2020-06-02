@@ -332,23 +332,9 @@ let CameraService = class CameraService {
         return true;
     }
     async listVideoByUSer(userID, _id) {
-        const params = {
-            Bucket: "clientapp",
-            Prefix: `${userID}/${_id}`
-        };
-        const result = [];
-        const s3Response = await auth_1.s3.listObjects(params).promise();
-        s3Response['Contents'].forEach(function (obj) {
-            if (obj['Key'].split('.').pop() === 'mp4') {
-                console.log(obj['Key']);
-                const item = {
-                    index: result.length + 1,
-                    name: 'https://clientapp.sgp1.digitaloceanspaces.com/' + obj['Key']
-                };
-                result.push(item);
-            }
-            console.log("res", result);
-        });
+        const { rtspUrl } = await this.cameraModel.findById({ _id });
+        const result = await this.camMotionService.getMotionByUser(userID, rtspUrl);
+        console.log(result);
         return result;
     }
     async testHandleTask() {

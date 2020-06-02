@@ -24,5 +24,15 @@ export class CameraMotionService {
         return result;
       }
 
+      async getMotionByUser(userID: string,cameraUrl:string) {
+        console.log(userID,cameraUrl)
+       try {
+         const data= await this.cameraMotionModel.find({user:userID,cameraUrl})
+         console.log(data)
+         return data
+       } catch (error) {
+         return false
+       }
+      }
 
 }

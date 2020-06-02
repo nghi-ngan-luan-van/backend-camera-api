@@ -372,47 +372,30 @@ export class CameraService {
   }
 
   async listVideoByUSer(userID:string,_id:string): Promise<any> {
-    const params = {
-      Bucket: "clientapp",
-      Prefix: `${userID}/${_id}`
-  };
-  //  s3.listObjects(params, function(err, data) {
-  //     if (err) console.log(err, err.stack);
-  //     else {
-  //         data['Contents'].forEach(function(obj) {
-  //           if(obj['Key'].split('.').pop()==='mp4') {
-  //             console.log(obj['Key']);
-  //             const item={
-  //               index:result.length+1,
-  //               name:obj['Key']
+    const {rtspUrl}= await this.cameraModel.findById({_id})
+    const result = await this.camMotionService.getMotionByUser(userID,rtspUrl)
+    console.log(result)
+    return result
+  //   const params = {
+  //     Bucket: "clientapp",
+  //     Prefix: `${userID}/${_id}`
+  // };
+  // const result=[]
+  // const s3Response = await s3.listObjects(params).promise();
+  // s3Response['Contents'].forEach(function(obj) {
+  //             if(obj['Key'].split('.').pop()==='mp4') {
+  //               console.log(obj['Key']);
+  //               const item={
+  //                 index:result.length+1,
+  //                 name: 'https://clientapp.sgp1.digitaloceanspaces.com/'+obj['Key']
+  //               }
+  //               result.push(item)
   //             }
-  //             result.push(item)
-  //           }
-  //            console.log("res",result)
-  //            return result.map(obj =>({
-  //             index:obj.index,
-  //             name:obj.name
-  //           }))
-  //         })
-  //     };
-      
-
-  // });
-  const result=[]
-  const s3Response = await s3.listObjects(params).promise();
-  s3Response['Contents'].forEach(function(obj) {
-              if(obj['Key'].split('.').pop()==='mp4') {
-                console.log(obj['Key']);
-                const item={
-                  index:result.length+1,
-                  name: 'https://clientapp.sgp1.digitaloceanspaces.com/'+obj['Key']
-                }
-                result.push(item)
-              }
-               console.log("res",result)
+  //              console.log("res",result)
                
-            })
-        return result
+  //           })
+  //       return result
+
   }
    async testHandleTask() {
     try {

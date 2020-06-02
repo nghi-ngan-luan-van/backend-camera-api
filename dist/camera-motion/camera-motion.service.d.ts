@@ -5,4 +5,5 @@ export declare class CameraMotionService {
     private camMotions;
     constructor(cameraMotionModel: Model<CameraMotion>);
     addOne(userID: string, cameraUrl: string, filePath: string, timeStart: string, timeEnd: string, cdnUrl: string): Promise<any>;
+    getMotionByUser(userID: string, cameraUrl: string): Promise<any>;
 }
