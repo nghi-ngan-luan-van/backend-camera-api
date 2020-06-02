@@ -199,7 +199,7 @@ export class CameraService {
   }
 
 
-  async motionDection(_id:string, userID: string): Promise<any> {
+  async motionDetection(_id:string, userID: string): Promise<any> {
     console.log('....', process.env.ASSETS_PATH)
 
     try {

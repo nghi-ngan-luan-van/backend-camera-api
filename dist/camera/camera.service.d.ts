@@ -21,7 +21,7 @@ export declare class CameraService {
     recordStreamPerTime(url: string, time: number): Promise<void>;
     turnMotionDetect(url: string): Promise<any>;
     recordDetection(_id: string, url: string, userID: string): Promise<any>;
-    motionDection(_id: string, userID: string): Promise<any>;
+    motionDetection(_id: string, userID: string): Promise<any>;
     scanNetwork(): Promise<any>;
     testput(): boolean;
     listVideoByUSer(userID: string, _id: string): Promise<any>;

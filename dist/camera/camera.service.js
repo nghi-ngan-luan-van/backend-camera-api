@@ -185,7 +185,7 @@ let CameraService = class CameraService {
             }
         });
     }
-    async motionDection(_id, userID) {
+    async motionDetection(_id, userID) {
         console.log('....', process.env.ASSETS_PATH);
         try {
             const { rtspUrl } = await this.cameraModel.findById({ _id });

@@ -137,7 +137,7 @@ let CameraController = class CameraController {
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: " _id are required!" });
         }
-        const data = await this.cameraService.motionDection(_id, userID);
+        const data = await this.cameraService.motionDetection(_id, userID);
         console.log(data);
         if (data) {
             return res
