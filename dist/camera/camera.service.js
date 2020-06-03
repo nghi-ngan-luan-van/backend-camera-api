@@ -194,7 +194,7 @@ let CameraService = class CameraService {
             console.log('pid', child.pid);
             let dataToSend = [];
             let filePath = '', timeStart = '', timeEnd = '';
-            child.stdout.on('data', (data) => {
+            child.stdout.on('data', async (data) => {
                 const output = data.toString().trim();
                 console.log('stdout', output);
                 console.log("data.toString().split('.').pop()", output.split('.').pop());
@@ -216,28 +216,8 @@ let CameraService = class CameraService {
                 if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
                     const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${userID}/${_id}/${filePath}`;
                     console.log(userID, _id, cdnUrl);
-                    fs.readFile(`${process.env.ASSETS_PATH}/${filePath}`, function (err, data) {
-                        if (err) {
-                            console.log('fs error', err);
-                        }
-                        else {
-                            const params = {
-                                Bucket: 'clientapp',
-                                Key: `${userID}/${_id}/${filePath}`,
-                                Body: data,
-                                ContentType: 'video/mp4',
-                                ACL: 'public-read'
-                            };
-                            auth_1.s3.putObject(params, function (err, data) {
-                                if (err) {
-                                    console.log('Error putting object on S3: ', err);
-                                }
-                                else {
-                                    console.log('Placed object on S3: ', data);
-                                }
-                            });
-                        }
-                    });
+                    await this.camMotionService.addOne(userID, rtspUrl, filePath, timeStart, timeEnd, cdnUrl);
+                    this.uploadVideo(userID, _id, filePath);
                     filePath = '', timeStart = '', timeEnd = '';
                 }
             });
@@ -292,15 +272,43 @@ let CameraService = class CameraService {
         console.log('cam', camera, 'streams', streams, 'devs', devices);
         return { camera, streams, devices };
     }
-    testput() {
-        fs.readFile(`${process.env.ASSETS_PATH}/1590913964000.mp4`, function (err, data) {
+    getFileSizInByte(filename) {
+        const stats = fs.statSync(filename);
+        return stats["size"];
+    }
+    async uploadVideo(userID, cameraID, filePath) {
+        fs.readFile(`${process.env.ASSETS_PATH}/${filePath}`, function (err, data) {
             if (err) {
                 console.log('fs error', err);
             }
             else {
                 const params = {
                     Bucket: 'clientapp',
-                    Key: `5e9471d6cbeb62504f03bc0b/5ed3e22848d6943ed70ec47f/1590913964000.mp4`,
+                    Key: `${userID}/${cameraID}/${filePath}`,
+                    Body: data,
+                    ContentType: 'video/mp4',
+                    ACL: 'public-read'
+                };
+                auth_1.s3.putObject(params, function (err, data) {
+                    if (err) {
+                        console.log('Error putting object on S3: ', err);
+                    }
+                    else {
+                        console.log('Placed object on S3: ', data);
+                    }
+                });
+            }
+        });
+    }
+    testput() {
+        fs.readFile(`${process.env.ASSETS_PATH}/1591091115000.mp4`, function (err, data) {
+            if (err) {
+                console.log('fs error', err);
+            }
+            else {
+                const params = {
+                    Bucket: 'clientapp',
+                    Key: `5e9471d6cbeb62504f03bc0b/5ed3e22848d6943ed70ec47f/1591091115000.mp4`,
                     Body: data,
                     ContentType: 'video/mp4',
                     ACL: 'public-read'

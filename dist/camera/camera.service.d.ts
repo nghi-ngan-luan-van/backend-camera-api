@@ -23,6 +23,8 @@ export declare class CameraService {
     recordDetection(_id: string, url: string, userID: string): Promise<any>;
     motionDetection(_id: string, userID: string): Promise<any>;
     scanNetwork(): Promise<any>;
+    getFileSizInByte(filename: any): number;
+    uploadVideo(userID: string, cameraID: string, filePath: string): Promise<void>;
     testput(): boolean;
     listVideoByUSer(userID: string, _id: string): Promise<any>;
     testHandleTask(): Promise<boolean>;
