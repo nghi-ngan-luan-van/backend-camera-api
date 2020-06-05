@@ -11,7 +11,6 @@ export declare class CameraController {
     deleteCamera(body: any, res: any, req: any): Promise<any>;
     getListByUser(req: any, res: any): Promise<any>;
     recordFullStream(req: any, body: any, res: any): Promise<any>;
-    recordPerTime(req: any, body: any, res: any): Promise<void>;
     turnDetect(req: any, body: any, res: any): Promise<any>;
     recordDetection(req: any, body: any, res: any): Promise<any>;
     scannetworkk(req: any, body: any, res: any): Promise<any>;

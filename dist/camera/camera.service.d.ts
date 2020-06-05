@@ -18,9 +18,9 @@ export declare class CameraService {
     updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, backupMode: boolean): Promise<boolean>;
     deleteOne(_id: string): Promise<boolean>;
     recordFullStream(url: string): Promise<void>;
-    recordStreamPerTime(url: string, time: number): Promise<void>;
+    recordStreamPerTime(camID: string, url: string, time: number): Promise<void>;
     turnMotionDetect(url: string): Promise<any>;
-    recordDetection(_id: string, url: string, userID: string): Promise<any>;
+    recordDetection(_id: string, userID: string): Promise<any>;
     motionDetection(_id: string, userID: string): Promise<any>;
     scanNetwork(): Promise<any>;
     getFileSizInByte(filename: any): number;

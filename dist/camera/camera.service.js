@@ -22,6 +22,7 @@ const task_service_1 = require("../task/task.service");
 const camera_motion_service_1 = require("../camera-motion/camera-motion.service");
 const auth_1 = require("../.aws/auth");
 const fs = require("fs");
+const chokidar = require('chokidar');
 require('dotenv').config();
 let CameraService = class CameraService {
     constructor(cameraModel, userService, taskService, camMotionService) {
@@ -131,19 +132,55 @@ let CameraService = class CameraService {
             return true;
         });
     }
-    async recordStreamPerTime(url, time) {
-        const command = `ffmpeg -i ${url} -c copy -map 0 -f segment -segment_time ${time} -segment_format mp4 "D:/demo%03d.mp4"`;
-        child_process_1.exec(command, (error, stdout, stderr) => {
+    async recordStreamPerTime(camID, url, time) {
+        let arr = [];
+        const command = `ffmpeg -i ${url} -c:v copy -map 0 -f segment -segment_time ${time} -segment_format mp4 ${process.env.ASSETS_PATH}/_%03d.mp4`;
+        let watcher = chokidar.watch(process.env.ASSETS_PATH, {
+            ignored: /^\./, persistent: true, awaitWriteFinish: true,
+        });
+        watcher
+            .on('add', function (path) {
+            const n = arr.length;
+            const d = new Date();
+            const now = d.getDay() + '_' + d.getMonth();
+            console.log(n);
+            console.log(now.toString());
+            if (n !== 0) {
+                console.log(arr[n - 1]);
+                const filename = arr[n - 1].split('/').pop();
+                console.log(filename);
+                fs.readFile(`${arr[n - 1]}`, function (err, data) {
+                    if (err) {
+                        console.log('fs error', err);
+                    }
+                    else {
+                        const params = {
+                            Bucket: 'clientapp',
+                            Key: `${camID}/${now}/${filename}`,
+                            Body: data,
+                            ContentType: 'video/mp4',
+                            ACL: 'public-read'
+                        };
+                        auth_1.s3.putObject(params, function (err, data) {
+                            if (err) {
+                                console.log('Error putting object on S3: ', err);
+                            }
+                            else {
+                                console.log('Placed object on S3: ', data);
+                            }
+                        });
+                    }
+                });
+            }
+            arr.push(path);
+        });
+        const child = await child_process_1.exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.log('error', error);
-                return false;
             }
-            if (stderr) {
-                console.log('stderr', stderr);
-                return false;
-            }
+            console.log('stderr', stderr);
             console.log('stdout', stdout);
-            return true;
+            console.log('piddd', child.pid);
         });
     }
     async turnMotionDetect(url) {
@@ -162,28 +199,36 @@ let CameraService = class CameraService {
             return stdout;
         });
     }
-    async recordDetection(_id, url, userID) {
+    async recordDetection(_id, userID) {
         console.log('....', process.env.ASSETS_PATH);
-        const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH, "0"]);
-        console.log('pid', child.pid);
-        let dataToSend = [];
-        let timeStart = '', timeEnd = '';
-        child.stdout.on('data', (data) => {
-            const output = data.toString().trim();
-            console.log('stdout', output);
-            dataToSend.push(output);
-            if (dataToSend.length === 2) {
-                timeStart = dataToSend[0];
-                timeEnd = dataToSend[1];
-                dataToSend = [];
-                console.log("time: ", timeStart, timeEnd);
-            }
-            console.log('cam motion:', timeStart, timeEnd);
-            if (timeStart !== '' && timeEnd !== '') {
-                this.camMotionService.addOne(userID, url, null, timeStart, timeEnd, null);
-                timeStart = '', timeEnd = '';
-            }
-        });
+        try {
+            const { rtspUrl } = await this.cameraModel.findById({ _id });
+            this.recordStreamPerTime(_id, rtspUrl, 10);
+            const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "0"]);
+            console.log('pid', child.pid);
+            let dataToSend = [];
+            let timeStart = '', timeEnd = '';
+            child.stdout.on('data', async (data) => {
+                const output = data.toString().trim();
+                console.log('stdout', output);
+                dataToSend.push(output);
+                if (dataToSend.length === 2) {
+                    timeStart = dataToSend[0];
+                    timeEnd = dataToSend[1];
+                    dataToSend = [];
+                    console.log("time: ", timeStart, timeEnd);
+                }
+                console.log('cam motion:', timeStart, timeEnd);
+                if (timeStart !== '' && timeEnd !== '') {
+                    await this.camMotionService.addOne(userID, rtspUrl, null, timeStart, timeEnd, null);
+                    timeStart = '', timeEnd = '';
+                }
+            });
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     }
     async motionDetection(_id, userID) {
         console.log('....', process.env.ASSETS_PATH);

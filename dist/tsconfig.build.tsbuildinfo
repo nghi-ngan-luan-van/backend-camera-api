@@ -1206,12 +1206,12 @@
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
       "../src/camera/camera.service.ts": {
-        "version": "a831488fc7cac4872dc8ca42e5ff6a9e101b267bb82272e4ba63552c3b7647ee",
-        "signature": "299ef60217283259155ca23390bb3b0cf15f266779f663509acd9266c2967788"
+        "version": "40b738540a6e355e1d12bab0433e515161f251147233e19e50b5657b91ff9bd8",
+        "signature": "283a90a69e574df08afb4c9a3018208f3738bd3ca1eeb5b8bee9ed13d351fe95"
       },
       "../src/camera/camera.controller.ts": {
-        "version": "2d5ec4a055566452b2fd58b7d90829b89a86176cbb2a082495b3a026c73c27f0",
-        "signature": "9c1f0a89d4e1c5696315e8cf8cab3e8a2e9dcec7cf8f80e5e41ff3e6aa0d5928"
+        "version": "55ff1d757fe1324998a4ac44953afbe18b2c45cfab3a75d55b0658661c9671f9",
+        "signature": "b99acca148d5eb0367411cf5cf0e5a70afe0d24f3a3baa7935b92dc713095f6f"
       },
       "../src/task/task.controller.ts": {
         "version": "ddfb8f5a2b68e23bbc450aaa63792b6c761fe25e6cfb8b8c272f03b1d5c37d59",
@@ -3981,6 +3981,7 @@
         "../src/camera-motion/camera-motion.service.ts",
         "../src/.aws/auth.ts",
         "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/rxjs/internal/scheduler/async.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"

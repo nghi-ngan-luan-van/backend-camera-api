@@ -120,15 +120,6 @@ let CameraController = class CameraController {
                 .json({ message: "Fail " });
         }
     }
-    async recordPerTime(req, body, res) {
-        const { url, time } = body;
-        if (this.cameraService.recordStreamPerTime(url, time)) {
-            res.send('ok');
-        }
-        else {
-            res.send('fail');
-        }
-    }
     async turnDetect(req, body, res) {
         const { _id } = body;
         const userID = req.userID;
@@ -151,14 +142,14 @@ let CameraController = class CameraController {
         }
     }
     async recordDetection(req, body, res) {
-        const { url, _id } = body;
+        const { _id } = body;
         const userID = req.userID;
-        if (!(body && body.url && body._id)) {
+        if (!(body && body._id)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Rtsp url and _id are required!" });
+                .json({ message: " _id are required!" });
         }
-        const data = await this.cameraService.recordDetection(_id, url, userID);
+        const data = await this.cameraService.recordDetection(_id, userID);
         console.log(data);
         if (data) {
             return res
@@ -273,14 +264,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "recordFullStream", null);
-__decorate([
-    common_1.Post("recordpertime"),
-    common_1.UseGuards(auth_guard_1.AuthGuard),
-    __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Promise)
-], CameraController.prototype, "recordPerTime", null);
 __decorate([
     common_1.Post("turndetect"),
     common_1.UseGuards(auth_guard_1.AuthGuard),

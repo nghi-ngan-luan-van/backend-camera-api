@@ -132,18 +132,18 @@ export class CameraController {
   }
   
 
-  @Post("recordpertime")
-  @UseGuards(AuthGuard)
-  async recordPerTime(@Req() req, @Body() body, @Res() res) {
-    const {url,time}=body
-    if(this.cameraService.recordStreamPerTime(url,time))
-    {
-      res.send('ok')
-    }
-    else {
-      res.send('fail')
-    }
-  }
+  // @Post("recordpertime")
+  // @UseGuards(AuthGuard)
+  // async recordPerTime(@Req() req, @Body() body, @Res() res) {
+  //   const {url,time}=body
+  //   if(this.cameraService.recordStreamPerTime(url,time))
+  //   {
+  //     res.send('ok')
+  //   }
+  //   else {
+  //     res.send('fail')
+  //   }
+  // }
 
   @Post("turndetect")
   @UseGuards(AuthGuard)
@@ -173,14 +173,14 @@ export class CameraController {
   @Post("recorddetect")
   @UseGuards(AuthGuard)
   async recordDetection(@Req() req, @Body() body, @Res() res) {
-    const {url,_id}=body
+    const {_id}=body
     const userID = req.userID;
-    if (!(body && body.url && body._id)) {
+    if (!(body && body._id)) {
       return res
         .status(HttpStatus.FORBIDDEN)
-        .json({ message: "Rtsp url and _id are required!" });
+        .json({ message: " _id are required!" });
     }
-    const data= await this.cameraService.recordDetection(_id,url,userID)
+    const data= await this.cameraService.recordDetection(_id,userID)
      console.log(data)
     if(data)
     {

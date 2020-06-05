@@ -9,7 +9,7 @@ import sys
 import os
 import signal
 import subprocess
-
+import time
 
 
 # construct the argument parser and parse the arguments
@@ -68,7 +68,8 @@ try:
 				text = "Occupied"
 				if text == "Occupied" and count == temp:
 					count = count +1
-					unixtime = int(time.mktime(datetime.datetime.utcnow().timetuple()))*1000
+					# unixtime = int(time.mktime(datetime.datetime.utcnow().timetuple()))*1000
+					unixtime = int(round(time.time()*1000))
 					if sys.argv[3] == "1":
 						cmd = 'ffmpeg -i '+ str(sys.argv[1]) + ' -c:a aac -vcodec copy ' + str(sys.argv[2]) + '/' +str(unixtime) + '.mp4'
 						print(str(unixtime) + '.mp4')
@@ -81,7 +82,7 @@ try:
 			if count != temp and text == 'Unoccupied':
 				if sys.argv[3] == "1":
 					os.killpg(os.getpgid(pro.pid), signal.SIGINT)
-				timestamp1 = int(time.mktime(datetime.datetime.utcnow().timetuple()))*1000
+				timestamp1 = int(round(time.time()*1000))
 				print(timestamp1)
 				sys.stdout.flush()
 				temp = count

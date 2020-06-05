@@ -11,6 +11,9 @@ import { TaskService } from '../task/task.service';
 import { CameraMotionService } from '../camera-motion/camera-motion.service';
 import { s3 } from '../.aws/auth'
 import * as fs from 'fs'
+import { async } from 'rxjs/internal/scheduler/async';
+const chokidar = require('chokidar');
+
 require('dotenv').config()
 
 @Injectable()
@@ -130,19 +133,62 @@ export class CameraService {
       return true
     })
   }
-  async recordStreamPerTime(url: string, time: number) {
-    const command = `ffmpeg -i ${url} -c copy -map 0 -f segment -segment_time ${time} -segment_format mp4 "D:/demo%03d.mp4"`
-    exec(command, (error, stdout, stderr) => {
+  async recordStreamPerTime(camID:string,url: string, time: number) {
+    let arr = []
+    const command = `ffmpeg -i ${url} -c:v copy -map 0 -f segment -segment_time ${time} -segment_format mp4 ${process.env.ASSETS_PATH}/_%03d.mp4`
+    let watcher = chokidar.watch(process.env.ASSETS_PATH, {
+      ignored: /^\./, persistent: true, awaitWriteFinish: true,
+    });
+
+    watcher
+      .on('add', function (path) {
+        const n = arr.length
+        const d= new Date()
+        const now= d.getDay()+'_'+d.getMonth()+1+ '_' + d.getFullYear()
+        console.log(n)
+        console.log(now.toString())
+
+        if (n !== 0) {
+          console.log(arr[n - 1])
+          const filename= arr[n - 1].split('/').pop()
+          console.log(filename)
+          fs.readFile(`${arr[n - 1]}`, function (err, data) {
+            if (err) {
+              console.log('fs error', err);
+            } else {
+              const params = {
+                Bucket: 'clientapp',
+                Key: `${camID}/${now}/${filename}`,
+                Body: data,
+                ContentType: 'video/mp4',
+                ACL: 'public-read'
+              };
+      
+              s3.putObject(params, function (err, data) {
+                if (err) {
+                  console.log('Error putting object on S3: ', err);
+                } else {
+                  console.log('Placed object on S3: ', data);
+                }
+              });
+        }})
+      }
+      arr.push(path)
+
+    
+    })
+    // .on('change', function (path) { console.log('File', path, 'has been changed'); })
+    // .on('unlink', function (path) { console.log('File', path, 'has been removed'); })
+    // .on('error', function (error) { console.error('Error happened', error); })
+    const child = await exec(command, (error, stdout, stderr) => {
       if (error) {
         console.log('error', error)
-        return false
       }
-      if (stderr) {
-        console.log('stderr', stderr)
-        return false
-      }
+
+      console.log('stderr', stderr)
       console.log('stdout', stdout)
-      return true
+      console.log('piddd', child.pid)
+
     })
   }
 
@@ -164,37 +210,46 @@ export class CameraService {
 
     })
   }
-  async recordDetection(_id: string, url: string, userID: string): Promise<any> {
+  async recordDetection(_id: string, userID: string): Promise<any> {
     console.log('....', process.env.ASSETS_PATH)
-    const child = spawn('python', ["src/python-scripts/motion-detect.py", url, process.env.ASSETS_PATH, "0"]);
-    console.log('pid', child.pid)
-    // this.taskService.addTask(child);
+    try {
+      const { rtspUrl } = await this.cameraModel.findById({ _id })
+      this.recordStreamPerTime(_id,rtspUrl,10)
+      const child = spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "0"]);
+      console.log('pid', child.pid)
+      // this.taskService.addTask(child);
 
-    let dataToSend = []
-    let timeStart = '', timeEnd = ''
+      let dataToSend = []
+      let timeStart = '', timeEnd = ''
 
-    child.stdout.on('data', (data) => {
-      const output = data.toString().trim()
-      console.log('stdout', output);
-      dataToSend.push(output)
+      child.stdout.on('data', async (data) => {
+        const output = data.toString().trim()
+        console.log('stdout', output);
+        dataToSend.push(output)
 
 
-      if (dataToSend.length === 2) {
-        timeStart = dataToSend[0]
-        timeEnd = dataToSend[1]
-        dataToSend = []
-        console.log("time: ", timeStart, timeEnd)
+        if (dataToSend.length === 2) {
+          timeStart = dataToSend[0]
+          timeEnd = dataToSend[1]
+          dataToSend = []
+          console.log("time: ", timeStart, timeEnd)
 
+        }
+        console.log('cam motion:', timeStart, timeEnd)
+
+        if (timeStart !== '' && timeEnd !== '') {
+          await this.camMotionService.addOne(userID, rtspUrl, null, timeStart, timeEnd, null)
+
+          timeStart = '', timeEnd = ''
+        }
       }
-      console.log('cam motion:', timeStart, timeEnd)
+      );
+      return true
 
-      if (timeStart !== '' && timeEnd !== '') {
-        this.camMotionService.addOne(userID, url, null, timeStart, timeEnd, null)
-
-        timeStart = '', timeEnd = ''
-      }
+    } catch (error) {
+      return false
     }
-    );
+
 
   }
 
@@ -239,9 +294,9 @@ export class CameraService {
         if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
           const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${userID}/${_id}/${filePath}`
           console.log(userID, _id, cdnUrl)
-          await this.camMotionService.addOne(userID,rtspUrl,filePath,timeStart,timeEnd,cdnUrl)
-            this.uploadVideo(userID,_id,filePath)           
-          
+          await this.camMotionService.addOne(userID, rtspUrl, filePath, timeStart, timeEnd, cdnUrl)
+          this.uploadVideo(userID, _id, filePath)
+
           filePath = '', timeStart = '', timeEnd = ''
         }
       }
@@ -313,7 +368,7 @@ export class CameraService {
 
   }
   getFileSizInByte(filename) {
-    const stats=fs.statSync(filename)
+    const stats = fs.statSync(filename)
     return stats["size"]
   }
   async uploadVideo(userID: string, cameraID: string, filePath: string) {
