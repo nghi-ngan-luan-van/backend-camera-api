@@ -23,6 +23,7 @@ vs = cv2.VideoCapture(args["video"])
 firstFrame = None
 count = 0
 temp = count
+print(vs)
 # loop over the frames of the video
 while True:
 	# grab the current frame and initialize the occupied/unoccupied
@@ -71,7 +72,6 @@ while True:
 			cmd = 'ffmpeg -i '+ str(args["video"]) + ' -c:a aac -vcodec copy 3123_nghi_'+str(unixtime) + '.mp4'
 			pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
 			poll = pro.poll()
-			print(pro.pid)
         # draw the text and timestamp on the frame
 	if count != temp and text == 'Unoccupied':
 		os.killpg(os.getpgid(pro.pid), signal.SIGINT)
@@ -92,8 +92,6 @@ while True:
 	# if the `q` key is pressed, break from the lop
 	if key == ord("q"):
 		break
-if pro == None:
-	os.killpg(os.getpgid(pro.pid), signal.SIGINT)
 # cleanup the camera and close any open windows
 vs.stop() if args.get("video", None) is None else vs.release()
 cv2.destroyAllWindows()
