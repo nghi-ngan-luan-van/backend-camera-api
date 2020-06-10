@@ -22,14 +22,16 @@ const task_service_1 = require("../task/task.service");
 const camera_motion_service_1 = require("../camera-motion/camera-motion.service");
 const auth_1 = require("../.aws/auth");
 const fs = require("fs");
+const camera_record_service_1 = require("../camera-record/camera-record.service");
 const chokidar = require('chokidar');
 require('dotenv').config();
 let CameraService = class CameraService {
-    constructor(cameraModel, userService, taskService, camMotionService) {
+    constructor(cameraModel, userService, taskService, camMotionService, camRecordService) {
         this.cameraModel = cameraModel;
         this.userService = userService;
         this.taskService = taskService;
         this.camMotionService = camMotionService;
+        this.camRecordService = camRecordService;
     }
     async findCameraByID(id) {
         const camera = await this.cameraModel.findById(id).exec();
@@ -132,23 +134,31 @@ let CameraService = class CameraService {
             return true;
         });
     }
-    async recordStreamPerTime(camID, url, time) {
+    async recordStreamPerTime(camID, url, userID, time) {
         let arr = [];
-        const command = `ffmpeg -i ${url} -c:v copy -map 0 -f segment -segment_time ${time} -segment_format mp4 ${process.env.ASSETS_PATH}/_%03d.mp4`;
         let watcher = chokidar.watch(process.env.ASSETS_PATH, {
             ignored: /^\./, persistent: true, awaitWriteFinish: true,
         });
+        const ffmpeg = child_process_1.spawn('ffmpeg', ['-i', url, '-c:v', 'copy', '-map', '0', '-f', 'segment', '-segment_time', `${time}`, '-segment_format', 'mp4', `${process.env.ASSETS_PATH}/_%03d.mp4`]);
+        ffmpeg.stdout.on('data', (data) => {
+        });
+        await this.taskService.addTask(camID, ffmpeg.pid, userID, "3", true);
+        let camRecordServ = this.camRecordService;
         watcher
-            .on('add', function (path) {
+            .on('add', async function (path) {
             const n = arr.length;
             const d = new Date();
-            const now = d.getDay() + '_' + d.getMonth();
+            const month = d.getMonth() + 1;
+            const now = d.getDate() + '_' + month + '_' + d.getFullYear();
             console.log(n);
             console.log(now.toString());
             if (n !== 0) {
                 console.log(arr[n - 1]);
                 const filename = arr[n - 1].split('/').pop();
                 console.log(filename);
+                const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${camID}/${now}/${filename}`;
+                const timeStart = Date.now().toString();
+                await camRecordServ.addOne(userID, camID, timeStart, cdnUrl);
                 fs.readFile(`${arr[n - 1]}`, function (err, data) {
                     if (err) {
                         console.log('fs error', err);
@@ -174,14 +184,6 @@ let CameraService = class CameraService {
             }
             arr.push(path);
         });
-        const child = await child_process_1.exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.log('error', error);
-            }
-            console.log('stderr', stderr);
-            console.log('stdout', stdout);
-            console.log('piddd', child.pid);
-        });
     }
     async turnMotionDetect(url) {
         const command = `ffmpeg -rtsp_transport tcp -i "${url}" -vf select='gte(scene\\,0.05)',metadata=print -an -f null -`;
@@ -203,9 +205,15 @@ let CameraService = class CameraService {
         console.log('....', process.env.ASSETS_PATH);
         try {
             const { rtspUrl } = await this.cameraModel.findById({ _id });
-            this.recordStreamPerTime(_id, rtspUrl, 10);
+            const backupModeTask = await this.taskService.findTask("1", userID, _id);
+            console.log(backupModeTask);
+            if (backupModeTask) {
+                await this.taskService.killTask(backupModeTask.pID);
+            }
+            this.recordStreamPerTime(_id, rtspUrl, userID, 10);
             const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "0"]);
             console.log('pid', child.pid);
+            this.taskService.addTask(_id, child.pid, userID, "0", true);
             let dataToSend = [];
             let timeStart = '', timeEnd = '';
             child.stdout.on('data', async (data) => {
@@ -235,8 +243,15 @@ let CameraService = class CameraService {
         try {
             const { rtspUrl } = await this.cameraModel.findById({ _id });
             console.log(rtspUrl, _id);
+            const recordModeTask = await this.taskService.findTask("0", userID, _id);
+            const recordedTask = await this.taskService.findTask("3", userID, _id);
+            if (recordModeTask && recordedTask) {
+                await this.taskService.killTask(recordModeTask.pID);
+                await this.taskService.killTask(recordedTask.pID);
+            }
             const child = child_process_1.spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "1"]);
             console.log('pid', child.pid);
+            this.taskService.addTask(_id, child.pid, userID, "1", true);
             let dataToSend = [];
             let filePath = '', timeStart = '', timeEnd = '';
             child.stdout.on('data', async (data) => {
@@ -259,7 +274,7 @@ let CameraService = class CameraService {
                 }
                 console.log('cam motion:', filePath, timeStart, timeEnd);
                 if (filePath !== '' && timeStart !== '' && timeEnd !== '') {
-                    const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${userID}/${_id}/${filePath}`;
+                    const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${_id}/${filePath}`;
                     console.log(userID, _id, cdnUrl);
                     await this.camMotionService.addOne(userID, rtspUrl, filePath, timeStart, timeEnd, cdnUrl);
                     this.uploadVideo(userID, _id, filePath);
@@ -329,7 +344,7 @@ let CameraService = class CameraService {
             else {
                 const params = {
                     Bucket: 'clientapp',
-                    Key: `${userID}/${cameraID}/${filePath}`,
+                    Key: `${cameraID}/${filePath}`,
                     Body: data,
                     ContentType: 'video/mp4',
                     ACL: 'public-read'
@@ -411,7 +426,8 @@ CameraService = __decorate([
     __param(1, common_1.Inject(common_1.forwardRef(() => task_service_1.TaskService))),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, user_service_1.UserService,
         task_service_1.TaskService,
-        camera_motion_service_1.CameraMotionService])
+        camera_motion_service_1.CameraMotionService,
+        camera_record_service_1.CameraRecordService])
 ], CameraService);
 exports.CameraService = CameraService;
 //# sourceMappingURL=camera.service.js.map

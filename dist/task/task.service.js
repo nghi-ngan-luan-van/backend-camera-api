@@ -23,12 +23,16 @@ let TaskService = class TaskService {
         this.cameraService = cameraService;
         this.tasks = [];
     }
-    async addTask(idCamera, pID, cameraUrl, taskType, active) {
+    async findTask(taskType, user, idCamera) {
+        const task = await this.taskModel.findOne({ taskType, user, idCamera });
+        return task;
+    }
+    async addTask(idCamera, pID, user, taskType, active) {
         try {
             const newTask = new this.taskModel({
                 idCamera,
                 pID,
-                cameraUrl,
+                user,
                 taskType,
                 active
             });
@@ -40,7 +44,7 @@ let TaskService = class TaskService {
         }
     }
     async killTask(pid) {
-        const task = await this.taskModel.find({ pID: pid });
+        const task = await this.taskModel.findOne({ pID: pid });
         if (task) {
             process.kill(pid);
             await this.taskModel.deleteOne({ pID: pid });

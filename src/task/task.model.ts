@@ -5,8 +5,11 @@ export const TaskSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Camera'
     },
+    user :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     pID:{type: Number, default: null},
-    cameraUrl :{ type: String, default: null },
     taskType: { type: String, default: null },
     active: { type: Boolean, default: null },
 })
@@ -14,8 +17,8 @@ export const TaskSchema = new mongoose.Schema({
 export interface Task  extends mongoose.Document  {
     _id:string;
     idCamera:string;
+    user:string;
     pID:number,
-    cameraUrl:string;
     taskType:string;
     active:boolean;
 }

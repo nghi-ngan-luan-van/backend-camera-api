@@ -16,17 +16,17 @@ export class TaskService {
     //  getTasks() {
     //     return this.tasks
     //   }
-    //   findTask = (id: any) => {
-    //         const task= this.tasks.find(item => item===id)
-    //         return task
-    //  }
+     async findTask (taskType: any,user:any,idCamera:any) {
+            const task= await this.taskModel.findOne({taskType,user,idCamera})
+            return task
+     }
 
-    async addTask(idCamera: string,pID:number,cameraUrl:string,taskType:string,active:boolean) {
+    async addTask(idCamera: string,pID:number,user:string,taskType:string,active:boolean) {
       try {
         const newTask = new this.taskModel({
          idCamera,
          pID,
-         cameraUrl,
+         user,
          taskType,
          active
         })
@@ -40,7 +40,7 @@ export class TaskService {
    }
 
    async killTask(pid: number) {
-          const task = await this.taskModel.find({pID:pid})
+          const task = await this.taskModel.findOne({pID:pid})
       if (task) {
         process.kill(pid)
         await this.taskModel.deleteOne({ pID: pid })

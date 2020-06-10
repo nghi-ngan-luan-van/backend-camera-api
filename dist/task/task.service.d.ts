@@ -6,6 +6,7 @@ export declare class TaskService {
     private readonly cameraService;
     private tasks;
     constructor(taskModel: Model<Task>, cameraService: CameraService);
-    addTask(idCamera: string, pID: number, cameraUrl: string, taskType: string, active: boolean): Promise<any>;
+    findTask(taskType: any, user: any, idCamera: any): Promise<any>;
+    addTask(idCamera: string, pID: number, user: string, taskType: string, active: boolean): Promise<any>;
     killTask(pid: number): Promise<boolean>;
 }

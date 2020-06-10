@@ -1186,12 +1186,12 @@
         "signature": "2f8abff582c31f13a43c3239176d0db7d5441bbdfa1f246e516c4b60f9be1633"
       },
       "../src/task/task.model.ts": {
-        "version": "5831cf7104dc10719a2b0c18593b97ac17c019208cdb6aea601f3628f09e6ae5",
-        "signature": "f68a9922992400752aa68d23a65e1bee1203c0a34678033bed94d26369de96fd"
+        "version": "68779f665f3f2f481140513a34edc91f7a5da211ba0863ea7a7f0e4a2ed0dc2a",
+        "signature": "a71c788d13cbfa52776e173b728fda4e3d58d7241201b25beaf75d6aa735c6c6"
       },
       "../src/task/task.service.ts": {
-        "version": "6bd4d7127d6bec23b3741ffd88e15cf4d29dd5018ee9317ed06cd51e17632dd6",
-        "signature": "d018610345277bb7e32e6788f961bb7d96f10620caf03eebba13fe841ee067a3"
+        "version": "2e9dd86d242a44cfeae4d1f94521dfd863e1680487bcddfb07c1c71b1de451ee",
+        "signature": "0469754aa139c0f63053ba36d5d5b243fafc00e41d24acfad6db7b36166c8ef6"
       },
       "../src/camera-motion/camera-motion.model.ts": {
         "version": "5853a92f64207245b088919388a79bc9862c3bfdc3f22ba1cd946d7df33c08a5",
@@ -1205,9 +1205,17 @@
         "version": "9cbdd44aede47fd9bfa523c8a337290d98b22db263a5d75e20016ffaa7fc7dd8",
         "signature": "900a67fe0967ce3138e9f284f0ef74e6ae608e6ac666ab0ad5ab2766f3659fc5"
       },
+      "../src/camera-record/camera-record.model.ts": {
+        "version": "bb7ec71e17d00b6dfb0390d0b89a9f8a0b9e6f390c74d25582085961dcedd956",
+        "signature": "e56b9472cc3859f6f2c98631a13f1742fb214b2cfdd8c0d9c4c19eea9cdefbea"
+      },
+      "../src/camera-record/camera-record.service.ts": {
+        "version": "321b69c006ebfd1dc779d4bb0c15b16c529e47c7e0196b347739aa05911506d1",
+        "signature": "c657e9c4ce83066a16a7ae9279ec6a5ecf31533d77b80583f723e82c11023ffb"
+      },
       "../src/camera/camera.service.ts": {
-        "version": "40b738540a6e355e1d12bab0433e515161f251147233e19e50b5657b91ff9bd8",
-        "signature": "283a90a69e574df08afb4c9a3018208f3738bd3ca1eeb5b8bee9ed13d351fe95"
+        "version": "517c98143db7a408ac6f17edc3f511930d5385e4bd5b1c570fa81e2892e6077f",
+        "signature": "920af6cec15a1559e3b559ab7184be6446f1841a756c798608cdec0c1e6911b8"
       },
       "../src/camera/camera.controller.ts": {
         "version": "55ff1d757fe1324998a4ac44953afbe18b2c45cfab3a75d55b0658661c9671f9",
@@ -1229,8 +1237,16 @@
         "version": "ff0d679732205da439e92fadaf9f08dee10875f3b129de08e2d7b7beacb48ca5",
         "signature": "e8f1bca3cc46ab477ded80ab60d1f1a79e912f0d6338b1af6b2635b5a0b4bff9"
       },
+      "../src/camera-record/camera-record.controller.ts": {
+        "version": "d044990d522feda38e30cfb793d4b5d8a81de4030813f75182dca8299d982cfb",
+        "signature": "23dd06425ca494b521a9a7db0989927a7e24f98036e92851a8eed16a33e7275f"
+      },
+      "../src/camera-record/camera-record.module.ts": {
+        "version": "d2adf4a4d359e894d45be5a88031b1ee3b3aba2e59594948ba64858906d5b9bd",
+        "signature": "adb99796589487211006ba8f5f1d04136ff7a38a1675e76b0d93861902f91516"
+      },
       "../src/camera/camera.module.ts": {
-        "version": "5c14b66005edc34a9f6585298edce594598398b7dbd7d46f18686de42c09ca09",
+        "version": "79dcfacc43e70b41df225bbbda5a79a12efa37e6d19f22398c682296f3085409",
         "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb"
       },
       "../src/hardware-camera/hardware-camera.model.ts": {
@@ -1250,7 +1266,7 @@
         "signature": "989cd62b51ee822a89482b29ea0875bd13798c1c93b4f5b4b9023e810ffb698b"
       },
       "../src/app.module.ts": {
-        "version": "dea184bd66b9da23ebb8080e61e88d29af0709fa8a7b93a6775da42d481ea9ed",
+        "version": "0575c49a8900136cd17db209261a1cd9a366a1e4d457639579b3967b4b4ed1b6",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../node_modules/@nestjs/core/adapters/http-adapter.d.ts": {
@@ -3971,6 +3987,21 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/camera-record/camera-record.model.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/camera-record/camera-record.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../src/camera-record/camera-record.model.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/camera/camera.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@types/node/child_process.d.ts",
@@ -3982,6 +4013,7 @@
         "../src/.aws/auth.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/rxjs/internal/scheduler/async.d.ts",
+        "../src/camera-record/camera-record.service.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -4036,6 +4068,24 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/camera-record/camera-record.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/camera-record/camera-record.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/camera-record/camera-record.controller.ts",
+        "../src/camera-record/camera-record.service.ts",
+        "../src/camera-record/camera-record.model.ts",
+        "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/camera/camera.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/camera/camera.controller.ts",
@@ -4045,6 +4095,7 @@
         "../src/camera/camera.model.ts",
         "../src/task/task.module.ts",
         "../src/camera-motion/camera-motion.module.ts",
+        "../src/camera-record/camera-record.module.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -4097,6 +4148,7 @@
         "../src/task/task.module.ts",
         "../src/camera-motion/camera-motion.module.ts",
         "../src/hardware-camera/hardware-camera.module.ts",
+        "../src/camera-record/camera-record.module.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -7027,11 +7079,15 @@
       "../src/camera-motion/camera-motion.service.ts": [
         "../src/camera-motion/camera-motion.model.ts"
       ],
+      "../src/camera-record/camera-record.service.ts": [
+        "../src/camera-record/camera-record.model.ts"
+      ],
       "../src/camera/camera.service.ts": [
         "../src/camera/camera.model.ts",
         "../src/user/user.service.ts",
         "../src/task/task.service.ts",
-        "../src/camera-motion/camera-motion.service.ts"
+        "../src/camera-motion/camera-motion.service.ts",
+        "../src/camera-record/camera-record.service.ts"
       ],
       "../src/camera/camera.controller.ts": [
         "../src/user/user.service.ts",

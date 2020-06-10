@@ -1,17 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
-exports.TaskSchema = new mongoose.Schema({
-    idCamera: {
+exports.CameraRecordSchema = new mongoose.Schema({
+    cameraID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Camera'
+        ref: 'User'
     },
+    timeStart: String,
+    cdnUrl: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    pID: { type: Number, default: null },
-    taskType: { type: String, default: null },
-    active: { type: Boolean, default: null },
 });
-//# sourceMappingURL=task.model.js.map
+//# sourceMappingURL=camera-record.model.js.map

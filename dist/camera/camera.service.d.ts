@@ -3,13 +3,15 @@ import { Camera } from './camera.model';
 import { UserService } from '../user/user.service';
 import { TaskService } from '../task/task.service';
 import { CameraMotionService } from '../camera-motion/camera-motion.service';
+import { CameraRecordService } from 'src/camera-record/camera-record.service';
 export declare class CameraService {
     private readonly cameraModel;
     private readonly userService;
     private readonly taskService;
     private readonly camMotionService;
+    private readonly camRecordService;
     private readonly cameras;
-    constructor(cameraModel: Model<Camera>, userService: UserService, taskService: TaskService, camMotionService: CameraMotionService);
+    constructor(cameraModel: Model<Camera>, userService: UserService, taskService: TaskService, camMotionService: CameraMotionService, camRecordService: CameraRecordService);
     findCameraByID(id: string): Promise<Camera>;
     findCameraByName(name: string): Promise<Camera>;
     getCameras(): Promise<any>;
@@ -18,7 +20,7 @@ export declare class CameraService {
     updateOne(id: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, backupMode: boolean): Promise<boolean>;
     deleteOne(_id: string): Promise<boolean>;
     recordFullStream(url: string): Promise<void>;
-    recordStreamPerTime(camID: string, url: string, time: number): Promise<void>;
+    recordStreamPerTime(camID: string, url: string, userID: string, time: number): Promise<void>;
     turnMotionDetect(url: string): Promise<any>;
     recordDetection(_id: string, userID: string): Promise<any>;
     motionDetection(_id: string, userID: string): Promise<any>;

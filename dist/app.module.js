@@ -16,6 +16,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const task_module_1 = require("./task/task.module");
 const camera_motion_module_1 = require("./camera-motion/camera-motion.module");
 const hardware_camera_module_1 = require("./hardware-camera/hardware-camera.module");
+const camera_record_module_1 = require("./camera-record/camera-record.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -25,6 +26,7 @@ AppModule = __decorate([
             task_module_1.TaskModule,
             camera_motion_module_1.CameraMotionModule,
             hardware_camera_module_1.HardwareCameraModule,
+            camera_record_module_1.CameraRecordModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
