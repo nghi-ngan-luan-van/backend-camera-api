@@ -20,7 +20,10 @@ export class TaskService {
             const task= await this.taskModel.findOne({taskType,user,idCamera})
             return task
      }
-
+     async findTaskWithoutUser (taskType: any,idCamera:any) {
+      const task= await this.taskModel.findOne({taskType,idCamera})
+      return task
+}
     async addTask(idCamera: string,pID:number,user:string,taskType:string,active:boolean) {
       try {
         const newTask = new this.taskModel({

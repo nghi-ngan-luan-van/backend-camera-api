@@ -258,4 +258,54 @@ export class CameraController {
     }
   }
 
+  @Post("recordedvideo")
+  @UseGuards(AuthGuard)
+  async recordedvideoByUser(@Req() req, @Body() body, @Res() res) {
+    const userID = req.userID;
+    const {_id}=body
+    if (!(body && body._id)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "ID is required!" });
+    }
+
+    const result =await this.cameraService.recordedVideoByUser(userID,_id)
+    if (this.userService.findUserByID(userID))
+    {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "Fail " });
+    }
+  }
+
+  @Post("testconnection")
+  @UseGuards(AuthGuard)
+  async testConnection(@Req() req, @Body() body, @Res() res) {
+    const userID = req.userID;
+    const {_id}=body
+    if (!(body && body._id)) {
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "ID is required!" });
+    }
+
+    const result =await this.cameraService.testConnection(_id,userID)
+    console.log(result)
+    if (result)
+    {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+      .status(HttpStatus.FORBIDDEN)
+      .json({ message: "Fail " });
+    }
+  }
 }

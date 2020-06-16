@@ -29,5 +29,7 @@ export declare class CameraService {
     uploadVideo(userID: string, cameraID: string, filePath: string): Promise<void>;
     testput(): boolean;
     listVideoByUSer(userID: string, _id: string): Promise<any>;
+    recordedVideoByUser(userID: string, _id: string): Promise<any>;
     testHandleTask(): Promise<boolean>;
+    testConnection(_id: string, userID: string): Promise<any>;
 }

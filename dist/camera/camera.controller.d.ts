@@ -17,4 +17,6 @@ export declare class CameraController {
     testput(req: any, body: any, res: any): Promise<true>;
     testhandletask(req: any, body: any, res: any): Promise<boolean>;
     listVideoByUser(req: any, body: any, res: any): Promise<any>;
+    recordedvideoByUser(req: any, body: any, res: any): Promise<any>;
+    testConnection(req: any, body: any, res: any): Promise<any>;
 }

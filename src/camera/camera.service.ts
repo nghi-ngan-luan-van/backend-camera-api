@@ -137,13 +137,15 @@ export class CameraService {
     })
   }
   async recordStreamPerTime(camID:string,url: string,userID:string, time: number) {
-    let arr = []
+    const arr = []
     // const command = `ffmpeg -i ${url} -c:v copy -map 0 -f segment -segment_time ${time} -segment_format mp4 ${process.env.ASSETS_PATH}/_%03d.mp4`
-    let watcher = chokidar.watch(process.env.ASSETS_PATH, {
+    const watcher = chokidar.watch(process.env.ASSETS_PATH, {
       ignored: /^\./, persistent: true, awaitWriteFinish: true,
     });
-    const ffmpeg = spawn('ffmpeg',['-i',url,'-c:v','copy','-map','0','-f','segment','-segment_time',`${time}`,'-segment_format','mp4',`${process.env.ASSETS_PATH}/_%03d.mp4`])
+    const ffmpeg = spawn('ffmpeg',['-i',url,'-c:v','copy','-map','0','-f','segment','-segment_time',`${time}`,'-segment_format','mp4',`${process.env.ASSETS_PATH}/${Date.now().toString()}_%03d.mp4`])
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     ffmpeg.stdout.on('data', (data) => {
+      
     })
     // const child = await exec(command, (error, stdout, stderr) => {
     //   if (error) {
@@ -157,7 +159,7 @@ export class CameraService {
     // })
     await this.taskService.addTask(camID,ffmpeg.pid,userID,"3",true);
 
-    let camRecordServ = this.camRecordService
+    const camRecordServ = this.camRecordService
     watcher
       .on('add', async function (path) {
         const n = arr.length
@@ -169,7 +171,7 @@ export class CameraService {
 
         if (n !== 0) {
           console.log(arr[n - 1])
-          const filename= arr[n - 1].split('/').pop()
+          const filename= arr[n - 1].split(`/`).pop()
           console.log(filename)
           const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${camID}/${now}/${filename}`
           const timeStart = Date.now().toString()
@@ -235,6 +237,10 @@ export class CameraService {
       if (backupModeTask) {
         await this.taskService.killTask(backupModeTask.pID)
       }
+      const recordModeTask = await this.taskService.findTaskWithoutUser("0",_id) 
+      if (recordModeTask) {
+        return
+      }
       this.recordStreamPerTime(_id,rtspUrl,userID,10)
       const child = spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "0"]);
       console.log('pid', child.pid)
@@ -287,7 +293,10 @@ export class CameraService {
       if (recordModeTask && recordedTask) {
         await this.taskService.killTask(recordModeTask.pID)
         await this.taskService.killTask(recordedTask.pID)
-
+      }
+      const motionDetectTask = await this.taskService.findTaskWithoutUser("1",_id) 
+      if (motionDetectTask) {
+        return
       }
       const child = spawn('python', ["src/python-scripts/motion-detect.py", rtspUrl, process.env.ASSETS_PATH, "1"]);
       console.log('pid', child.pid)
@@ -426,41 +435,7 @@ export class CameraService {
 
   testput() {
 
-    fs.readFile(`${process.env.ASSETS_PATH}/1591091115000.mp4`, function (err, data) {
-      if (err) {
-        console.log('fs error', err);
-      } else {
-        const params = {
-          Bucket: 'clientapp',
-          Key: `5e9471d6cbeb62504f03bc0b/5ed3e22848d6943ed70ec47f/1591091115000.mp4`,
-          Body: data,
-          ContentType: 'video/mp4',
-          ACL: 'public-read'
-        };
-
-        s3.putObject(params, function (err, data) {
-          if (err) {
-            console.log('Error putting object on S3: ', err);
-          } else {
-            console.log('Placed object on S3: ', data);
-          }
-        });
-      }
-    });
-
-    const params = {
-      Bucket: "clientapp",
-      Prefix: 'nghi/'
-    };
-
-    s3.listObjects(params, function (err, data) {
-      if (err) console.log(err, err.stack);
-      else {
-        data['Contents'].forEach(function (obj) {
-          console.log(obj['Key']);
-        })
-      };
-    });
+    this.recordStreamPerTime('5ed3e22848d6943ed70ec47f','rtsp://192.168.1.104:7777/h264_ulaw.sdp','5e9471d6cbeb62504f03bc0b',10)
     return true
   }
 
@@ -469,26 +444,11 @@ export class CameraService {
     const result = await this.camMotionService.getMotionByUser(userID, rtspUrl)
     console.log(result)
     return result
-    //   const params = {
-    //     Bucket: "clientapp",
-    //     Prefix: `${userID}/${_id}`
-    // };
-    // const result=[]
-    // const s3Response = await s3.listObjects(params).promise();
-    // s3Response['Contents'].forEach(function(obj) {
-    //             if(obj['Key'].split('.').pop()==='mp4') {
-    //               console.log(obj['Key']);
-    //               const item={
-    //                 index:result.length+1,
-    //                 name: 'https://clientapp.sgp1.digitaloceanspaces.com/'+obj['Key']
-    //               }
-    //               result.push(item)
-    //             }
-    //              console.log("res",result)
-
-    //           })
-    //       return result
-
+  }
+  async recordedVideoByUser(userID: string, _id: string): Promise<any> {
+    const result = await this.camRecordService.getMotionByUser(userID, _id)
+    console.log(result)
+    return result
   }
   async testHandleTask() {
     try {
@@ -502,6 +462,52 @@ export class CameraService {
     } catch (error) {
       return false
     }
-
+  }
+  async testConnection(_id: string, userID: string): Promise<any> {
+    try {
+      const { rtspUrl } = await this.cameraModel.findById({ _id }) || {}
+      console.log(rtspUrl)
+      const child = spawn('python', ["src/python-scripts/test-connection.py", rtspUrl, process.env.ASSETS_PATH, _id]);
+      console.log('pid', child.pid)
+      // this.taskService.addTask(_id,child.pid,userID,"1",true);
+  
+  
+      child.stdout.on('data', async (data) => {
+        const output = data.toString().trim()
+        console.log('stdout', output);
+        if (output==='0'){
+          return false
+        }
+        if (output.split('.').pop() === `jpg`) {
+          setTimeout(() => {
+            fs.readFile(`${process.env.ASSETS_PATH}/${output}`, function (err, data) {
+              if (err) {
+                console.log('fs error', err);
+              } else {
+                const params = {
+                  Bucket: 'clientapp',
+                  Key: `${_id}/${output}`,
+                  Body: data,
+                  ACL: 'public-read',
+                  ContentType: 'image/jpeg',
+                };
+        
+                s3.putObject(params, function (err, data) {
+                  if (err) {
+                    console.log('Error putting object on S3: ', err);
+                  } else {
+                    console.log('Placed object on S3: ', data);
+                  }
+                });
+              }
+            });
+          }, 6000);
+        }
+      })
+      return true
+    } catch (error) {
+      return false
+    }
+   
   }
 }

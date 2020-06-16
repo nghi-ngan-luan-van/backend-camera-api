@@ -209,6 +209,47 @@ let CameraController = class CameraController {
                 .json({ message: "Fail " });
         }
     }
+    async recordedvideoByUser(req, body, res) {
+        const userID = req.userID;
+        const { _id } = body;
+        if (!(body && body._id)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "ID is required!" });
+        }
+        const result = await this.cameraService.recordedVideoByUser(userID, _id);
+        if (this.userService.findUserByID(userID)) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Fail " });
+        }
+    }
+    async testConnection(req, body, res) {
+        const userID = req.userID;
+        const { _id } = body;
+        if (!(body && body._id)) {
+            return res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "ID is required!" });
+        }
+        const result = await this.cameraService.testConnection(_id, userID);
+        console.log(result);
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Fail " });
+        }
+    }
 };
 __decorate([
     common_1.Get("public"),
@@ -310,6 +351,22 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "listVideoByUser", null);
+__decorate([
+    common_1.Post("recordedvideo"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
+    __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "recordedvideoByUser", null);
+__decorate([
+    common_1.Post("testconnection"),
+    common_1.UseGuards(auth_guard_1.AuthGuard),
+    __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "testConnection", null);
 CameraController = __decorate([
     common_1.Controller('camera'),
     __metadata("design:paramtypes", [user_service_1.UserService,
