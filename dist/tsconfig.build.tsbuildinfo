@@ -1532,8 +1532,8 @@
         "affectsGlobalScope": false
       },
       "../src/camera/camera.controller.ts": {
-        "version": "c1a00b43eb1829d0be8da43449b8dd8cfd5c3dde1752d38195df091b3d8e4295",
-        "signature": "62641166fc05a07ad51a9f42fa4ac58ac15b7eb8699f281470d72ceadb7043ab",
+        "version": "944e6280bb26aa4bd118172256596c040f1fdb8900cc9e3734eaa11145a7e7bc",
+        "signature": "c2ad0110835e7dd8cbd6766835b69c36985e3623dcd2d1537694280b26b060b3",
         "affectsGlobalScope": false
       },
       "../src/task/task.controller.ts": {

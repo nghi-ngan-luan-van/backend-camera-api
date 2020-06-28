@@ -16,7 +16,7 @@ export declare class CameraController {
     scannetworkk(req: any, body: any, res: any): Promise<any>;
     testput(req: any, body: any, res: any): Promise<true>;
     testhandletask(req: any, body: any, res: any): Promise<boolean>;
-    listVideoByUser(req: any, body: any, res: any): Promise<any>;
-    recordedvideoByUser(req: any, body: any, res: any): Promise<any>;
+    listVideoByUser(req: any, id: any, res: any): Promise<any>;
+    recordedvideoByUser(req: any, id: any, res: any): Promise<any>;
     testConnection(req: any, body: any, res: any): Promise<any>;
 }

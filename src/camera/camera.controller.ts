@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Req, Res, Post, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Res, Post, Body, HttpStatus, Param } from '@nestjs/common';
 import { AuthGuard } from '../auth.guard';
 import { UserService } from '../user/user.service';
 import { CameraService } from './camera.service';
@@ -233,18 +233,17 @@ export class CameraController {
       return null
     }
   }
-  @Post("savedvideo")
+  @Get("savedvideo/:id")
   @UseGuards(AuthGuard)
-  async listVideoByUser(@Req() req, @Body() body, @Res() res) {
+  async listVideoByUser(@Req() req,  @Param('id') id, @Res() res) {
     const userID = req.userID;
-    const {_id}=body
-    if (!(body && body._id)) {
+    if (!id) {
       return res
         .status(HttpStatus.FORBIDDEN)
-        .json({ message: "Rtsp url is required!" });
+        .json({ message: "ID is required!" });
     }
 
-    const result =await this.cameraService.listVideoByUSer(userID,_id)
+    const result =await this.cameraService.listVideoByUSer(userID,id)
     if (this.userService.findUserByID(userID))
     {
       return res
@@ -258,18 +257,18 @@ export class CameraController {
     }
   }
 
-  @Post("recordedvideo")
+  @Get("recordedvideo/:id")
   @UseGuards(AuthGuard)
-  async recordedvideoByUser(@Req() req, @Body() body, @Res() res) {
+  async recordedvideoByUser(@Req() req, @Param('id') id, @Res() res) {
     const userID = req.userID;
-    const {_id}=body
-    if (!(body && body._id)) {
+    console.log(id)
+    if (!id) {
       return res
         .status(HttpStatus.FORBIDDEN)
         .json({ message: "ID is required!" });
     }
 
-    const result =await this.cameraService.recordedVideoByUser(userID,_id)
+    const result =await this.cameraService.recordedVideoByUser(userID,id)
     if (this.userService.findUserByID(userID))
     {
       return res
