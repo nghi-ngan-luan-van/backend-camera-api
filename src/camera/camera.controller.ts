@@ -287,14 +287,14 @@ export class CameraController {
   @UseGuards(AuthGuard)
   async testConnection(@Req() req, @Body() body, @Res() res) {
     const userID = req.userID;
-    const {_id}=body
-    if (!(body && body._id)) {
+    const {rtspUrl}=body
+    if (!(body && body.rtspUrl)) {
       return res
         .status(HttpStatus.FORBIDDEN)
-        .json({ message: "ID is required!" });
+        .json({ message: "rtsp url is required!" });
     }
 
-    const result =await this.cameraService.testConnection(_id,userID)
+    const result =await this.cameraService.testConnection(rtspUrl,userID)
     console.log(result)
     if (result)
     {

@@ -12,6 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../auth.guard");
 const user_service_1 = require("../user/user.service");
@@ -231,13 +232,13 @@ let CameraController = class CameraController {
     }
     async testConnection(req, body, res) {
         const userID = req.userID;
-        const { _id } = body;
-        if (!(body && body._id)) {
+        const { rtspUrl } = body;
+        if (!(body && body.rtspUrl)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "ID is required!" });
+                .json({ message: "rtsp url is required!" });
         }
-        const result = await this.cameraService.testConnection(_id, userID);
+        const result = await this.cameraService.testConnection(rtspUrl, userID);
         console.log(result);
         if (result) {
             return res

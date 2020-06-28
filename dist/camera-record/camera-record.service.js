@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraRecordService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
@@ -20,11 +21,12 @@ let CameraRecordService = class CameraRecordService {
     constructor(cameraRecordModel) {
         this.cameraRecordModel = cameraRecordModel;
     }
-    async addOne(userID, cameraID, timeStart, cdnUrl) {
+    async addOne(userID, cameraID, timeStart, timeEnd, cdnUrl) {
         console.log(userID);
         const newCameraRecord = new this.cameraRecordModel({
             cameraID,
             timeStart,
+            timeEnd,
             cdnUrl,
             user: userID
         });

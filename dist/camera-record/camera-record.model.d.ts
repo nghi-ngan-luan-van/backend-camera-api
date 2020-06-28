@@ -4,6 +4,7 @@ export interface CameraRecord extends mongoose.Document {
     _id: string;
     cameraID: string;
     timeStart: string;
+    timeEnd: string;
     cdnUrl: string;
     user: string;
 }

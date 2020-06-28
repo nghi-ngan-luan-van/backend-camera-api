@@ -9,11 +9,12 @@ export class CameraRecordService {
     @InjectModel('CameraRecord') private readonly cameraRecordModel:Model<CameraRecord>,    
        ) { }
 
-       async addOne(userID: string,cameraID:string, timeStart:string,cdnUrl:string) {
+       async addOne(userID: string,cameraID:string, timeStart:string,timeEnd:string,cdnUrl:string) {
         console.log(userID)
         const newCameraRecord= new this.cameraRecordModel({
           cameraID,
           timeStart,
+          timeEnd,
           cdnUrl,
           user:userID
         })

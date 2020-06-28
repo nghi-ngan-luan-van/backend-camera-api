@@ -6,6 +6,7 @@ export const CameraRecordSchema = new mongoose.Schema({
         ref: 'User'
     },
     timeStart:String,
+    timeEnd:String,
     cdnUrl:String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,6 +17,7 @@ export interface CameraRecord  extends mongoose.Document  {
     _id:string;
     cameraID:string;
     timeStart:string,
+    timeEnd:string,
     cdnUrl:string,
     user:string;
 }

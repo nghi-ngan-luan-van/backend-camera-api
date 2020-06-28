@@ -21,13 +21,13 @@
     "heroku-postbuild": "echo Skip builds on Heroku"
   },
   "dependencies": {
-    "@nestjs/common": "^6.10.14",
-    "@nestjs/core": "^6.10.14",
+    "@nestjs/common": "^6.11.11",
+    "@nestjs/core": "^6.11.11",
     "@nestjs/mongoose": "^6.3.1",
     "@nestjs/platform-express": "^6.10.14",
     "@nestjs/websockets": "^7.1.1",
     "aws-sdk": "^2.663.0",
-    "bcrypt": "^4.0.0",
+    "bcryptjs": "^2.4.3",
     "child_process": "^1.0.2",
     "chokidar": "^3.4.0",
     "dotenv": "^8.2.0",
@@ -47,7 +47,7 @@
     "python-shell": "^1.0.8",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.4",
+    "rxjs": "^6.5.5",
     "socket.io": "^2.3.0",
     "uuid": "^7.0.1"
   },

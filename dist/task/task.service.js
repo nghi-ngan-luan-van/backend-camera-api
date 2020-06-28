@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TaskService = void 0;
 const common_1 = require("@nestjs/common");
 const camera_service_1 = require("../camera/camera.service");
 const mongoose_1 = require("@nestjs/mongoose");
@@ -50,7 +51,9 @@ let TaskService = class TaskService {
     async killTask(pid) {
         const task = await this.taskModel.findOne({ pID: pid });
         if (task) {
-            process.kill(pid);
+            if (require('is-running')(pid)) {
+                process.kill(pid);
+            }
             await this.taskModel.deleteOne({ pID: pid });
             return true;
         }

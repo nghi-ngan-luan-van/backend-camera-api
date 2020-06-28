@@ -45,7 +45,9 @@ export class TaskService {
    async killTask(pid: number) {
           const task = await this.taskModel.findOne({pID:pid})
       if (task) {
-        process.kill(pid)
+        if (require('is-running')(pid)) {
+            process.kill(pid)
+        }
         await this.taskModel.deleteOne({ pID: pid })
         return true
       }

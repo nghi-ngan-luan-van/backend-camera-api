@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.s3 = void 0;
 const AWS = require('aws-sdk');
 const spacesEndpoint = new AWS.Endpoint('sgp1.digitaloceanspaces.com');
 exports.s3 = new AWS.S3({

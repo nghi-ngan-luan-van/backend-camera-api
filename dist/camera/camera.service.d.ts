@@ -31,5 +31,5 @@ export declare class CameraService {
     listVideoByUSer(userID: string, _id: string): Promise<any>;
     recordedVideoByUser(userID: string, _id: string): Promise<any>;
     testHandleTask(): Promise<boolean>;
-    testConnection(_id: string, userID: string): Promise<any>;
+    testConnection(rtspUrl: string, userID: string): Promise<any>;
 }

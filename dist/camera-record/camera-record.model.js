@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraRecordSchema = void 0;
 const mongoose = require("mongoose");
 exports.CameraRecordSchema = new mongoose.Schema({
     cameraID: {
@@ -7,6 +8,7 @@ exports.CameraRecordSchema = new mongoose.Schema({
         ref: 'User'
     },
     timeStart: String,
+    timeEnd: String,
     cdnUrl: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,

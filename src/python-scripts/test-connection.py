@@ -24,15 +24,17 @@ try:
         print('0')
         sys.stdout.flush()
     else:
-        cmd = 'ffmpeg -y -i '+ str(sys.argv[1]) + ' -vframes 1 '+ str(sys.argv[2])+ '/img_'+str(sys.argv[3])+'.jpg'
-        pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        print('img_'+str(sys.argv[3])+'.jpg')
-        sys.stdout.flush()
-        # pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
+        unixtime = int(round(time.time()*1000))
+        cmd = 'ffmpeg -y -i '+ str(sys.argv[1]) + ' -vframes 1 '+ str(sys.argv[2])+ '/img_'+str(unixtime)+'.jpg'
+        pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
         poll = pro.poll()
-     # if poll == None:
-        # os.killpg(os.getpgid(pro.pid), signal.SIGINT
+        pro.wait()
+        print('img_'+str(unixtime)+'.jpg')
+        sys.stdout.flush()
+    if poll != None:
+        vs.stop()
 except KeyboardInterrupt:
-    # if poll == None:
-        # os.killpg(os.getpgid(pro.pid), signal.SIGINT
-    cv2.destroyAllWindows()
+    if poll == None:
+        os.killpg(os.getpgid(pro.pid), signal.SIGINT)
+    vs.stop()
+    

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraSchema = void 0;
 const mongoose = require("mongoose");
 exports.CameraSchema = new mongoose.Schema({
     name: { type: String, default: null },

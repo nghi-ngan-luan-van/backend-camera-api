@@ -35,7 +35,7 @@ try:
 			text = "Unoccupied"
 			# if the frame could not be grabbed, then we have reached the end
 			# of the video
-			if frame is None:
+			if frame == (False,None):
 				break
 			# resize the frame, convert it to grayscale, and blur it
 			frame = imutils.resize(frame, width=700)
@@ -47,7 +47,6 @@ try:
 				continue
 		    	# compute the absolute difference between the current frame and
 			# first frame
-			
 			frameDelta = cv2.absdiff(firstFrame, gray)
 			thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 			# dilate the thresholded image to fill in holes, then find contours
