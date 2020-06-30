@@ -67,7 +67,7 @@ export class CameraService {
     }));
   }
 
-  async addOne(userID: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string) {
+  async addOne(userID: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string,thumbnail:string) {
     console.log(userID)
     const newCamera = new this.cameraModel({
       username,
@@ -76,6 +76,7 @@ export class CameraService {
       ip,
       port,
       rtspUrl,
+      thumbnail,
       user: userID
     })
 

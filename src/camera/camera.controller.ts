@@ -26,14 +26,14 @@ export class CameraController {
   @Post('add')
   @UseGuards(AuthGuard)
   async addCamera(@Body() body, @Res() res,@Req() req) {
-    const { name,rtspUrl,ip,port,username,password} = body
+    const { name,rtspUrl,ip,port,username,password,thumbnail} = body
     if (!body) {
       return res
         .status(HttpStatus.FORBIDDEN)
         .json({ message: "Camera are required!" });
     }
     const userID = req.userID;
-    const result= await this.cameraService.addOne(userID,username,name,password,ip,port,rtspUrl)
+    const result= await this.cameraService.addOne(userID,username,name,password,ip,port,rtspUrl,thumbnail)
     if (result) {
       return res
       .status(HttpStatus.OK)

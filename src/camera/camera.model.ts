@@ -9,6 +9,7 @@ export const CameraSchema = new mongoose.Schema({
         ref: 'HardwareCamera'
     },
     username:{ type: String, default: null },
+    thumbnail:{ type: String, default: null },
     password:{ type: String, default: null },
     backupMode:{ type: Boolean, default: false },
     user: {
@@ -19,6 +20,7 @@ export const CameraSchema = new mongoose.Schema({
 export interface Camera  extends mongoose.Document  {
     _id:string;
     name:string,
+    thumbnail:string,
     ip:string;
     port:number;
     rtspUrl:string;

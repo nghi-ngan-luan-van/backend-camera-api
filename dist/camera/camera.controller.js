@@ -12,7 +12,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CameraController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../auth.guard");
 const user_service_1 = require("../user/user.service");
@@ -30,14 +29,14 @@ let CameraController = class CameraController {
         return `private content of ${userID}`;
     }
     async addCamera(body, res, req) {
-        const { name, rtspUrl, ip, port, username, password } = body;
+        const { name, rtspUrl, ip, port, username, password, thumbnail } = body;
         if (!body) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
                 .json({ message: "Camera are required!" });
         }
         const userID = req.userID;
-        const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl);
+        const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl, thumbnail);
         if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
