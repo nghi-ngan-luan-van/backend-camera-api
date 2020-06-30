@@ -19,8 +19,8 @@ let TaskController = class TaskController {
         this.taskService = taskService;
     }
     async killTask(req, body, res) {
-        const { url } = body;
-        const data = await this.taskService.killTask(url);
+        const { pid } = body;
+        const data = await this.taskService.killTask(parseInt(pid));
         console.log(data);
         if (data) {
             res.send(data);

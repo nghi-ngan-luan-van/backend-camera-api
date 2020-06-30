@@ -9,8 +9,9 @@ export class TaskController {
       @Post("killtask")
   // @UseGuards(AuthGuard)
     async killTask(@Req() req, @Body() body, @Res() res) {
-    const {url} =body
-    const data= await this.taskService.killTask(url)
+    const {pid} =body
+    
+    const data= await this.taskService.killTask(parseInt(pid))
     
      console.log(data)
     if(data)

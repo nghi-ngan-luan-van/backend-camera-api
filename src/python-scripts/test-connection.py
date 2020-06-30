@@ -25,7 +25,7 @@ try:
         sys.stdout.flush()
     else:
         unixtime = int(round(time.time()*1000))
-        cmd = 'ffmpeg -y -i '+ str(sys.argv[1]) + ' -vframes 1 '+ str(sys.argv[2])+ '/img_'+str(unixtime)+'.jpg'
+        cmd = 'ffmpeg -y -i "'+ str(sys.argv[1]) + '" -vframes 1 '+ str(sys.argv[2])+ '/img_'+str(unixtime)+'.jpg'
         pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid) 
         poll = pro.poll()
         pro.wait()

@@ -299,7 +299,7 @@ export class CameraController {
     {
       return res
       .status(HttpStatus.OK)
-      .json(result);
+      .send(result);
     }
     else {
       res

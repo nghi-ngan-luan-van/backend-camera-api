@@ -241,7 +241,7 @@ let CameraController = class CameraController {
         if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
-                .json(result);
+                .send(result);
         }
         else {
             res

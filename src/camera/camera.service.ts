@@ -60,6 +60,7 @@ export class CameraService {
       ip: cam.ip,
       port: cam.port,
       rtspUrl: cam.rtspUrl,
+      thumbnail:cam.thumbnail,
       username: cam.username,
       password: cam.password,
       backupMode: cam.backupMode,
@@ -544,13 +545,15 @@ export class CameraService {
                     console.log('Error putting object on S3: ', err);
                   } else {
                     console.log('Placed object on S3: ', data);
-                    fs.unlinkSync(`${process.env.ASSETS_PATH}/${output}`)
+                    setTimeout(() => {
+                      fs.unlinkSync(`${process.env.ASSETS_PATH}/${output}`)
+                    }, 2000);
                     resolve(`https://clientapp.sgp1.digitaloceanspaces.com/${rtspUrl}/${output}`)
                   }
                 });
               }
             });
-          }, 2000);
+          }, 3000);
         }
       })
     })
