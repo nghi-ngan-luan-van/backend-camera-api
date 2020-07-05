@@ -151,7 +151,6 @@ export class CameraService {
     })
     ffmpeg.on('exit', async (code) => {
       console.log('code', code)
-      const timeEnd=Date.now()
       const recordModeTask = await this.taskService.findTask("0", userID, camID)
       const recordedTask = await this.taskService.findTask("3", userID, camID)
 
@@ -185,11 +184,18 @@ export class CameraService {
                 if (err) {
                   console.log('Error putting object on S3: ', err);
                 } else {
-                  console.log('Placed object on S3: ', data);
                   const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${camID}/${now}/${files[0]}`
                   const timeStart = nowTime+count*time*1000
-                  await camRecordServ.addOne(userID, camID, timeStart.toString(), timeEnd.toString(), cdnUrl)
-                  fs.unlinkSync(`${process.env.ASSETS_PATH}/${files[0]}`)
+                  let duration;
+                  exec(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ${cdnUrl}`, async (error, stdout, stderr) => {
+                    duration=stdout 
+                    console.log('stdout', stdout)
+                    const timeEnd = timeStart +1000*Math.round(parseInt(duration)+1);
+                    console.log(Math.round(parseInt(duration)+1))
+                    await camRecordServ.addOne(userID, camID, timeStart.toString(), timeEnd.toString(), cdnUrl)
+                    console.log('Placed object on S3: ', data);
+                    fs.unlinkSync(`${process.env.ASSETS_PATH}/${files[0]}`)
+                  })
                 }
               });
             }
