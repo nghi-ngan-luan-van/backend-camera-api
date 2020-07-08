@@ -12,6 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../auth.guard");
 const user_service_1 = require("../user/user.service");

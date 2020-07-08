@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraService = void 0;
 const common_1 = require("@nestjs/common");
 const child_process_1 = require("child_process");
 const mongoose_1 = require("@nestjs/mongoose");
@@ -138,17 +139,25 @@ let CameraService = class CameraService {
     }
     async recordStreamPerTime(camID, url, userID, time) {
         const arr = [];
-        const watcher = chokidar.watch(process.env.ASSETS_PATH, {
+        let count = 0;
+        if (count === 0) {
+            try {
+                await child_process_1.execSync(`mkdir ${camID}`);
+            }
+            catch (error) {
+            }
+            await child_process_1.execSync(`cd ${camID} ; mkdir record`);
+        }
+        console.log('a');
+        const watcher = chokidar.watch(`${camID}/record`, {
             ignored: /^\./, persistent: true, awaitWriteFinish: true,
         });
         const nowTime = Date.now();
-        const ffmpeg = child_process_1.spawn('ffmpeg', ['-i', url, '-c:v', 'copy', '-map', '0', '-f', 'segment', '-segment_time', `${time}`, '-segment_format', 'mp4', `${process.env.ASSETS_PATH}/${nowTime.toString()}_%03d.mp4`]);
-        let count = 0;
+        const ffmpeg = child_process_1.spawn('ffmpeg', ['-i', url, '-c:v', 'copy', '-map', '0', '-f', 'segment', '-segment_time', `${time}`, '-segment_format', 'mp4', `${camID}/record/${nowTime.toString()}_%03d.mp4`]);
         ffmpeg.stdout.on('data', (data) => {
         });
         ffmpeg.on('exit', async (code) => {
             console.log('code', code);
-            const timeEnd = Date.now();
             const recordModeTask = await this.taskService.findTask("0", userID, camID);
             const recordedTask = await this.taskService.findTask("3", userID, camID);
             if (recordModeTask && recordedTask) {
@@ -156,41 +165,54 @@ let CameraService = class CameraService {
                 await this.taskService.killTask(recordedTask.pID);
                 console.log('done');
             }
-            setTimeout(() => {
-                const files = fs.readdirSync(process.env.ASSETS_PATH);
-                console.log("files", files);
-                if (files.length !== 0) {
-                    const d = new Date();
-                    const month = d.getMonth() + 1;
-                    const now = d.getDate() + '_' + month + '_' + d.getFullYear();
-                    fs.readFile(`${process.env.ASSETS_PATH}/${files[0]}`, function (err, data) {
-                        if (err) {
-                            console.log('fs error', err);
-                        }
-                        else {
-                            const params = {
-                                Bucket: 'clientapp',
-                                Key: `${camID}/${now}/${files[0]}`,
-                                Body: data,
-                                ContentType: 'video/mp4',
-                                ACL: 'public-read'
-                            };
-                            auth_1.s3.putObject(params, async function (err, data) {
-                                if (err) {
-                                    console.log('Error putting object on S3: ', err);
-                                }
-                                else {
-                                    console.log('Placed object on S3: ', data);
-                                    const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${camID}/${now}/${files[0]}`;
-                                    const timeStart = nowTime + count * time * 1000;
-                                    await camRecordServ.addOne(userID, camID, timeStart.toString(), timeEnd.toString(), cdnUrl);
-                                    fs.unlinkSync(`${process.env.ASSETS_PATH}/${files[0]}`);
-                                }
-                            });
-                        }
-                    });
-                }
-            }, 5000);
+            try {
+                setTimeout(() => {
+                    console.log(`${camID}/record`);
+                    const files = fs.readdirSync(`${camID}/record`);
+                    console.log("files", files);
+                    if (files.length !== 0) {
+                        const d = new Date();
+                        const month = d.getMonth() + 1;
+                        const now = d.getDate() + '_' + month + '_' + d.getFullYear();
+                        fs.readFile(`${camID}/record/${files[0]}`, function (err, data) {
+                            if (err) {
+                                console.log('fs error', err);
+                            }
+                            else {
+                                const params = {
+                                    Bucket: 'clientapp',
+                                    Key: `${camID}/${now}/${files[0]}`,
+                                    Body: data,
+                                    ContentType: 'video/mp4',
+                                    ACL: 'public-read'
+                                };
+                                auth_1.s3.putObject(params, async function (err, data) {
+                                    if (err) {
+                                        console.log('Error putting object on S3: ', err);
+                                    }
+                                    else {
+                                        const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${camID}/${now}/${files[0]}`;
+                                        const timeStart = nowTime + count * time * 1000;
+                                        let duration;
+                                        child_process_1.exec(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ${cdnUrl}`, async (error, stdout, stderr) => {
+                                            duration = stdout;
+                                            console.log('stdout', stdout);
+                                            const timeEnd = timeStart + 1000 * Math.round(parseInt(duration) + 1);
+                                            console.log(Math.round(parseInt(duration) + 1));
+                                            await camRecordServ.addOne(userID, camID, timeStart.toString(), timeEnd.toString(), cdnUrl);
+                                            console.log('Placed object on S3: ', data);
+                                            fs.unlinkSync(`${camID}/record/${files[0]}`);
+                                            child_process_1.execSync(`rmdir ${camID}/record`);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }, 5000);
+            }
+            catch (error) {
+            }
         });
         await this.taskService.addTask(camID, ffmpeg.pid, userID, "3", true);
         const camRecordServ = this.camRecordService;
@@ -327,8 +349,9 @@ let CameraService = class CameraService {
                     const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${_id}/${filePath}`;
                     console.log(userID, _id, cdnUrl);
                     await this.camMotionService.addOne(userID, rtspUrl, filePath, timeStart, timeEnd, cdnUrl);
-                    this.uploadVideo(userID, _id, filePath);
+                    const filePathTemp = filePath;
                     filePath = '', timeStart = '', timeEnd = '';
+                    this.uploadVideo(userID, _id, filePathTemp);
                 }
             });
             child.on('exit', async (code) => {
