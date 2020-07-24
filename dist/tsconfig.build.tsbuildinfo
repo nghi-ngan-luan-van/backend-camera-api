@@ -1467,13 +1467,13 @@
         "affectsGlobalScope": false
       },
       "../src/auth/auth.service.ts": {
-        "version": "d241f52f3691d2f024c42df0413ddf6abf020203f1038ce51d2fe48808962be6",
-        "signature": "c34602fd5dd60d5c189d4b5635dbcb284a40deb307792af1413b338ab224ccda",
+        "version": "8221a529904f939d6d930e0707413020cb9ed5d0947be229a614935e4986caeb",
+        "signature": "ad0ed602d28754299365288396d7c110a2faa20386a96bcbf42c93f93c79dffb",
         "affectsGlobalScope": false
       },
       "../src/auth/auth.controller.ts": {
-        "version": "204a8235d18fc5bd124ab28ecd3e46d5edaccaf30637714b03ad75d7f4501cf1",
-        "signature": "8b20e4c3277e46c676f5518e4d269a57ac178e4c8fc1fd6c189031412d10e939",
+        "version": "fc9164caee83a706559b0e6e239469f705385163f653047e478adb3795286397",
+        "signature": "ee80e1becef65f403298cc7c7bfd6690d8cf4494dbbb1fa23d2691c810ebd5ba",
         "affectsGlobalScope": false
       },
       "../src/auth/auth.module.ts": {
@@ -1517,7 +1517,7 @@
         "affectsGlobalScope": false
       },
       "../src/camera-record/camera-record.model.ts": {
-        "version": "41e359fbe18248852812d74471d20c1eaaadd426b0feb2610211ac1e87848a8d",
+        "version": "55b798854e8c51bfdf666903985ebeb953a32d82999c7bde2721121db911dd99",
         "signature": "592618326434514a6ba6e09bce45d32ea1ca9f37075ccdf207f9b3a08a15c879",
         "affectsGlobalScope": false
       },
@@ -1526,14 +1526,64 @@
         "signature": "fc6237b67644519c59538ef3daac819b814b268e4460411e0605e5eba56f1cae",
         "affectsGlobalScope": false
       },
+      "../node_modules/@nestjs/schedule/dist/enums/cron-expression.enum.d.ts": {
+        "version": "d0c71c363e1ef27ff903212656638f30a7639bfe5437426d44b94727c7fe4687",
+        "signature": "d0c71c363e1ef27ff903212656638f30a7639bfe5437426d44b94727c7fe4687",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/enums/index.d.ts": {
+        "version": "68065ce3af3ef8599af8338068cf336be35249eff281ee393186a0ef40db3abf",
+        "signature": "68065ce3af3ef8599af8338068cf336be35249eff281ee393186a0ef40db3abf",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/decorators/cron.decorator.d.ts": {
+        "version": "f5e11b3470c7c3c44c05ef445eb509e1d339df13cee0e882edbcc5c389294f6a",
+        "signature": "f5e11b3470c7c3c44c05ef445eb509e1d339df13cee0e882edbcc5c389294f6a",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/decorators/interval.decorator.d.ts": {
+        "version": "d1fd6ff6e0d1cee69f853c805f3842924425f68edc108283a0bb1628c78d1a51",
+        "signature": "d1fd6ff6e0d1cee69f853c805f3842924425f68edc108283a0bb1628c78d1a51",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/decorators/timeout.decorator.d.ts": {
+        "version": "6d3eb6a1c83878770cc946e7b8d59c51e1649aee979f4a11356a74613c52c649",
+        "signature": "6d3eb6a1c83878770cc946e7b8d59c51e1649aee979f4a11356a74613c52c649",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/decorators/index.d.ts": {
+        "version": "4e5f1234308de112f09920e0a0b99f35a9780b3abbc13a84445f32a490d0bb87",
+        "signature": "4e5f1234308de112f09920e0a0b99f35a9780b3abbc13a84445f32a490d0bb87",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/schedule.module.d.ts": {
+        "version": "a8a3b336f10078fb021c597d024a5526f2e72d81a349667db1a5cb5e9db8832c",
+        "signature": "a8a3b336f10078fb021c597d024a5526f2e72d81a349667db1a5cb5e9db8832c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/scheduler.registry.d.ts": {
+        "version": "f3e7032600be820836b4ed393f8cb82fa9024e128bbf86816d3903dc2a28f93c",
+        "signature": "f3e7032600be820836b4ed393f8cb82fa9024e128bbf86816d3903dc2a28f93c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/dist/index.d.ts": {
+        "version": "0e00d55a00ecd78664a623d02a3cc73cd5cd5074fd0195be57ef1a1f5a9c9305",
+        "signature": "0e00d55a00ecd78664a623d02a3cc73cd5cd5074fd0195be57ef1a1f5a9c9305",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/schedule/index.d.ts": {
+        "version": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f",
+        "signature": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f",
+        "affectsGlobalScope": false
+      },
       "../src/camera/camera.service.ts": {
-        "version": "2cef4b8beb6863aa88abdcd703392c98482ee7d9dc4886c131e14700432127bc",
-        "signature": "547bad4ec591ce439816534c46d4850f782ed66641bd4c5faa4ba4404e915c9c",
+        "version": "e8d224c8d57fd02f29f526da7028492ec256e7c154c08bdcec3fcd57b26dca51",
+        "signature": "c5d0ce253f966776fd13c2bc82b0046478541c7e4b733d771e232cdf3d7ac165",
         "affectsGlobalScope": false
       },
       "../src/camera/camera.controller.ts": {
-        "version": "d80c7ae1afa798ee5361344f013fa79627cc84eaeac764eba84f46f786ecd107",
-        "signature": "c2ad0110835e7dd8cbd6766835b69c36985e3623dcd2d1537694280b26b060b3",
+        "version": "04638a442d22d7605058c4fadea63624f73760fef147dcb1b3f9afa038c2b535",
+        "signature": "d96aa0a66ee7d89428b5caa87614ed7024cd42055e677deb7d9517cb0bede2a9",
         "affectsGlobalScope": false
       },
       "../src/task/task.controller.ts": {
@@ -1577,13 +1627,13 @@
         "affectsGlobalScope": false
       },
       "../src/hardware-camera/hardware-camera.service.ts": {
-        "version": "30c1994fc9bbcfe810cc6876c1a38556872d1a3dd6c36dca5a8c1729305bff6d",
-        "signature": "dfc8adc2e848b3866c5cdd7dd1b7cb62c8a0815ff3ed9a3ee4171600d027793c",
+        "version": "ed0cbd2a9f51f57898b9f1de349c4cae833814a0016344b0ffe65e53c6a98cb0",
+        "signature": "48ed5e3b90c297cabe42722fa695123ff675c7283df200ce3072b52a0ad3d389",
         "affectsGlobalScope": false
       },
       "../src/hardware-camera/hardware-camera.controller.ts": {
-        "version": "c24ec8f7cc67b183c9107de369421d3f0c39f235f2fe15a453361be38ef68c18",
-        "signature": "c5443e02e9b15dc838062cfd172fc73ca62a2ed4e01895f9d1bf1d3e91895e57",
+        "version": "96c0753f88a24d1f65b3c52ad1117aaf692821c030c5292a1c4b191235dd508b",
+        "signature": "bdf55b743760ea8002d3c0f3a00ff02c0c41490b357bd8707fd1729849275ec6",
         "affectsGlobalScope": false
       },
       "../src/hardware-camera/hardware-camera.module.ts": {
@@ -1592,7 +1642,7 @@
         "affectsGlobalScope": false
       },
       "../src/app.module.ts": {
-        "version": "0575c49a8900136cd17db209261a1cd9a366a1e4d457639579b3967b4b4ed1b6",
+        "version": "2903b5cbacdccccbb93d1389df136b4beeacfccb2a81b96305b8c2a7c9c09b9a",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644",
         "affectsGlobalScope": false
       },
@@ -3469,6 +3519,76 @@
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts"
       ],
+      "../node_modules/@nestjs/schedule/dist/decorators/cron.decorator.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/decorators/cron.decorator.d.ts",
+        "../node_modules/@nestjs/schedule/dist/decorators/interval.decorator.d.ts",
+        "../node_modules/@nestjs/schedule/dist/decorators/timeout.decorator.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/interval.decorator.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/timeout.decorator.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/enums/cron-expression.enum.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/enums/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/enums/cron-expression.enum.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/decorators/index.d.ts",
+        "../node_modules/@nestjs/schedule/dist/enums/index.d.ts",
+        "../node_modules/@nestjs/schedule/dist/schedule.module.d.ts",
+        "../node_modules/@nestjs/schedule/dist/scheduler.registry.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/schedule.module.d.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/scheduler.registry.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../node_modules/@types/anymatch/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -4952,6 +5072,7 @@
       "../src/app.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../node_modules/@nestjs/schedule/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
@@ -5111,11 +5232,13 @@
       "../src/camera/camera.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
+        "../node_modules/@nestjs/schedule/index.d.ts",
         "../node_modules/@types/node/child_process.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/worker_threads.d.ts",
         "../node_modules/rxjs/internal/scheduler/async.d.ts",
         "../src/.aws/auth.ts",
         "../src/camera-motion/camera-motion.service.ts",
@@ -6684,6 +6807,76 @@
       ],
       "../node_modules/@nestjs/mongoose/index.d.ts": [
         "../node_modules/@nestjs/mongoose/dist/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/cron.decorator.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/decorators/cron.decorator.d.ts",
+        "../node_modules/@nestjs/schedule/dist/decorators/interval.decorator.d.ts",
+        "../node_modules/@nestjs/schedule/dist/decorators/timeout.decorator.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/interval.decorator.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/decorators/timeout.decorator.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/enums/cron-expression.enum.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/enums/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/enums/cron-expression.enum.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/decorators/index.d.ts",
+        "../node_modules/@nestjs/schedule/dist/enums/index.d.ts",
+        "../node_modules/@nestjs/schedule/dist/schedule.module.d.ts",
+        "../node_modules/@nestjs/schedule/dist/scheduler.registry.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/schedule.module.d.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/dist/scheduler.registry.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../node_modules/@nestjs/schedule/index.d.ts": [
+        "../node_modules/@nestjs/schedule/dist/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",

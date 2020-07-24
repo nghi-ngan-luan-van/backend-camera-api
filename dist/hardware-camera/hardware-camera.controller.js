@@ -40,6 +40,20 @@ let HardwareCameraController = class HardwareCameraController {
                 .json({ message: "Cannot add hardware camera" });
         }
     }
+    async allCam(req, res) {
+        const userID = req.userID;
+        const result = await this.hardwareCameraService.getCameras();
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json({ result });
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot return camera" });
+        }
+    }
 };
 __decorate([
     common_1.Post('add'),
@@ -49,6 +63,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], HardwareCameraController.prototype, "addCamera", null);
+__decorate([
+    common_1.Get("allcam"),
+    __param(0, common_1.Req()), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], HardwareCameraController.prototype, "allCam", null);
 HardwareCameraController = __decorate([
     common_1.Controller('hardware-camera'),
     __metadata("design:paramtypes", [hardware_camera_service_1.HardwareCameraService])

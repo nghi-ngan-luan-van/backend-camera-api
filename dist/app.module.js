@@ -18,6 +18,7 @@ const task_module_1 = require("./task/task.module");
 const camera_motion_module_1 = require("./camera-motion/camera-motion.module");
 const hardware_camera_module_1 = require("./hardware-camera/hardware-camera.module");
 const camera_record_module_1 = require("./camera-record/camera-record.module");
+const schedule_1 = require("@nestjs/schedule");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -28,6 +29,7 @@ AppModule = __decorate([
             camera_motion_module_1.CameraMotionModule,
             hardware_camera_module_1.HardwareCameraModule,
             camera_record_module_1.CameraRecordModule,
+            schedule_1.ScheduleModule.forRoot()
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

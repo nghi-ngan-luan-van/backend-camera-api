@@ -8,4 +8,5 @@ export declare class AuthService {
     }>;
     validateUser(signedUser: any): Promise<boolean>;
     verifyToken(token: any): Promise<import("../user/user.model").User>;
+    googleSignIn(idToken: any): Promise<boolean>;
 }

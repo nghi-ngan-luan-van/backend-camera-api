@@ -9,6 +9,7 @@ import { TaskModule } from './task/task.module';
 import { CameraMotionModule } from './camera-motion/camera-motion.module';
 import { HardwareCameraModule } from './hardware-camera/hardware-camera.module';
 import { CameraRecordModule } from './camera-record/camera-record.module';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [UserModule, AuthModule, CameraModule,
     MongooseModule.forRoot(process.env.MONGOLAB_URI ||'mongodb+srv://phuongnghi:r23AQLOpXter29tn@cluster0-kfdw8.mongodb.net/camera-db?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology: true}),
@@ -16,6 +17,7 @@ import { CameraRecordModule } from './camera-record/camera-record.module';
     CameraMotionModule,
     HardwareCameraModule,
     CameraRecordModule,
+    ScheduleModule.forRoot()
     ],
   controllers: [AppController],
   providers: [AppService],

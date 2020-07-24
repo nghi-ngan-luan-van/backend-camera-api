@@ -30,4 +30,20 @@ export class HardwareCameraController {
           .json({ message: "Cannot add hardware camera" });
       }
     }
+    @Get("allcam")
+  //@UseGuards(AuthGuard)
+  async allCam(@Req() req, @Res() res) {
+    const userID = req.userID;
+    const result= await this.hardwareCameraService.getCameras()
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json({result});
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot return camera" });
+    }
+  }
 }

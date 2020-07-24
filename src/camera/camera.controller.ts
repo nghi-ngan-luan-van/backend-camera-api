@@ -107,7 +107,22 @@ export class CameraController {
         .json({ message: "Cannot return camera" });
     }
   }
-
+  @Get("allcam")
+  //@UseGuards(AuthGuard)
+  async allCam(@Req() req, @Res() res) {
+    const userID = req.userID;
+    const result= await this.cameraService.getCameras()
+    if (result) {
+      return res
+      .status(HttpStatus.OK)
+      .json(result);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot return camera" });
+    }
+  }
   @Post("recordfull")
   @UseGuards(AuthGuard)
   async recordFullStream(@Req() req, @Body() body, @Res() res) {
@@ -307,4 +322,6 @@ export class CameraController {
       .json({ message: "Fail " });
     }
   }
+
+  
 }

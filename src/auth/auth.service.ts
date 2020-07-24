@@ -34,4 +34,9 @@ export class AuthService {
     }
     return user;
   }
+
+  async googleSignIn(idToken) {
+    
+    return true
+  }
 }

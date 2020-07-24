@@ -41,6 +41,9 @@ let AuthService = class AuthService {
         }
         return user;
     }
+    async googleSignIn(idToken) {
+        return true;
+    }
 };
 AuthService = __decorate([
     common_1.Injectable(),

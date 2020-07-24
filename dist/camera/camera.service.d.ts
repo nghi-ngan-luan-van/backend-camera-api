@@ -12,6 +12,7 @@ export declare class CameraService {
     private readonly camRecordService;
     private readonly cameras;
     constructor(cameraModel: Model<Camera>, userService: UserService, taskService: TaskService, camMotionService: CameraMotionService, camRecordService: CameraRecordService);
+    handleCron(): Promise<void>;
     findCameraByID(id: string): Promise<Camera>;
     findCameraByName(name: string): Promise<Camera>;
     getCameras(): Promise<any>;

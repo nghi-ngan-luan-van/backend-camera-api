@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose'
 export const CameraRecordSchema = new mongoose.Schema({
     cameraID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Camera'
     },
     timeStart:String,
     timeEnd:String,

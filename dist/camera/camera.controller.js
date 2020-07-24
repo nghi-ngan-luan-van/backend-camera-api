@@ -103,6 +103,20 @@ let CameraController = class CameraController {
                 .json({ message: "Cannot return camera" });
         }
     }
+    async allCam(req, res) {
+        const userID = req.userID;
+        const result = await this.cameraService.getCameras();
+        if (result) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(result);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot return camera" });
+        }
+    }
     async recordFullStream(req, body, res) {
         const { url } = body;
         if (!(body && body.url)) {
@@ -297,6 +311,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "getListByUser", null);
+__decorate([
+    common_1.Get("allcam"),
+    __param(0, common_1.Req()), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CameraController.prototype, "allCam", null);
 __decorate([
     common_1.Post("recordfull"),
     common_1.UseGuards(auth_guard_1.AuthGuard),

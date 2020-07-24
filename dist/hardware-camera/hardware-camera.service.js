@@ -36,6 +36,13 @@ let HardwareCameraService = class HardwareCameraService {
             return false;
         }
     }
+    async getCameras() {
+        const cameras = await this.hardwareCameraModel.find().exec();
+        return cameras.map(cam => ({
+            _id: cam._id,
+            rtspUrl: cam.rtspUrl,
+        }));
+    }
 };
 HardwareCameraService = __decorate([
     common_1.Injectable(),

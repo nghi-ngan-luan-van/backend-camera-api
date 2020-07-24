@@ -7,4 +7,5 @@ export declare class AuthController {
     register(body: any, res: any): Promise<void>;
     login(res: any, body: any): Promise<any>;
     verifytoken(res: any, body: any): Promise<any>;
+    googleSignIn(res: any, body: any): Promise<any>;
 }

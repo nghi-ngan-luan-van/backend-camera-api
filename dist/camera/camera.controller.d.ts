@@ -10,6 +10,7 @@ export declare class CameraController {
     editCamera(body: any, res: any, req: any): Promise<any>;
     deleteCamera(body: any, res: any, req: any): Promise<any>;
     getListByUser(req: any, res: any): Promise<any>;
+    allCam(req: any, res: any): Promise<any>;
     recordFullStream(req: any, body: any, res: any): Promise<any>;
     turnDetect(req: any, body: any, res: any): Promise<any>;
     recordDetection(req: any, body: any, res: any): Promise<any>;

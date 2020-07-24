@@ -78,5 +78,27 @@ import {
         .status(HttpStatus.FORBIDDEN)
         .json({ message: "Token wrong!" });
     }
+
+    @Post("google")
+    async googleSignIn(@Res() res, @Body() body) {
+      if (!(body && body.token)) {
+        return res
+          .status(HttpStatus.FORBIDDEN)
+          .json({ message: "Token required!" });
+      }
+  
+      const result = await this.authService.googleSignIn(body.token);
+  
+      if (result) {
+        return res
+        .status(HttpStatus.OK)
+        .json(result);
+
+      }
+  
+      return res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Token wrong!" });
+    }
   }
   

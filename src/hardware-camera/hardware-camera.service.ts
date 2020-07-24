@@ -6,21 +6,28 @@ import { Model } from 'mongoose'
 @Injectable()
 export class HardwareCameraService {
     constructor(
-        @InjectModel('HardwareCamera') private readonly hardwareCameraModel:Model<HardwareCamera>,    
-         ) { }
-  
-         async addOne(rtspUrl:string) {
-             try {
-                if(!this.hardwareCameraModel.findbyID({rtspUrl})) {
-                    const newCam = new this.hardwareCameraModel({
-                        rtspUrl
-                      })
-                      const result= await newCam.save();
-                      return result;
-                }
-                return false       
-             } catch (error) {
-                return false
-             }        
+        @InjectModel('HardwareCamera') private readonly hardwareCameraModel: Model<HardwareCamera>,
+    ) { }
+
+    async addOne(rtspUrl: string) {
+        try {
+            if (!this.hardwareCameraModel.findbyID({ rtspUrl })) {
+                const newCam = new this.hardwareCameraModel({
+                    rtspUrl
+                })
+                const result = await newCam.save();
+                return result;
+            }
+            return false
+        } catch (error) {
+            return false
         }
+    }
+    async getCameras() {
+        const cameras = await this.hardwareCameraModel.find().exec();
+        return cameras.map(cam => ({
+            _id: cam._id,
+            rtspUrl: cam.rtspUrl,
+        }));
+    }
 }
