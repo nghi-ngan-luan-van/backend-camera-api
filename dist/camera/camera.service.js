@@ -13,7 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CameraService = void 0;
 const common_1 = require("@nestjs/common");
 const child_process_1 = require("child_process");
 const mongoose_1 = require("@nestjs/mongoose");

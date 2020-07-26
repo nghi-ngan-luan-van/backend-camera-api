@@ -204,7 +204,9 @@ export class CameraService {
 
   async deleteOne(_id: string) {
     try {
-      const result = await this.cameraModel.deleteOne({ _id: _id })
+      const result = await this.cameraModel.findById({ _id: _id })
+      result.deleted=true
+      await result.save()
       return true
     } catch (error) {
       return false

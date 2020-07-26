@@ -12,6 +12,7 @@ export const CameraSchema = new mongoose.Schema({
     thumbnail:{ type: String, default: null },
     password:{ type: String, default: null },
     backupMode:{ type: Boolean, default: false },
+    deleted:{type:Boolean,default:false},
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -27,5 +28,6 @@ export interface Camera  extends mongoose.Document  {
     username:string;
     password:string;
     backupMode:boolean;
+    deleted:boolean;
     user:string;
 }
