@@ -48,6 +48,32 @@ let UserController = class UserController {
             res.send('fail');
         }
     }
+    mailReset(body, res) {
+        const { email } = body;
+        if (this.userService.sendMailReset(email)) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(true);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot send email" });
+        }
+    }
+    changePassword(body, res) {
+        const { id, newPassword } = body;
+        if (this.userService.changePassword(id, newPassword)) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(true);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot change password" });
+        }
+    }
     getAllUser() {
         return this.userService.getUsers();
     }
@@ -80,6 +106,20 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "deleteUser", null);
+__decorate([
+    common_1.Post('mailReset'),
+    __param(0, common_1.Body()), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "mailReset", null);
+__decorate([
+    common_1.Post('changePassword'),
+    __param(0, common_1.Body()), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "changePassword", null);
 __decorate([
     common_1.Get(),
     __metadata("design:type", Function),

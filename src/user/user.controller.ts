@@ -7,7 +7,8 @@ import {
   Body,
   HttpCode,
   Header,
-  Param
+  Param,
+  HttpStatus
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 
@@ -49,6 +50,36 @@ export class UserController {
       res.send('fail')
     }
   }
+  @Post('mailReset')
+  mailReset(@Body() body, @Res() res) {
+    const { email } = body
+    if (this.userService.sendMailReset(email)) {
+      return res
+      .status(HttpStatus.OK)
+      .json(true);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot send email" });
+    }
+  }
+   
+  @Post('changePassword')
+  changePassword(@Body() body, @Res() res) {
+    const { id,newPassword } = body
+    if (this.userService.changePassword(id,newPassword)) {
+      return res
+      .status(HttpStatus.OK)
+      .json(true);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot change password" });
+    }
+  }
+
   @Get()
   getAllUser() {
     return this.userService.getUsers();

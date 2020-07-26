@@ -18,6 +18,8 @@ const common_1 = require("@nestjs/common");
 const bcrypt = require("bcryptjs");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const randomstring = require('randomstring');
+const sendMail = require('../misc/mailer');
 let UserService = class UserService {
     constructor(userModel) {
         this.userModel = userModel;
@@ -56,6 +58,34 @@ let UserService = class UserService {
     async deleteOne(id) {
         const result = await this.userModel.deleteOne({ _id: id });
         return result;
+    }
+    async changePassword(id, newPassword) {
+        const user = await this.userModel.findById(id);
+        if (!user)
+            return false;
+        const hashpassword = await this.getHash(newPassword);
+        user.password = hashpassword;
+        await user.save();
+        return user;
+    }
+    async sendMailReset(email) {
+        const res = this.findUserByEmail(email);
+        const user = await this.userModel.findById((await res)._id);
+        if (!user)
+            return false;
+        user.resetExpires = Date.now() + 108000;
+        console.log(user.resetExpires);
+        const html = `Chào bạn,
+    Email đăng nhập của bạn là: ${user.email}       
+    Vui lòng nhập đoạn mã sau de reset password:  ${user.resetToken}
+    Chúc một ngày tốt lành.`;
+        sendMail(email, 'Reset password Clomera', html, async function (err, data) {
+            if (err)
+                throw err;
+            user.resetToken = randomstring.generate(7);
+            await user.save();
+            return true;
+        });
     }
     async getHash(password) {
         return bcrypt.hash(password, 10);

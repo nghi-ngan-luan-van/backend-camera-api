@@ -33,7 +33,7 @@ export class CameraService {
 
   ) { }
 
-  @Cron('0 */1 * * * *')
+  @Cron('0 */30 * * * *')
   async handleCron() {
     const requestOption = {
       method: "GET",

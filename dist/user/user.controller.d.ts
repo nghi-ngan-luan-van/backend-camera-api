@@ -6,5 +6,7 @@ export declare class UserController {
     addUser(body: any, res: any): void;
     updateUser(param: any, body: any, res: any): void;
     deleteUser(param: any, res: any): void;
+    mailReset(body: any, res: any): any;
+    changePassword(body: any, res: any): any;
     getAllUser(): Promise<any>;
 }

@@ -5,4 +5,6 @@ export interface User extends mongoose.Document {
     email: string;
     name: string;
     password: string;
+    resetToken: string;
+    resetExpires: number;
 }

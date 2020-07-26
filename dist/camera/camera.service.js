@@ -601,7 +601,7 @@ let CameraService = class CameraService {
     }
 };
 __decorate([
-    schedule_1.Cron('0 */1 * * * *'),
+    schedule_1.Cron('0 */30 * * * *'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

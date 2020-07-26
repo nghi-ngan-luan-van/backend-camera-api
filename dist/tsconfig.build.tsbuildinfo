@@ -1397,8 +1397,8 @@
         "affectsGlobalScope": false
       },
       "../src/user/user.model.ts": {
-        "version": "1e4db881f755503c070c73d5e4cc86f713d85bafb224a88524cfeb45504b2f9d",
-        "signature": "674a075219145b84c392f60a2b2ddc891f634a199503430521a1751b86dea8db",
+        "version": "9bc597f919ef62237a3e3e81513247467133ea33aec5f088e46aeb34675ff821",
+        "signature": "826e7b3c1b2908844f972fbc45d6a3f476648e49d67d300eb7c2f174877680f4",
         "affectsGlobalScope": false
       },
       "../node_modules/@nestjs/mongoose/dist/common/mongoose.decorators.d.ts": {
@@ -1452,13 +1452,13 @@
         "affectsGlobalScope": false
       },
       "../src/user/user.service.ts": {
-        "version": "8da0b2c5ed7afb334258afd94e74a1ba6ea6a2a0118eb0962a2da803f6dd807b",
-        "signature": "0cd927e29af8d7397c5cdbd9b80028ba91344c840d4b5ddb5f58c03ffa6c622a",
+        "version": "83c0bdfaa142c2d9d1737dce76aeca59439d41969702db374f1329e5bdc438b1",
+        "signature": "f984949355cb7e396336b9ed2a987b83c3565ef94200e33c6aaed0408cb093b0",
         "affectsGlobalScope": false
       },
       "../src/user/user.controller.ts": {
-        "version": "2088a9ef2ab22872cb84f6123226405dddda0eff024703211373fba36ae63a1f",
-        "signature": "bb41b5caab32889b7f439122decf01d27723a48887e704d958b1e02675c875c5",
+        "version": "8f9ceb3ca2beaf5c5d2aa37982ba36b76893576f4c5f90f687466b93f3e21a89",
+        "signature": "3fb4bf242eff7070dff3464edcc6982bb5b66eedb34d019c5fa0422d7981abd5",
         "affectsGlobalScope": false
       },
       "../src/user/user.module.ts": {
@@ -1577,7 +1577,7 @@
         "affectsGlobalScope": false
       },
       "../src/camera/camera.service.ts": {
-        "version": "e8d224c8d57fd02f29f526da7028492ec256e7c154c08bdcec3fcd57b26dca51",
+        "version": "64b92f15823fb39b4fca8560207838a934b5e11e6f01efac0cce4e1343443448",
         "signature": "c5d0ce253f966776fd13c2bc82b0046478541c7e4b733d771e232cdf3d7ac165",
         "affectsGlobalScope": false
       },
@@ -1830,6 +1830,16 @@
         "version": "519e902f3f957e1b78ccb8a40ffa0a8777c0688e66912626c8e391a8e8cf417a",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
+      },
+      "../src/misc/config.ts": {
+        "version": "f4f3cdec3cb502aa32e7ea2b9911df4bd836207fea1e0b2d05d9aadf7f347efb",
+        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "affectsGlobalScope": true
+      },
+      "../src/misc/mailer.ts": {
+        "version": "ee847dc863c58b5afffec6af00479143c453590d12bd8dc733792902e686074a",
+        "signature": "14d93c09b9849ce959ba0e481f497dfae6431a40f68e9a1efcd5475f5f564f4d",
+        "affectsGlobalScope": true
       },
       "../node_modules/@types/anymatch/index.d.ts": {
         "version": "48b52264fa193879a074197839dbb4796fa07e86350ff888e5361e06aa46df76",
@@ -5291,6 +5301,18 @@
         "../node_modules/@types/node/util.d.ts",
         "../src/app.module.ts"
       ],
+      "../src/misc/config.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
+      "../src/misc/mailer.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts",
+        "../node_modules/@types/node/util.d.ts"
+      ],
       "../src/task/task.controller.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -5360,6 +5382,7 @@
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts",
         "../node_modules/@types/node/util.d.ts",
+        "../node_modules/rxjs/internal/scheduler/async.d.ts",
         "../src/user/user.model.ts"
       ]
     },

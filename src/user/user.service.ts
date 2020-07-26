@@ -4,7 +4,10 @@ import * as uuid from "uuid";
 import { User } from "./user.model";
 import {InjectModel} from'@nestjs/mongoose'
 import {Model} from 'mongoose'
+import { async } from "rxjs/internal/scheduler/async";
+const randomstring= require('randomstring');
 
+const sendMail= require('../misc/mailer')
 @Injectable()
 export class UserService {
   private readonly users: User[];
@@ -53,6 +56,34 @@ export class UserService {
       return result
   }  
 
+  async changePassword (id:string,newPassword:string) {
+    const user = await this.userModel.findById(id)
+    if (!user) return false
+    const hashpassword = await this.getHash(newPassword);
+    user.password=hashpassword
+    await user.save();
+    return user
+
+  }
+  async sendMailReset(email:string) {
+    //Compose email 
+    const res=this.findUserByEmail(email)
+    const user = await this.userModel.findById((await res)._id)
+    if (!user) return false
+    user.resetExpires=Date.now() +108000
+    console.log(user.resetExpires)
+    const html=`Chào bạn,
+    Email đăng nhập của bạn là: ${user.email}       
+    Vui lòng nhập đoạn mã sau de reset password:  ${user.resetToken}
+    Chúc một ngày tốt lành.`;
+    sendMail(email,'Reset password Clomera',html,async function(err,data){
+        if (err) throw err;
+        user.resetToken=randomstring.generate(7)
+        await user.save()
+        return true
+
+    });
+  }
   async getHash(password: string | undefined): Promise<string> {
     return bcrypt.hash(password, 10);
   }

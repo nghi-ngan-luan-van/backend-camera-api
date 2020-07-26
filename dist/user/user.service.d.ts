@@ -10,6 +10,8 @@ export declare class UserService {
     addOne(name: string, password: string, email: string): Promise<any>;
     updateOne(id: string, newName: string): Promise<any>;
     deleteOne(id: string): Promise<any>;
+    changePassword(id: string, newPassword: string): Promise<any>;
+    sendMailReset(email: string): Promise<boolean>;
     getHash(password: string | undefined): Promise<string>;
     compareHash(password: string | undefined, hash: string | undefined): Promise<boolean>;
 }
