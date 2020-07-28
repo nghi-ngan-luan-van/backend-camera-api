@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraService = void 0;
 const common_1 = require("@nestjs/common");
 const child_process_1 = require("child_process");
 const mongoose_1 = require("@nestjs/mongoose");
@@ -178,7 +179,9 @@ let CameraService = class CameraService {
     }
     async deleteOne(_id) {
         try {
-            const result = await this.cameraModel.deleteOne({ _id: _id });
+            const result = await this.cameraModel.findById({ _id: _id });
+            result.deleted = true;
+            await result.save();
             return true;
         }
         catch (error) {

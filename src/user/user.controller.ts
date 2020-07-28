@@ -51,9 +51,10 @@ export class UserController {
     }
   }
   @Post('mailReset')
-  mailReset(@Body() body, @Res() res) {
+  async mailReset(@Body() body, @Res() res) {
     const { email } = body
-    if (this.userService.sendMailReset(email)) {
+    const result=await this.userService.sendMailReset(email)
+    if (result) {
       return res
       .status(HttpStatus.OK)
       .json(true);
@@ -66,9 +67,9 @@ export class UserController {
   }
    
   @Post('changePassword')
-  changePassword(@Body() body, @Res() res) {
-    const { id,newPassword } = body
-    if (this.userService.changePassword(id,newPassword)) {
+  async changePassword(@Body() body, @Res() res) {
+    const { id,newPassword,oldPassword } = body
+    if (await this.userService.changePassword(id,newPassword,oldPassword)) {
       return res
       .status(HttpStatus.OK)
       .json(true);

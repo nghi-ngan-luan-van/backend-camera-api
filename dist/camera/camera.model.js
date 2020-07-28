@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CameraSchema = void 0;
 const mongoose = require("mongoose");
 exports.CameraSchema = new mongoose.Schema({
     name: { type: String, default: null },
@@ -13,6 +14,7 @@ exports.CameraSchema = new mongoose.Schema({
     thumbnail: { type: String, default: null },
     password: { type: String, default: null },
     backupMode: { type: Boolean, default: false },
+    deleted: { type: Boolean, default: false },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

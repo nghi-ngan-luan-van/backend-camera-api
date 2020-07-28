@@ -10,5 +10,6 @@ export interface Camera extends mongoose.Document {
     username: string;
     password: string;
     backupMode: boolean;
+    deleted: boolean;
     user: string;
 }

@@ -12,6 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 let UserController = class UserController {
@@ -47,9 +48,10 @@ let UserController = class UserController {
             res.send('fail');
         }
     }
-    mailReset(body, res) {
+    async mailReset(body, res) {
         const { email } = body;
-        if (this.userService.sendMailReset(email)) {
+        const result = await this.userService.sendMailReset(email);
+        if (result) {
             return res
                 .status(common_1.HttpStatus.OK)
                 .json(true);
@@ -60,9 +62,9 @@ let UserController = class UserController {
                 .json({ message: "Cannot send email" });
         }
     }
-    changePassword(body, res) {
-        const { id, newPassword } = body;
-        if (this.userService.changePassword(id, newPassword)) {
+    async changePassword(body, res) {
+        const { id, newPassword, oldPassword } = body;
+        if (await this.userService.changePassword(id, newPassword, oldPassword)) {
             return res
                 .status(common_1.HttpStatus.OK)
                 .json(true);
@@ -110,14 +112,14 @@ __decorate([
     __param(0, common_1.Body()), __param(1, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "mailReset", null);
 __decorate([
     common_1.Post('changePassword'),
     __param(0, common_1.Body()), __param(1, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "changePassword", null);
 __decorate([
     common_1.Get(),

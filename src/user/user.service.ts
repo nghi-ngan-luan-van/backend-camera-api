@@ -56,34 +56,55 @@ export class UserService {
       return result
   }  
 
-  async changePassword (id:string,newPassword:string) {
+  async changePassword (id:string,newPassword:string,oldPassword:string) {
     const user = await this.userModel.findById(id)
-    if (!user) return false
-    const hashpassword = await this.getHash(newPassword);
+    const compareHash=this.compareHash
+    const getHash=this.getHash
+    return new Promise(async function (resolve, reject) {
+    if (user==null) resolve(false)
+    const result=await compareHash(oldPassword,user.password)
+    console.log('asd',result)
+    if (!result) resolve(false)
+    const hashpassword = await getHash(newPassword);
     user.password=hashpassword
     await user.save();
-    return user
-
+    resolve(user)
+    })
   }
   async sendMailReset(email:string) {
+    const res = await this.findUserByEmail(email)
+    const getHash=this.getHash
+    const userModel=this.userModel
+    return new Promise(async function (resolve, reject) {
+      console.log(res)
+      if (res===null)  resolve(false)
+      else {
+        const user = await userModel.findById((await res)._id)
+        console.log(user)
+        if (user===null) resolve(false)
+        else {
+          user.resetExpires=Date.now() +108000
+          const hashpassword = await getHash(user.resetToken);
+          user.password=hashpassword
+          user.resetToken=randomstring.generate(7)
+          console.log(user.resetExpires,hashpassword)
+          const html=`Chào bạn,
+          Email đăng nhập của bạn là: ${user.email}       
+          Vui lòng nhập đoạn mã sau de reset password: ${user.resetToken}
+          Chúc một ngày tốt lành.`;
+          sendMail(email,'Reset password Clomera',html,async function(err,data){
+              if (err) throw err;
+              await user.save()
+              resolve(true)
+      
+          });
+        }
+      }
+     
     //Compose email 
-    const res=this.findUserByEmail(email)
-    const user = await this.userModel.findById((await res)._id)
-    if (!user) return false
-    user.resetExpires=Date.now() +108000
-    console.log(user.resetExpires)
-    const html=`Chào bạn,
-    Email đăng nhập của bạn là: ${user.email}       
-    Vui lòng nhập đoạn mã sau de reset password:  ${user.resetToken}
-    Chúc một ngày tốt lành.`;
-    sendMail(email,'Reset password Clomera',html,async function(err,data){
-        if (err) throw err;
-        user.resetToken=randomstring.generate(7)
-        await user.save()
-        return true
-
-    });
-  }
+    
+  })
+}
   async getHash(password: string | undefined): Promise<string> {
     return bcrypt.hash(password, 10);
   }
