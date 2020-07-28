@@ -62,6 +62,19 @@ let UserController = class UserController {
                 .json({ message: "Cannot send email" });
         }
     }
+    async resetPassword(body, res) {
+        const { token, newPassword } = body;
+        if (await this.userService.checkTokenReset(token, newPassword)) {
+            return res
+                .status(common_1.HttpStatus.OK)
+                .json(true);
+        }
+        else {
+            res
+                .status(common_1.HttpStatus.FORBIDDEN)
+                .json({ message: "Cannot reset password" });
+        }
+    }
     async changePassword(body, res) {
         const { id, newPassword, oldPassword } = body;
         if (await this.userService.changePassword(id, newPassword, oldPassword)) {
@@ -114,6 +127,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "mailReset", null);
+__decorate([
+    common_1.Post('resetPassword'),
+    __param(0, common_1.Body()), __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "resetPassword", null);
 __decorate([
     common_1.Post('changePassword'),
     __param(0, common_1.Body()), __param(1, common_1.Res()),

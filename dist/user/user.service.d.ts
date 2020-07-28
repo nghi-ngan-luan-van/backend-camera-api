@@ -11,6 +11,7 @@ export declare class UserService {
     updateOne(id: string, newName: string): Promise<any>;
     deleteOne(id: string): Promise<any>;
     changePassword(id: string, newPassword: string, oldPassword: string): Promise<unknown>;
+    checkTokenReset(token: string, newPassword: string): Promise<unknown>;
     sendMailReset(email: string): Promise<unknown>;
     getHash(password: string | undefined): Promise<string>;
     compareHash(password: string | undefined, hash: string | undefined): Promise<boolean>;

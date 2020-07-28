@@ -76,6 +76,24 @@ let UserService = class UserService {
             resolve(user);
         });
     }
+    async checkTokenReset(token, newPassword) {
+        const experies = Date.parse(new Date(Date.now()).toString());
+        console.log(Date.now() + 1000);
+        const user = await this.userModel.findOne({ resetToken: token, resetExpires: { $gt: new Date() } });
+        const compareHash = this.compareHash;
+        const getHash = this.getHash;
+        console.log(user);
+        return new Promise(async function (resolve, reject) {
+            if (user === null)
+                return resolve(false);
+            const hashpassword = await getHash(newPassword);
+            user.password = hashpassword;
+            user.resetToken = null;
+            user.resetExpires = null;
+            await user.save();
+            return resolve(true);
+        });
+    }
     async sendMailReset(email) {
         const res = await this.findUserByEmail(email);
         const getHash = this.getHash;
@@ -90,11 +108,10 @@ let UserService = class UserService {
                 if (user === null)
                     resolve(false);
                 else {
-                    user.resetExpires = Date.now() + 108000;
-                    const hashpassword = await getHash(user.resetToken);
-                    user.password = hashpassword;
+                    user.resetExpires = Date.now() + 360000;
                     user.resetToken = randomstring.generate(7);
-                    console.log(user.resetExpires, hashpassword);
+                    console.log(user.resetExpires);
+                    await user.save();
                     const html = `Chào bạn,
           Email đăng nhập của bạn là: ${user.email}       
           Vui lòng nhập đoạn mã sau de reset password: ${user.resetToken}
@@ -102,7 +119,6 @@ let UserService = class UserService {
                     sendMail(email, 'Reset password Clomera', html, async function (err, data) {
                         if (err)
                             throw err;
-                        await user.save();
                         resolve(true);
                     });
                 }

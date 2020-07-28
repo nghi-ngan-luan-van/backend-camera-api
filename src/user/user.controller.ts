@@ -65,7 +65,21 @@ export class UserController {
         .json({ message: "Cannot send email" });
     }
   }
-   
+  @Post('resetPassword')
+  async resetPassword(@Body() body, @Res() res) {
+    const { token,newPassword } = body
+    if (await this.userService.checkTokenReset(token,newPassword)) {
+      return res
+      .status(HttpStatus.OK)
+      .json(true);
+    }
+    else {
+      res
+        .status(HttpStatus.FORBIDDEN)
+        .json({ message: "Cannot reset password" });
+    }
+  }
+
   @Post('changePassword')
   async changePassword(@Body() body, @Res() res) {
     const { id,newPassword,oldPassword } = body

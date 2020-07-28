@@ -6,7 +6,7 @@ export const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     password: { type: String, required: true },
     resetToken:{type:String,default:randomstring.generate(7)},
-    resetExpires:{type:Date,default:Date.now()}
+    resetExpires:{type:Number,default:Date.now()}
 })
 
 export interface User  extends mongoose.Document  {
