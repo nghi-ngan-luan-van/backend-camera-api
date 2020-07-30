@@ -43,18 +43,26 @@ let AuthService = class AuthService {
         return user;
     }
     async googleSignIn(idToken) {
-        const client = new OAuth2Client('136433114251-j3plam2goeoqaifnhj2umab2tuib4mts.apps.googleusercontent.com');
-        async function verify() {
+        const client = new OAuth2Client('136433114251-o6sboivdtsi146766r9uhnv56dcqprkb.apps.googleusercontent.com');
+        const userService = this.userService;
+        const createToken = this.createToken;
+        return new Promise(async function (resolve, reject) {
             const ticket = await client.verifyIdToken({
                 idToken: idToken,
-                audience: '136433114251-j3plam2goeoqaifnhj2umab2tuib4mts.apps.googleusercontent.com',
+                audience: '136433114251-o6sboivdtsi146766r9uhnv56dcqprkb.apps.googleusercontent.com',
             });
             const payload = ticket.getPayload();
-            const userid = payload['sub'];
-            console.log(userid);
-        }
-        verify().catch(console.error);
-        return true;
+            if (!payload)
+                resolve(false);
+            const email = payload['email'];
+            console.log(email);
+            const user = await userService.findUserByEmail(email);
+            console.log(user);
+            if (!user)
+                resolve(false);
+            const resultToken = await createToken(user._id);
+            resolve(resultToken);
+        });
     }
 };
 AuthService = __decorate([

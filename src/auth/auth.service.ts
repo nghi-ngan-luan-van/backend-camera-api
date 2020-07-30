@@ -37,21 +37,27 @@ export class AuthService {
   }
 
   async googleSignIn(idToken) {
-    const client = new OAuth2Client('136433114251-j3plam2goeoqaifnhj2umab2tuib4mts.apps.googleusercontent.com');
-    async function verify() {
+    const client = new OAuth2Client('136433114251-o6sboivdtsi146766r9uhnv56dcqprkb.apps.googleusercontent.com');     
+      // If request specified a G Suite domain:
+      // const domain = payload['hd'];
+    const userService=this.userService
+    const createToken=this.createToken
+    return new Promise(async function (resolve, reject) {
       const ticket = await client.verifyIdToken({
         idToken: idToken,
-        audience: '136433114251-j3plam2goeoqaifnhj2umab2tuib4mts.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
+        audience: '136433114251-o6sboivdtsi146766r9uhnv56dcqprkb.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
         // Or, if multiple clients access the backend:
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
       });
       const payload = ticket.getPayload();
-      const userid = payload['sub'];
-      console.log(userid)
-      // If request specified a G Suite domain:
-      // const domain = payload['hd'];
-    }
-    verify().catch(console.error);
-    return true
+      if (!payload) resolve(false)
+      const email = payload['email'];
+      console.log(email)
+      const user = await userService.findUserByEmail(email)
+      console.log(user)
+      if (!user) resolve(false)
+      const resultToken=await createToken(user._id)
+      resolve(resultToken)
+    })
   }
 }
