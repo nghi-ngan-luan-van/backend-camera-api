@@ -13,6 +13,7 @@ exports.AuthService = void 0;
 const jwt = require("jsonwebtoken");
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("../user/user.service");
+const { OAuth2Client } = require('google-auth-library');
 let AuthService = class AuthService {
     constructor(userService) {
         this.userService = userService;
@@ -42,6 +43,17 @@ let AuthService = class AuthService {
         return user;
     }
     async googleSignIn(idToken) {
+        const client = new OAuth2Client('136433114251-j3plam2goeoqaifnhj2umab2tuib4mts.apps.googleusercontent.com');
+        async function verify() {
+            const ticket = await client.verifyIdToken({
+                idToken: idToken,
+                audience: '136433114251-j3plam2goeoqaifnhj2umab2tuib4mts.apps.googleusercontent.com',
+            });
+            const payload = ticket.getPayload();
+            const userid = payload['sub'];
+            console.log(userid);
+        }
+        verify().catch(console.error);
         return true;
     }
 };
