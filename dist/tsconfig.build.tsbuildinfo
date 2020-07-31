@@ -1577,7 +1577,7 @@
         "affectsGlobalScope": false
       },
       "../src/camera/camera.service.ts": {
-        "version": "b057326149e731e004d50d5caf07d8c4d5886ab49ac1c2073d101892e3f9d942",
+        "version": "15d15cde8897ac3c2bb23db6fa349e8a8a147b6e35699abaa799d4a26f7db48b",
         "signature": "c5d0ce253f966776fd13c2bc82b0046478541c7e4b733d771e232cdf3d7ac165",
         "affectsGlobalScope": false
       },

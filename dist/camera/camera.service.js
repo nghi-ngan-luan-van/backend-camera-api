@@ -441,8 +441,58 @@ let CameraService = class CameraService {
                     this.uploadVideo(userID, _id, filePathTemp);
                 }
             });
+            const camMotionService = this.camMotionService;
             child.on('exit', async (code) => {
-                console.log('code', code);
+                console.log('code detect', code);
+                try {
+                    setTimeout(() => {
+                        console.log(`${process.env.ASSETS_PATH}/${_id}/detect`);
+                        const files = fs.readdirSync(`${process.env.ASSETS_PATH}/${_id}/detect`);
+                        console.log("files", files);
+                        if (files.length !== 0) {
+                            const d = new Date();
+                            const month = d.getMonth() + 1;
+                            const now = d.getDate() + '_' + month + '_' + d.getFullYear();
+                            fs.readFile(`${process.env.ASSETS_PATH}/${_id}/detect/${files[0]}`, function (err, data) {
+                                if (err) {
+                                    console.log('fs error', err);
+                                }
+                                else {
+                                    const params = {
+                                        Bucket: 'clientapp',
+                                        Key: `${_id}/${now}/${files[0]}`,
+                                        Body: data,
+                                        ContentType: 'video/mp4',
+                                        ACL: 'public-read'
+                                    };
+                                    auth_1.s3.putObject(params, async function (err, data) {
+                                        if (err) {
+                                            console.log('Error putting object on S3: ', err);
+                                        }
+                                        else {
+                                            const cdnUrl = `https://clientapp.sgp1.digitaloceanspaces.com/${_id}/${now}/${files[0]}`;
+                                            console.log();
+                                            let duration;
+                                            child_process_1.exec(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ${cdnUrl}`, async (error, stdout, stderr) => {
+                                                duration = stdout;
+                                                console.log('stdout', stdout);
+                                                const timeStart = parseInt(dataToSend[0]);
+                                                const timeEnd = timeStart + 1000 * Math.round(parseInt(duration) + 1);
+                                                console.log(Math.round(parseInt(duration) + 1));
+                                                await camMotionService.addOne(userID, rtspUrl, files[0], timeStart.toString(), timeEnd.toString(), cdnUrl);
+                                                console.log('Placed object on S3: ', data);
+                                                fs.unlinkSync(`${process.env.ASSETS_PATH}/${_id}/detect/${files[0]}`);
+                                                child_process_1.execSync(`rmdir ${process.env.ASSETS_PATH}/${_id}/detect`);
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }, 5000);
+                }
+                catch (error) {
+                }
                 const motionModeTask = await this.taskService.findTask("1", userID, _id);
                 if (motionModeTask) {
                     await this.taskService.killTask(motionModeTask.pID);
