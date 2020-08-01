@@ -2,13 +2,14 @@ import { Controller, Get, UseGuards, Req, Res, Post, Body, HttpStatus, Param } f
 import { AuthGuard } from '../auth.guard';
 import { UserService } from '../user/user.service';
 import { CameraService } from './camera.service';
+import { HardwareCameraService } from 'src/hardware-camera/hardware-camera.service';
 
 
 @Controller('camera')
 export class CameraController {
 
   constructor(private readonly userService: UserService,
-    private readonly cameraService: CameraService
+    private readonly cameraService: CameraService,
   ) { }
 
   @Get("public")
@@ -33,16 +34,25 @@ export class CameraController {
         .json({ message: "Camera are required!" });
     }
     const userID = req.userID;
-    const result= await this.cameraService.addOne(userID,username,name,password,ip,port,rtspUrl,thumbnail)
-    if (result) {
-      return res
-      .status(HttpStatus.OK)
-      .json(result);
+    const found= await this.cameraService.findCameraByRTSPName(rtspUrl,userID)
+    console.log(found)
+    if (!found) {
+      const result= await this.cameraService.addOne(userID,username,name,password,ip,port,rtspUrl,thumbnail)
+      if (result) {
+        return res
+        .status(HttpStatus.OK)
+        .json(result);
+      }
+      else {
+        res
+          .status(HttpStatus.FORBIDDEN)
+          .json({ message: "Cannot add camera" });
+      }
     }
     else {
       res
-        .status(HttpStatus.FORBIDDEN)
-        .json({ message: "Cannot add camera" });
+          .status(HttpStatus.FORBIDDEN)
+          .json({ message: "Camera exist" });
     }
   }
 

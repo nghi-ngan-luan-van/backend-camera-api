@@ -14,6 +14,7 @@ export declare class CameraService {
     constructor(cameraModel: Model<Camera>, userService: UserService, taskService: TaskService, camMotionService: CameraMotionService, camRecordService: CameraRecordService);
     handleCron(): Promise<void>;
     findCameraByID(id: string): Promise<Camera>;
+    findCameraByRTSPName(rtspUrl: string, user: string): Promise<Camera>;
     findCameraByName(name: string): Promise<Camera>;
     getCameras(): Promise<any>;
     getCamerasByUser(userID: string): Promise<any>;

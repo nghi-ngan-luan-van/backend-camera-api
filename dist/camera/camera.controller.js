@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const auth_guard_1 = require("../auth.guard");
 const user_service_1 = require("../user/user.service");
 const camera_service_1 = require("./camera.service");
+const hardware_camera_service_1 = require("../hardware-camera/hardware-camera.service");
 let CameraController = class CameraController {
     constructor(userService, cameraService) {
         this.userService = userService;
@@ -37,16 +38,25 @@ let CameraController = class CameraController {
                 .json({ message: "Camera are required!" });
         }
         const userID = req.userID;
-        const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl, thumbnail);
-        if (result) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json(result);
+        const found = await this.cameraService.findCameraByRTSPName(rtspUrl, userID);
+        console.log(found);
+        if (!found) {
+            const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl, thumbnail);
+            if (result) {
+                return res
+                    .status(common_1.HttpStatus.OK)
+                    .json(result);
+            }
+            else {
+                res
+                    .status(common_1.HttpStatus.FORBIDDEN)
+                    .json({ message: "Cannot add camera" });
+            }
         }
         else {
             res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Cannot add camera" });
+                .json({ message: "Camera exist" });
         }
     }
     async editCamera(body, res, req) {

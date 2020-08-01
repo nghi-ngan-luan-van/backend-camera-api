@@ -106,13 +106,17 @@ export class CameraService {
     const camera = await this.cameraModel.findById(id).exec();
     return camera
   }
+  async findCameraByRTSPName(rtspUrl: string,user:string): Promise<Camera> {
+    const camera = await this.cameraModel.findOne({rtspUrl,user}).exec();
+    return camera
+  }
   async findCameraByName(name: string): Promise<Camera> {
-    const camera = await this.cameraModel.findOne({ name: name }).exec()
+    const camera = await this.cameraModel.findOne({ name: name,deleted:false }).exec()
     return camera
   }
 
   async getCameras() {
-    const cameras = await this.cameraModel.find().exec();
+    const cameras = await this.cameraModel.find({deleted:false}).exec();
     return cameras.map(cam => ({
       _id: cam._id,
       name: cam.name,
@@ -144,7 +148,7 @@ export class CameraService {
   // }
   async getCamerasByUser(userID: string) {
 
-    const cameras = await this.cameraModel.find({ user: userID }).exec();
+    const cameras = await this.cameraModel.find({ user: userID,deleted:false }).exec();
     return cameras.map(cam => ({
       _id: cam._id,
       name: cam.name,
@@ -152,6 +156,7 @@ export class CameraService {
       port: cam.port,
       rtspUrl: cam.rtspUrl,
       thumbnail: cam.thumbnail,
+      deleted:cam.deleted,
       username: cam.username,
       password: cam.password,
       backupMode: cam.backupMode,
@@ -161,6 +166,7 @@ export class CameraService {
 
   async addOne(userID: string, username: string, name: string, password: string, ip: string, port: number, rtspUrl: string, thumbnail: string) {
     console.log(userID)
+
     const newCamera = new this.cameraModel({
       username,
       name,

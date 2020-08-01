@@ -102,12 +102,16 @@ let CameraService = class CameraService {
         const camera = await this.cameraModel.findById(id).exec();
         return camera;
     }
+    async findCameraByRTSPName(rtspUrl, user) {
+        const camera = await this.cameraModel.findOne({ rtspUrl, user }).exec();
+        return camera;
+    }
     async findCameraByName(name) {
-        const camera = await this.cameraModel.findOne({ name: name }).exec();
+        const camera = await this.cameraModel.findOne({ name: name, deleted: false }).exec();
         return camera;
     }
     async getCameras() {
-        const cameras = await this.cameraModel.find().exec();
+        const cameras = await this.cameraModel.find({ deleted: false }).exec();
         return cameras.map(cam => ({
             _id: cam._id,
             name: cam.name,
@@ -121,7 +125,7 @@ let CameraService = class CameraService {
         }));
     }
     async getCamerasByUser(userID) {
-        const cameras = await this.cameraModel.find({ user: userID }).exec();
+        const cameras = await this.cameraModel.find({ user: userID, deleted: false }).exec();
         return cameras.map(cam => ({
             _id: cam._id,
             name: cam.name,
@@ -129,6 +133,7 @@ let CameraService = class CameraService {
             port: cam.port,
             rtspUrl: cam.rtspUrl,
             thumbnail: cam.thumbnail,
+            deleted: cam.deleted,
             username: cam.username,
             password: cam.password,
             backupMode: cam.backupMode,

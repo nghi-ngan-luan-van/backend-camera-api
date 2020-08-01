@@ -1577,12 +1577,22 @@
         "affectsGlobalScope": false
       },
       "../src/camera/camera.service.ts": {
-        "version": "15d15cde8897ac3c2bb23db6fa349e8a8a147b6e35699abaa799d4a26f7db48b",
-        "signature": "c5d0ce253f966776fd13c2bc82b0046478541c7e4b733d771e232cdf3d7ac165",
+        "version": "674a2e737aa9cb8b3c92a35dbeb04c65a66a830762440665f6726f8aca820423",
+        "signature": "bbca9e12854742b05ff7ed143763baf97cb03e226ccea941e47e1890f4a7d531",
+        "affectsGlobalScope": false
+      },
+      "../src/hardware-camera/hardware-camera.model.ts": {
+        "version": "94ebf6b65b99fbb7bb4f093457718a1df832a4a1089c6d5d61ac55adca10f359",
+        "signature": "d0b3b4a7c341081d63fda124e6d16d3eddfd4f01c6955a9c8d93351f91e1a299",
+        "affectsGlobalScope": false
+      },
+      "../src/hardware-camera/hardware-camera.service.ts": {
+        "version": "ed0cbd2a9f51f57898b9f1de349c4cae833814a0016344b0ffe65e53c6a98cb0",
+        "signature": "48ed5e3b90c297cabe42722fa695123ff675c7283df200ce3072b52a0ad3d389",
         "affectsGlobalScope": false
       },
       "../src/camera/camera.controller.ts": {
-        "version": "04638a442d22d7605058c4fadea63624f73760fef147dcb1b3f9afa038c2b535",
+        "version": "6f41967d689dc541d57ce7bfe4bb6efe0cfc5161113649de9dcef05890a304da",
         "signature": "d96aa0a66ee7d89428b5caa87614ed7024cd42055e677deb7d9517cb0bede2a9",
         "affectsGlobalScope": false
       },
@@ -1616,21 +1626,6 @@
         "signature": "adb99796589487211006ba8f5f1d04136ff7a38a1675e76b0d93861902f91516",
         "affectsGlobalScope": false
       },
-      "../src/camera/camera.module.ts": {
-        "version": "79dcfacc43e70b41df225bbbda5a79a12efa37e6d19f22398c682296f3085409",
-        "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb",
-        "affectsGlobalScope": false
-      },
-      "../src/hardware-camera/hardware-camera.model.ts": {
-        "version": "94ebf6b65b99fbb7bb4f093457718a1df832a4a1089c6d5d61ac55adca10f359",
-        "signature": "d0b3b4a7c341081d63fda124e6d16d3eddfd4f01c6955a9c8d93351f91e1a299",
-        "affectsGlobalScope": false
-      },
-      "../src/hardware-camera/hardware-camera.service.ts": {
-        "version": "ed0cbd2a9f51f57898b9f1de349c4cae833814a0016344b0ffe65e53c6a98cb0",
-        "signature": "48ed5e3b90c297cabe42722fa695123ff675c7283df200ce3072b52a0ad3d389",
-        "affectsGlobalScope": false
-      },
       "../src/hardware-camera/hardware-camera.controller.ts": {
         "version": "96c0753f88a24d1f65b3c52ad1117aaf692821c030c5292a1c4b191235dd508b",
         "signature": "bdf55b743760ea8002d3c0f3a00ff02c0c41490b357bd8707fd1729849275ec6",
@@ -1639,6 +1634,11 @@
       "../src/hardware-camera/hardware-camera.module.ts": {
         "version": "7c177faf49c676397eaaba1c51d636de445128c8773b78a8dbdbdef1653d59ad",
         "signature": "989cd62b51ee822a89482b29ea0875bd13798c1c93b4f5b4b9023e810ffb698b",
+        "affectsGlobalScope": false
+      },
+      "../src/camera/camera.module.ts": {
+        "version": "facde43932ee2848977eef262e20f938905e701ef8d55b1079d368e741962939",
+        "signature": "3129cfa00215464da7092bae14cb3afa05c197143f2e24fb8cf16b566f2992eb",
         "affectsGlobalScope": false
       },
       "../src/app.module.ts": {
@@ -5216,6 +5216,7 @@
         "../node_modules/@types/node/util.d.ts",
         "../src/auth.guard.ts",
         "../src/camera/camera.service.ts",
+        "../src/hardware-camera/hardware-camera.service.ts",
         "../src/user/user.service.ts"
       ],
       "../src/camera/camera.model.ts": [
@@ -5236,6 +5237,7 @@
         "../src/camera/camera.controller.ts",
         "../src/camera/camera.model.ts",
         "../src/camera/camera.service.ts",
+        "../src/hardware-camera/hardware-camera.module.ts",
         "../src/task/task.module.ts",
         "../src/user/user.module.ts"
       ],
