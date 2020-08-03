@@ -351,7 +351,10 @@ let CameraService = class CameraService {
     async recordDetection(_id, userID) {
         console.log('....', process.env.ASSETS_PATH);
         try {
-            const { rtspUrl } = await this.cameraModel.findById({ _id });
+            const camera = await this.cameraModel.findById({ _id });
+            const rtspUrl = camera.rtspUrl;
+            camera.backupMode = true;
+            await camera.save();
             const detectTask = await this.taskService.findTask("1", userID, _id);
             if (detectTask) {
                 await this.taskService.killTask(detectTask.pID);
@@ -391,7 +394,10 @@ let CameraService = class CameraService {
     async motionDetection(_id, userID) {
         console.log('....', process.env.ASSETS_PATH);
         try {
-            const { rtspUrl } = await this.cameraModel.findById({ _id });
+            const camera = await this.cameraModel.findById({ _id });
+            const rtspUrl = camera.rtspUrl;
+            camera.backupMode = false;
+            await camera.save();
             console.log(rtspUrl, _id);
             let count = 0;
             if (count === 0) {
