@@ -6,7 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CameraRecordModule = void 0;
 const common_1 = require("@nestjs/common");
 const camera_record_controller_1 = require("./camera-record.controller");
 const camera_record_service_1 = require("./camera-record.service");
