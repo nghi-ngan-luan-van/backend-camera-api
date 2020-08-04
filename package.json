@@ -37,6 +37,7 @@
     "fs": "0.0.1-security",
     "google-auth-library": "^6.0.6",
     "googleapis": "^51.0.0",
+    "is-running": "^2.1.0",
     "jsonwebtoken": "^8.5.1",
     "latest-version": "^5.1.0",
     "mongodb": "^3.5.5",

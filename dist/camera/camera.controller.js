@@ -23,7 +23,7 @@ let CameraController = class CameraController {
         this.cameraService = cameraService;
     }
     getPublic() {
-        return "public content";
+        return 'public content';
     }
     getProtected(req) {
         const userID = req.userID;
@@ -34,7 +34,7 @@ let CameraController = class CameraController {
         if (!body) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Camera are required!" });
+                .json({ message: 'Camera are required!' });
         }
         const userID = req.userID;
         const found = await this.cameraService.findCameraByRTSPName(rtspUrl, userID);
@@ -42,40 +42,30 @@ let CameraController = class CameraController {
         if (!found) {
             const result = await this.cameraService.addOne(userID, username, name, password, ip, port, rtspUrl, thumbnail);
             if (result) {
-                return res
-                    .status(common_1.HttpStatus.OK)
-                    .json(result);
+                return res.status(common_1.HttpStatus.OK).json(result);
             }
             else {
-                res
-                    .status(common_1.HttpStatus.FORBIDDEN)
-                    .json({ message: "Cannot add camera" });
+                res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Cannot add camera' });
             }
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Camera exist" });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Camera exist' });
         }
     }
     async editCamera(body, res, req) {
-        const { _id, name, rtspUrl, ip, port, username, password, backupMode } = body;
+        const { _id, name, rtspUrl, ip, port, username, password, backupMode, } = body;
         if (!body || !body._id) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Camera id are required!" });
+                .json({ message: 'Camera id are required!' });
         }
         const userID = req.userID;
         const result = await this.cameraService.updateOne(_id, username, name, password, ip, port, rtspUrl, backupMode);
         if (result) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json(result);
+            return res.status(common_1.HttpStatus.OK).json(result);
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Cannot edit camera" });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Cannot edit camera' });
         }
     }
     async deleteCamera(body, res, req) {
@@ -83,47 +73,41 @@ let CameraController = class CameraController {
         if (!body || !body._id) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Camera id are required!" });
+                .json({ message: 'Camera id are required!' });
         }
         const userID = req.userID;
         const result = await this.cameraService.deleteOne(_id);
         if (result) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json(result);
+            return res.status(common_1.HttpStatus.OK).json(result);
         }
         else {
             res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Cannot delete camera" });
+                .json({ message: 'Cannot delete camera' });
         }
     }
     async getListByUser(req, res) {
         const userID = req.userID;
         const result = await this.cameraService.getCamerasByUser(userID);
         if (result) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json({ result });
+            return res.status(common_1.HttpStatus.OK).json({ result });
         }
         else {
             res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Cannot return camera" });
+                .json({ message: 'Cannot return camera' });
         }
     }
     async allCam(req, res) {
         const userID = req.userID;
         const result = await this.cameraService.getCameras();
         if (result) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json(result);
+            return res.status(common_1.HttpStatus.OK).json(result);
         }
         else {
             res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Cannot return camera" });
+                .json({ message: 'Cannot return camera' });
         }
     }
     async recordFullStream(req, body, res) {
@@ -131,17 +115,13 @@ let CameraController = class CameraController {
         if (!(body && body.url)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Rtsp url is required!" });
+                .json({ message: 'Rtsp url is required!' });
         }
         if (this.cameraService.recordFullStream(url)) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json({ message: "Successful" });
+            return res.status(common_1.HttpStatus.OK).json({ message: 'Successful' });
         }
         else {
-            return res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Fail " });
+            return res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Fail ' });
         }
     }
     async turnDetect(req, body, res) {
@@ -150,40 +130,32 @@ let CameraController = class CameraController {
         if (!(body && body._id)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: " _id are required!" });
+                .json({ message: ' _id are required!' });
         }
         const data = await this.cameraService.motionDetection(_id, userID);
         console.log(data);
         if (data) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json({ message: "Successful" });
+            return res.status(common_1.HttpStatus.OK).json({ message: 'Successful' });
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Fail " });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Fail ' });
         }
     }
     async recordDetection(req, body, res) {
-        const { _id } = body;
+        const { _id, time } = body;
         const userID = req.userID;
-        if (!(body && body._id)) {
+        if (!(body && body._id && body.time)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: " _id are required!" });
+                .json({ message: ' _id are required!' });
         }
-        const data = await this.cameraService.recordDetection(_id, userID);
+        const data = await this.cameraService.recordDetection(_id, userID, parseInt(time));
         console.log(data);
         if (data) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json({ message: "Successful" });
+            return res.status(common_1.HttpStatus.OK).json({ message: 'Successful' });
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Fail " });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Fail ' });
         }
     }
     async scannetworkk(req, body, res) {
@@ -218,18 +190,14 @@ let CameraController = class CameraController {
         if (!id) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "ID is required!" });
+                .json({ message: 'ID is required!' });
         }
         const result = await this.cameraService.listVideoByUSer(userID, id);
         if (this.userService.findUserByID(userID)) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json(result);
+            return res.status(common_1.HttpStatus.OK).json(result);
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Fail " });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Fail ' });
         }
     }
     async recordedvideoByUser(req, id, res) {
@@ -238,18 +206,14 @@ let CameraController = class CameraController {
         if (!id) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "ID is required!" });
+                .json({ message: 'ID is required!' });
         }
         const result = await this.cameraService.recordedVideoByUser(userID, id);
         if (this.userService.findUserByID(userID)) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .json(result);
+            return res.status(common_1.HttpStatus.OK).json(result);
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Fail " });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Fail ' });
         }
     }
     async testConnection(req, body, res) {
@@ -258,30 +222,26 @@ let CameraController = class CameraController {
         if (!(body && body.rtspUrl)) {
             return res
                 .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "rtsp url is required!" });
+                .json({ message: 'rtsp url is required!' });
         }
         const result = await this.cameraService.testConnection(rtspUrl, userID);
         console.log(result);
         if (result) {
-            return res
-                .status(common_1.HttpStatus.OK)
-                .send(result);
+            return res.status(common_1.HttpStatus.OK).send(result);
         }
         else {
-            res
-                .status(common_1.HttpStatus.FORBIDDEN)
-                .json({ message: "Fail " });
+            res.status(common_1.HttpStatus.FORBIDDEN).json({ message: 'Fail ' });
         }
     }
 };
 __decorate([
-    common_1.Get("public"),
+    common_1.Get('public'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CameraController.prototype, "getPublic", null);
 __decorate([
-    common_1.Get("protected"),
+    common_1.Get('protected'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()),
     __metadata("design:type", Function),
@@ -313,7 +273,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "deleteCamera", null);
 __decorate([
-    common_1.Get("listcam"),
+    common_1.Get('listcam'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Res()),
     __metadata("design:type", Function),
@@ -321,14 +281,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "getListByUser", null);
 __decorate([
-    common_1.Get("allcam"),
+    common_1.Get('allcam'),
     __param(0, common_1.Req()), __param(1, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "allCam", null);
 __decorate([
-    common_1.Post("recordfull"),
+    common_1.Post('recordfull'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
@@ -336,7 +296,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "recordFullStream", null);
 __decorate([
-    common_1.Post("turndetect"),
+    common_1.Post('turndetect'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
@@ -344,7 +304,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "turnDetect", null);
 __decorate([
-    common_1.Post("recorddetect"),
+    common_1.Post('recorddetect'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
@@ -352,7 +312,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "recordDetection", null);
 __decorate([
-    common_1.Get("scannetwork"),
+    common_1.Get('scannetwork'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
@@ -360,21 +320,21 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "scannetworkk", null);
 __decorate([
-    common_1.Post("testput"),
+    common_1.Post('testput'),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "testput", null);
 __decorate([
-    common_1.Post("testhandletask"),
+    common_1.Post('testhandletask'),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "testhandletask", null);
 __decorate([
-    common_1.Get("savedvideo/:id"),
+    common_1.Get('savedvideo/:id'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Param('id')), __param(2, common_1.Res()),
     __metadata("design:type", Function),
@@ -382,7 +342,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "listVideoByUser", null);
 __decorate([
-    common_1.Get("recordedvideo/:id"),
+    common_1.Get('recordedvideo/:id'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Param('id')), __param(2, common_1.Res()),
     __metadata("design:type", Function),
@@ -390,7 +350,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CameraController.prototype, "recordedvideoByUser", null);
 __decorate([
-    common_1.Post("testconnection"),
+    common_1.Post('testconnection'),
     common_1.UseGuards(auth_guard_1.AuthGuard),
     __param(0, common_1.Req()), __param(1, common_1.Body()), __param(2, common_1.Res()),
     __metadata("design:type", Function),

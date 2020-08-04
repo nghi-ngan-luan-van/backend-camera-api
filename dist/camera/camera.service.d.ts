@@ -24,7 +24,7 @@ export declare class CameraService {
     recordFullStream(url: string): Promise<void>;
     recordStreamPerTime(camID: string, url: string, userID: string, time: number): Promise<void>;
     turnMotionDetect(url: string): Promise<any>;
-    recordDetection(_id: string, userID: string): Promise<any>;
+    recordDetection(_id: string, userID: string, time: number): Promise<any>;
     motionDetection(_id: string, userID: string): Promise<any>;
     scanNetwork(): Promise<any>;
     getFileSizInByte(filename: any): number;
